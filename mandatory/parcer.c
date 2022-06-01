@@ -48,7 +48,7 @@ int	check_syntax1(char *str)
 			while (str[i] && str[i] == ' ')
 				i++;
 			if (check_special(SPECIAL_, str[i]) != -1)
-				return (printf ("error: syntax!\n"), 1);
+				return (printf ("minishell: parse error near!\n"), 1);
 		}
 		else
 			i++;
@@ -63,18 +63,12 @@ int	check_syntax3(char c, char check, int *count)
 	if (check_special(SPECIAL_, c) != -1)
 	{
 		if (check != c)
-		{
-			printf ("error: syntax!\n");
-			return (1);
-		}
+			return (printf ("minishell: parse error near!\n"), 1);
 		if (check == c)
 		{
 			(*count)++;
 			if (*count == 2)
-			{
-				printf ("error: syntax!\n");
-				return (1);
-			}
+				return (printf ("minishell: parse error near!\n"), 1);
 		}
 	}
 	if (check == '&' && *count == 0)
@@ -114,16 +108,16 @@ int	check_syntax2(char *str)
 
 /* ************************************************************************** */
 
-int	parcer(char *str)
+int	parcer(char *str, t_info *info)
 {
 	t_erreur	isexit;
-	char		*ptr;
 
-	isexit = check_syntax1(ptr);
-	if (isexit == yes || !ft_strcmp(ptr, "\0"))
-		return (free (ptr), 1);
-	isexit = check_syntax2(ptr);
-	if (isexit == yes || !ft_strcmp(ptr, "\0"))
-		return (free (ptr), 1);
+	(void)info;
+	isexit = check_syntax1(str);
+	if (isexit == yes || !ft_strcmp(str, "\0"))
+		return (free (str), 1);
+	isexit = check_syntax2(str);
+	if (isexit == yes || !ft_strcmp(str, "\0"))
+		return (free (str), 1);
 	return (0);
 }

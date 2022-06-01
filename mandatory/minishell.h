@@ -55,6 +55,6 @@ typedef struct s_quote
 }	t_quote;
 
 int	lexer_start(t_info *info);
-// int	parcer(char *str);
+int	parcer(char *str, t_info *info);
 
 #endif

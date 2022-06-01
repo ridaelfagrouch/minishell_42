@@ -14,9 +14,12 @@
 
 int	prompt(t_info *info)
 {
+	char	*str;
+
 	while (1)
 	{
 		info->input = readline("\033[0;32m minishell> \033[0m");
+		str = ft_strdup(info->input);
 		if (!info->input)
 		{
 			printf("Exit readline\n");
@@ -25,9 +28,10 @@ int	prompt(t_info *info)
 		add_history(info->input);
 		if (lexer_start(info) == 0)
 			continue ;
-		// if (parcer(ptr))
-		// 	return (1);
+		if (parcer(str, info))
+			return (1);
 		free(info->input);
+		free(str);
 	}
 	return (0);
 }

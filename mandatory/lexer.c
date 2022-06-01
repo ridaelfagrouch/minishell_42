@@ -112,6 +112,31 @@ void	handle_quotes(t_quote **quotes, char *quote, int i, int *check)
 
 /* ************************************************************************** */
 
+void	in_out(char *input, int *i, t_quote	*quotes)
+{
+	if (input[*i] == '<' && !quoted(quotes, 0))
+	{
+		if (input[*i + 1] == '<')
+		{
+			(*i)++;
+			input[*i] = HAREDOC;
+		}
+		else
+			input[*i] = IN;
+	}
+	else if (input[*i] == '>' && !quoted(quotes, 0))
+	{
+		if (input[*i + 1] == '>')
+		{
+			(*i)++;
+			input[*i] = APPEND;
+		}
+		input[*i] = OUT;
+	}
+}
+
+/* ************************************************************************** */
+
 t_quote	*check_input(t_info *info)
 {
 	t_quote	*quotes;
@@ -133,25 +158,8 @@ t_quote	*check_input(t_info *info)
 			info->input[i] = SEMICOLON;
 		else if (condition(info, i, quotes))
 			info->input[i] = EXPAND;
-		else if (info->input[i] == '<' && !quoted(quotes, 0))
-		{
-			if (info->input[i + 1] == '<')
-			{
-				i++;
-				info->input[i] = HAREDOC;
-			}
-			else
-				info->input[i] = IN;
-		}
-		else if (info->input[i] == '>' && !quoted(quotes, 0))
-		{
-			if (info->input[i + 1] == '>')
-			{
-				i++;
-				info->input[i] = APPEND;
-			}
-			info->input[i] = OUT;
-		}
+		else
+			in_out(info->input, &i, quotes);
 	}
 	unclosed_quotes(quotes, info);
 	return (quotes);
@@ -185,6 +193,5 @@ int	lexer_start(t_info *info)
 		return (0);
 	}
 	free_quotes(quotes);
-	printf("%s\n", info->input);
 	return (1);
 }

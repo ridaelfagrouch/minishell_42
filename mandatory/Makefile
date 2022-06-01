@@ -1,4 +1,4 @@
-CFILES = minishell.c lexer.c
+CFILES = minishell.c lexer.c parcer.c
 
 OFILES = ${CFILES:.c=.o}
 
@@ -36,19 +36,21 @@ all : ${NAME}
 ${NAME} : print_header_m ${OFILES}
 	@make -C ../libft
 	@$(CC) $(OFILES) ../libft/libft.a -lreadline -o $(NAME) -g
-	@echo "${YELLOW}$(NAME) created 👍 ${NC}"
+	@echo "${YELLOW}$(NAME) created 🎉​${NC}"
 
 print_header_m:
 	@echo " ${DARKVIOLET}$$HEADER_M${NC} "
 
 %.o:%.c ${INC}
 	@${CC} ${W} -o $@ -c $<
-	@echo "${GREEN}$@ created ✅${NC}"
+	@echo "${RED}$@ created ​✅​​${NC}"
 
 clean:
+	@rm -f ../libft/*.o
 	@rm -f *.o
 
 fclean : clean
+	@rm -f ../libft/libft.a
 	@rm -f ${NAME}
 
 re : fclean all
