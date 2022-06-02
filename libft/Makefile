@@ -15,15 +15,20 @@ W = -Wall -Werror -Wextra
 INC = libft.h
 NAME = libft.a
 
+NC=\033[0m
+YELLOW=\033[1;33m
+GREEN=\033[0;32m
+RED=\033[0;31m
+
 all : ${NAME}
 
 ${NAME} : ${OFILES} ${INC}
 	@ar -rcs ${NAME} ${OFILES}
-	@echo "libft.a created"
+	@echo "${YELLOW}libft.a created 🎉​${NC}"
 
 %.o:%.c
 	@${CC} ${W} -o $@ -c $<
-	@echo "$@ created"
+	@echo "${RED}$@ created ​✅​​${NC}"
 
 clean:
 	@rm -f ${OFILES} ${OBONUS}

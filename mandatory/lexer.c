@@ -68,7 +68,7 @@ void	unclosed_quotes(t_quote *quotes, t_info *info)
 
 /* ************************************************************************** */
 
-int	condition(t_info *info, int i, t_quote *quotes)
+int	check_dolar(t_info *info, int i, t_quote *quotes)
 {
 	return (info->input[i] == '$' && info->input[i + 1]
 		&& (ft_isalnum(info->input[i + 1])
@@ -156,7 +156,7 @@ t_quote	*check_input(t_info *info)
 			info->input[i] = SPACE;
 		else if (info->input[i] == ';' && !quoted(quotes, 0))
 			info->input[i] = SEMICOLON;
-		else if (condition(info, i, quotes))
+		else if (check_dolar(info, i, quotes))
 			info->input[i] = EXPAND;
 		else
 			in_out(info->input, &i, quotes);

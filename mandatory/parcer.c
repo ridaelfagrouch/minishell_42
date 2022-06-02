@@ -37,11 +37,15 @@ int	check_special(char *str, int c)
 
 int	check_syntax1(char *str)
 {
-	int	i;
+	unsigned long	i;
 
 	i = 0;
 	while (str[i])
 	{
+		if ((check_special(SPECIAL_, str[i]) != -1 && i == 0) || \
+			(check_special(SPECIAL_, str[i]) != -1 && \
+			i == (ft_strlen(str) - 1)))
+			return (printf ("minishell: parse error near!\n"), 1);
 		if (check_special(SPECIAL_, str[i]) != -1 && str[i + 1] == ' ')
 		{
 			i++;

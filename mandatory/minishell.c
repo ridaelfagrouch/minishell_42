@@ -18,7 +18,8 @@ int	prompt(t_info *info)
 
 	while (1)
 	{
-		info->input = readline("\033[0;32m minishell> \033[0m");
+		info->input = ft_strtrim(readline("\033[0;32m minishell> \033[0m"), \
+			WHITESPACE);
 		str = ft_strdup(info->input);
 		if (!info->input)
 		{
