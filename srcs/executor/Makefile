@@ -11,7 +11,7 @@
 # ---------------------------------------------------------------------------- #
 # ---------------------------------------------------------------------------- #
 
-# ------------------------------- Color Codes -------------------------------- #
+# --------------------------- Terminal Color Codes --------------------------- #
 NC := \033[0m
 RED := \033[0;31;3m
 YEL := \033[0;33;3m
@@ -21,34 +21,27 @@ GRN := \033[0;32;3m
 MGN := \033[0;35;3m
 BLU := \033[0;34;3m
 
-# -------------------------------- Variables --------------------------------- #
-CC := gcc
-FLAGS := -Wall -Wextra -Werror
+# ---------------------------------------------------------------------------- #
+CC			:= gcc
+CC_FLAGS	:= -Wall -Wextra -Werror
 
 SRCS_DIR := srcs/
-SRCS_LST := ft_memcmp.c ft_memcpy.c ft_memmove.c ft_memset.c ft_putchar_fd.c \
-	ft_lstiter.c ft_lstlast.c ft_lstmap.c ft_lstnew.c ft_lstsize.c ft_memchr.c \
-	ft_strchr.c ft_strcmp.c ft_strcpy.c ft_strdup.c ft_striteri.c ft_strjoin.c \
-	ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c ft_realloc.c ft_split.c \
-	ft_clear_console.c ft_free.c ft_intlen.c ft_isalnum.c ft_isalpha.c \
-	ft_abs.c ft_atoi.c ft_atol.c ft_bzero.c ft_calloc.c ft_strnstr.c \
-	ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c ft_lstdelone.c \
-	ft_strlcat.c ft_strlcpy.c ft_strlen.c ft_strmapi.c ft_strncmp.c \
-	ft_strrchr.c ft_strtrim.c ft_substr.c ft_tolower.c ft_toupper.c \
-	ft_isascii.c ft_isdigit.c ft_isprint.c ft_isspace.c ft_itoa.c
+SRCS_LST := executor.c
 SRCS := ${addprefix ${SRCS_DIR}, ${SRCS_LST}}
 
 OBJS_DIR := objs/
 OBJS_LST := ${patsubst %.c, %.o, ${SRCS_LST}}
 OBJS := ${addprefix ${OBJS_DIR}, ${OBJS_LST}}
 
-PROJECT := libft
-HEADER := libft.h
-NAME := libft.a
+PROJECT 	:= executor
+HEADER		:= executor.h
+NAME		:= libexecutor.a
 
-.PHONY: all clean fclean re title
+MAIN		:= test_main.c
 
-# ---------------------------------- Recipes --------------------------------- #
+# ---------------------------------------------------------------------------- #
+.PHONY: all clean fclean re title test_clean test_compile
+
 all: title ${NAME}
 
 title:
@@ -66,13 +59,24 @@ ${OBJS_DIR}%.o: ${SRCS_DIR}%.c ${HEADER}
 $(OBJS_DIR):
 	@mkdir $(OBJS_DIR)
 
+test_compile: ${TEST_MAIN} ${HEADER}
+	@${CC} -Wall -Wextra ${MAIN} -o test_output ${SRCS} -L../../libft -lft
+	@echo "${GRN}Testing executable ${GRA}test_output${GRN} created" \
+		"successfully${NNN} :)\n"
+
+test_clean: test_output
+	@rm -f test_output
+	@echo "${GRA}test_output${RED}\texecutable have been deleted${NC}"
+
 clean:
 	@rm -rf ${OBJS_DIR}
-	@echo "${GRA}${PROJECT}${RED}\t\tobject files have been deleted${NC}"
+	@echo "${GRA}${PROJECT}${RED}\tobject files have been deleted${NC}"
 
 fclean:
 	@rm -f ${NAME}
-	@echo "${GRA}${PROJECT}${RED}\t\tarchive file ${GRA}${NAME}${RED}\t\t"\
+	@echo "${GRA}${PROJECT}${RED}\tarchive file ${GRA}${NAME}${RED}\t"\
 		"has been deleted${NC}"
 
 re: fclean all
+
+# ---------------------------------------------------------------------------- #

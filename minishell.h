@@ -61,14 +61,18 @@ typedef enum e_error {
 }	t_error;
 
 // ----------- STRUCTs ---------- //
-typedef struct s_info
-{
+typedef struct s_env {
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
+typedef struct s_info {
 	char	*input;
 	int		uncqu;
 }	t_info;
 
-typedef struct s_quote
-{
+typedef struct s_quote {
 	int				i;
 	int				on;
 	int				class;

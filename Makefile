@@ -52,15 +52,15 @@ HEADER		:= minishell.h
 LIBFT_ARCH	:= -Llibft -lft
 LEXR_ARCH	:= -Lsrcs/lexer -llexer
 PARS_ARCH	:= -Lsrcs/parser -lparser
-EXEC_ARCH	:= -Lsrcs/executer -lexecuter
-ARCHS		:= ${LEXR_ARCH} ${PARS_ARCH} ${LIBFT_ARCH}
-# ${EXEC_ARCH}
+EXEC_ARCH	:= -Lsrcs/executor -lexecutor
+ARCHIVES	:= ${LEXR_ARCH} ${PARS_ARCH} ${EXEC_ARCH} ${LIBFT_ARCH}
 
 # ---------------------------------------------------------------------------- #
-.PHONY: all clean fclean re title
+.PHONY: all clean fclean re title deps
 
 all: title ${NAME}
 
+# Dependencies
 deps:
 	@make -C libft/
 	@make -C srcs/lexer/
@@ -75,15 +75,15 @@ clean:
 	@make -C libft/ clean
 	@make -C srcs/lexer/ clean
 	@make -C srcs/parser/ clean
-#@make -C srcs/executer clean
+	@make -C srcs/executor clean
 
 fclean: clean
 	@make -C libft/ fclean
 	@make -C srcs/lexer/ fclean
 	@make -C srcs/parser/ fclean
+	@make -C srcs/executor fclean
 	@rm -f ${NAME}
 	@echo "\n${GRA}${NAME}${RED}\texecutable file has been deleted${NNN}"
-#@make -C srcs/executer fclean
 
 re: fclean all
 

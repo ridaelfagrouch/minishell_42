@@ -38,6 +38,7 @@ NAME		:= liblexer.a
 HEADER		:= lexer.h
 
 # ---------------------------------------------------------------------------- #
+.PHONY: all clean fclean re title
 
 all: title ${NAME}
 
@@ -58,11 +59,11 @@ $(OBJS_DIR):
 
 clean:
 	@rm -rf ${OBJS_DIR}
-	@echo "${GRA}${PROJECT}${RED}\tobject files have been deleted${NC}"
+	@echo "${GRA}${PROJECT}${RED}\t\tobject files have been deleted${NC}"
 
 fclean:
 	@rm -f ${NAME}
-	@echo "${GRA}${PROJECT}${RED}\tarchive file ${GRA}${NAME}${RED}\t\t"\
+	@echo "${GRA}${PROJECT}${RED}\t\tarchive file ${GRA}${NAME}${RED}\t\t"\
 		"has been deleted${NC}"
 
 re: fclean all
