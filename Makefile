@@ -65,9 +65,10 @@ deps:
 	@make -C libft/
 	@make -C srcs/lexer/
 	@make -C srcs/parser/
+	@make -C srcs/executor/
 
 ${NAME}: deps ${HEADER}
-	@${CC} ${CC_FLAGS} ${MAIN} -o ${NAME} ${ARCHS}
+	@${CC} ${CC_FLAGS} ${MAIN} -o ${NAME} ${ARCHIVES}
 	@echo "${GRN}Executable ${GRA}${NAME}${GRN} created" \
 		"successfully${NNN} :)\n"
 
