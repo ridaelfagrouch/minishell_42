@@ -13,20 +13,20 @@
 
 # --------------------------- Terminal Color Codes --------------------------- #
 NC := \033[0m
-RED := \033[0;31;3m
-YEL := \033[0;33;3m
-GRA := \033[0;37;3m
-CYN := \033[0;36;3m
-GRN := \033[0;32;3m
-MGN := \033[0;35;3m
-BLU := \033[0;34;3m
+RED := \033[31;1;3m
+YEL := \033[33;1;3m
+GRA := \033[37;1;3m
+CYN := \033[36;1;3m
+GRN := \033[32;1;3m
+MGN := \033[35;1;3m
+BLU := \033[34;1;3m
 
 # ---------------------------------------------------------------------------- #
 CC			:= gcc
 CC_FLAGS	:= -Wall -Wextra -Werror
 
 SRCS_DIR := srcs/
-SRCS_LST := executor.c
+SRCS_LST := env_conversion.c builtin_cmds.c
 SRCS := ${addprefix ${SRCS_DIR}, ${SRCS_LST}}
 
 OBJS_DIR := objs/
@@ -45,8 +45,7 @@ MAIN		:= test_main.c
 all: title ${NAME}
 
 title:
-	@echo "\n${YEL}Entering ${GRA}${PROJECT}${YEL}'s makefile"
-	@echo "----------------------------${NC}"
+	@echo "\n${YEL}\033[4mEntering ${GRA}${PROJECT}${YEL}'s makefile${NC}\n"
 
 ${NAME}: ${OBJS_DIR} ${OBJS} ${HEADER}
 	@ar -rcs ${NAME} ${OBJS}
@@ -60,6 +59,7 @@ $(OBJS_DIR):
 	@mkdir $(OBJS_DIR)
 
 test_compile: ${TEST_MAIN} ${HEADER}
+	@make -C ../../libft
 	@${CC} -Wall -Wextra ${MAIN} -o test_output ${SRCS} -L../../libft -lft
 	@echo "${GRN}Testing executable ${GRA}test_output${GRN} created" \
 		"successfully${NNN} :)\n"
