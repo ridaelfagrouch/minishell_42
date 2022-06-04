@@ -120,8 +120,8 @@ void	in_out(char *input, int *i, t_quote	*quotes)
 	{
 		if (input[*i + 1] == '<')
 		{
-			(*i)++;
 			input[*i] = HAREDOC;
+			(*i) += 2;
 		}
 		else
 			input[*i] = IN;
@@ -130,8 +130,8 @@ void	in_out(char *input, int *i, t_quote	*quotes)
 	{
 		if (input[*i + 1] == '>')
 		{
-			(*i)++;
 			input[*i] = APPEND;
+			(*i) += 2;
 		}
 		input[*i] = OUT;
 	}

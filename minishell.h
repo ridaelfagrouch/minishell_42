@@ -67,9 +67,33 @@ typedef struct s_env {
 	struct s_env	*next;
 }	t_env;
 
-typedef struct s_info {
-	char	*input;
-	int		uncqu;
+typedef struct s_node
+{
+	struct s_node	*next;
+	struct s_node	*prev;
+	int				tokne;
+	char			*cmd;
+	char			*args;
+	char			*in;
+	char			*out;
+}	t_node;
+
+typedef struct s_cmds
+{
+	int				tokne;
+	char			*cmd;
+	char			*args;
+	char			*in;
+	char			*out;
+}	t_cmds;
+
+typedef struct s_info
+{
+	char			*input;
+	int				uncqu;
+	int				i;
+	t_node			*head;
+	t_cmds			*cmds;
 }	t_info;
 
 typedef struct s_quote {
