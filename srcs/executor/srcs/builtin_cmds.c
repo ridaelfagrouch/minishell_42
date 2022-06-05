@@ -158,11 +158,11 @@ int	env_cmd(t_env_vars *head)
 	node = head;
 	while (node)
 	{
-		if (node->key)
+		if (node->key && node->value)
 		{
-			printf("%s", node->key);
+			printf("%s=%s", node->key);
 			if (node->value)
-				printf("=%s", node->value);
+				printf("", node->value);
 		}
 		else
 			return

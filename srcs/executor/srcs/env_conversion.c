@@ -51,6 +51,12 @@ int	fill_node_with_key_value_env(char *env_var, t_env_vars *node)
 		if (node->value == NULL)
 			return (free(node->key), -1);
 	}
+	else
+	{
+		node->value = ft_strdup("");
+		if (node->value == NULL)
+			return (free(node->key), -1);
+	}
 	return (0);
 }
 

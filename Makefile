@@ -49,25 +49,33 @@ NAME		:= minishell
 MAIN		:= minishell.c
 HEADER		:= minishell.h
 
-LIBFT_ARCH	:= -Llibft -lft
-LEXR_ARCH	:= -Lsrcs/lexer -llexer
-PARS_ARCH	:= -Lsrcs/parser -lparser
-EXEC_ARCH	:= -Lsrcs/executor -lexecutor
-ARCHIVES	:= ${LEXR_ARCH} ${PARS_ARCH} ${EXEC_ARCH} ${LIBFT_ARCH}
+LIBFT_ARCH	:= libft/libft.a
+LEXR_ARCH	:= srcs/lexer/liblexer.a
+PARS_ARCH	:= srcs/parser/libparser.a
+EXEC_ARCH	:= srcs/executor/libexecutor.a
+ARCHIVES	:= -Llibft -lft \
+			-Lsrcs/lexer -llexer \
+			-Lsrcs/parser -lparser \
+			-Lsrcs/executor -lexecutor
 
 # ---------------------------------------------------------------------------- #
-.PHONY: all clean fclean re title deps
+.PHONY: all clean fclean re title
 
 all: title ${NAME}
 
-# Dependencies
-deps:
+${LIBFT_ARCH}:
 	@make -C libft/
+
+${LEXR_ARCH}:
 	@make -C srcs/lexer/
+
+${PARS_ARCH}:
 	@make -C srcs/parser/
+
+${EXEC_ARCH}:
 	@make -C srcs/executor/
 
-${NAME}: deps ${HEADER}
+${NAME}: ${LIBFT_ARCH} ${LEXR_ARCH} ${PARS_ARCH} ${HEADER}
 	@${CC} ${CC_FLAGS} ${MAIN} -o ${NAME} ${ARCHIVES}
 	@echo "${GRN}Executable ${GRA}${NAME}${GRN} created" \
 		"successfully${NNN} :)\n"
@@ -76,15 +84,15 @@ clean:
 	@make -C libft/ clean
 	@make -C srcs/lexer/ clean
 	@make -C srcs/parser/ clean
-	@make -C srcs/executor clean
+#@make -C srcs/executor clean
 
 fclean: clean
 	@make -C libft/ fclean
 	@make -C srcs/lexer/ fclean
 	@make -C srcs/parser/ fclean
-	@make -C srcs/executor fclean
 	@rm -f ${NAME}
 	@echo "\n${GRA}${NAME}${RED}\texecutable file has been deleted${NNN}"
+#@make -C srcs/executor fclean
 
 re: fclean all
 
