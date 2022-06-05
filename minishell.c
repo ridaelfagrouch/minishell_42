@@ -14,7 +14,7 @@
 
 /* -------------------------------------------------------------------------- */
 
-char	*get_env_var_value(const char *var, char **env)
+char	*get_env_vars_var_value(const char *var, char **env)
 {
 	int	i;
 	int	j;
@@ -42,9 +42,9 @@ char	*get_env_var_value(const char *var, char **env)
 // 	char	*home;
 // 	char	*prompt;
 
-// 	user = get_env_var_value("USER", env);
-// 	current_dir = get_env_var_value("PWD", env);
-// 	home = get_env_var_value("HOME", env);
+// 	user = get_env_vars_var_value("USER", env);
+// 	current_dir = get_env_vars_var_value("PWD", env);
+// 	home = get_env_vars_var_value("HOME", env);
 // 	if (ft_strncmp(home, current_dir, ft_strlen(home)) == 0)
 // 		current_dir += ft_strlen(home);
 	// "user@hostname [hh:mm:ss] [current_dir]"

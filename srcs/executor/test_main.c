@@ -6,25 +6,17 @@ int main(int argc, char **argv, char **envp)
 	// argv = NULL;
 	//envp = NULL;
 	
-	t_env	*head = convert_env_to_linked_list(envp);
-	t_env	*output;
+	t_env_vars	*head = convert_env_vars_to_linked_list(envp);
+	t_env_vars	*output;
 
 	output = head;
 	while (output)
 	{
-		printf("%s=", output->key);
-		printf("%s\n", output->value);
+		printf("%s=%s\n", output->key, output->value);
 		output = output->next;
 	}
-	printf("\n\n");
-	export_var_to_env(head, "NAME=amine");
-	export_var_to_env(head, "SOMETHING=nothing");
-	output = head;
-	while (output)
-	{
-		printf("%s=", output->key);
-		printf("%s\n", output->value);
-		output = output->next;
-	}
+	printf("\n\n\n\n");
+	export_cmd(head, "SOMETHING=nothing");
+	export_cmd(head, NULL);
 	return (0);
 }

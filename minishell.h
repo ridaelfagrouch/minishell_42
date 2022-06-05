@@ -14,13 +14,14 @@
 # define MINISHELL_H
 
 /* ------------------------------- LIBRARIES -------------------------------- */
-# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <sys/wait.h>
+# include <stdbool.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
-# include <sys/wait.h>
 # include <signal.h>
 # include <curses.h>
 # include "libft/libft.h"
@@ -61,11 +62,11 @@ typedef enum e_error {
 }	t_error;
 
 // ----------- STRUCTs ---------- //
-typedef struct s_env {
+typedef struct s_env_vars {
 	char			*key;
 	char			*value;
 	struct s_env	*next;
-}	t_env;
+}	t_env_vars;
 
 typedef struct s_node
 {
