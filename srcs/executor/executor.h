@@ -24,7 +24,11 @@
 // ----------- STRUCTs ---------- //
 
 /* --------------------------------- PROTOTYPES ----------------------------- */
-t_env	*convert_env_to_linked_list(const char **envp);
+int		fill_node_with_key_value_env(char	*env_var, t_env *node);
+t_env	*convert_env_to_linked_list(char **envp);
+void	free_env_linked_list(t_env *head);
 char	**split_env_path_var(void);
+
+int		export_var_to_env(t_env *head, char *key_value);
 
 #endif
