@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 /* ------------------------------- LIBRARIES -------------------------------- */
+
 # include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -70,7 +71,6 @@ typedef struct s_env {
 typedef struct s_node
 {
 	struct s_node	*next;
-	struct s_node	*prev;
 	int				tokne;
 	char			*cmd;
 	char			*args;
