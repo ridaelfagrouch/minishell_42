@@ -133,7 +133,8 @@ void	in_out(char *input, int *i, t_quote	*quotes)
 			input[*i] = APPEND;
 			(*i) += 2;
 		}
-		input[*i] = OUT;
+		else
+			input[*i] = OUT;
 	}
 }
 
@@ -143,19 +144,17 @@ t_quote	*check_input(t_info *info)
 {
 	t_quote	*quotes;
 	int		i;
-	int		dq;
+	int		check;
 
 	quotes = NULL;
-	dq = -1;
+	check = -1;
 	i = -1;
 	while (info->input[++i])
 	{
 		if (info->input[i] == '\"' || info->input[i] == '\'')
-			handle_quotes(&quotes, info->input, i, &dq);
+			handle_quotes(&quotes, info->input, i, &check);
 		else if (info->input[i] == '|' && quoted(quotes, 0) == 0)	// Repetition
 			info->input[i] = PIPE;
-		else if (info->input[i] == ' ' && quoted(quotes, 0) == 0)
-			info->input[i] = SPACE;
 		else if (info->input[i] == ';' && quoted(quotes, 0) == 0)
 			info->input[i] = SEMICOLON;
 		else if (check_dollar(info, i, quotes))

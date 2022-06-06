@@ -44,7 +44,6 @@
 // ------------ ENUMs ----------- //
 typedef enum e_flags {
 	EXPAND = -38,
-	SPACE,
 	OUT,
 	IN,
 	APPEND,
@@ -71,20 +70,14 @@ typedef struct s_env {
 typedef struct s_node
 {
 	struct s_node	*next;
-	int				tokne;
-	char			*cmd;
-	char			*args;
-	char			*in;
-	char			*out;
+	int				token;
+	char			*data;
 }	t_node;
 
 typedef struct s_cmds
 {
-	int				tokne;
-	char			*cmd;
-	char			*args;
-	char			*in;
-	char			*out;
+	int				token;
+	char			*data;
 }	t_cmds;
 
 typedef struct s_info
@@ -104,7 +97,9 @@ typedef struct s_quote {
 }	t_quote;
 
 /* --------------------------------- PROTOTYPES ----------------------------- */
-int	lexer_start(t_info *info);
-int	parcer(char *str, t_info *info);
+int		lexer_start(t_info *info);
+int		parcer(char *str, t_info *info);
+void	handle_quotes(t_quote **quotes, char *quote, int i, int *check);
+int		quoted(t_quote *quotes, int i);
 
 #endif
