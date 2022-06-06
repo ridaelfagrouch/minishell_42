@@ -54,7 +54,8 @@ int	check_syntax1(char *str)
 			return (printf ("minishell: parse error near 1!\n"), 1);
 		if (str[i] == '\"' || str[i] == '\'')
 			handle_quotes(&quotes, str, i, &dq);
-		if (check_special(SPECIAL_, str[i]) != -1 && str[i + 1] == ' ' && quoted(quotes, 0) == 0)
+		if (check_special(SPECIAL_, str[i]) != -1 && str[i + 1] == ' ' && \
+			quoted(quotes, 0) == 0)
 		{
 			i++;
 			while (str[i] && str[i] == ' ')
@@ -109,10 +110,10 @@ int	check_syntax2(char *str)
 	{
 		if (str[i] == '\"' || str[i] == '\'')
 			handle_quotes(&quotes, str, i, &dq);
-		if (check_special(SPECIAL_, str[i]) != -1)
+		if (check_special(SPECIAL_, str[i]) != -1 && quoted(quotes, 0) != 0)
 		{
 			check = str[i++];
-			if (check_syntax3(str[i], check, &cout) && quoted(quotes, 0) == 0)
+			if (check_syntax3(str[i], check, &cout))
 				return (1);
 		}
 		else
@@ -126,14 +127,6 @@ int	check_syntax2(char *str)
 
 /* -------------------------------------------------------------------------- */
 
-void free_info_cmds(t_cmds *cmds)
-{
-	if (cmds->data)
-		free(cmds->data);
-}
-
-/* -------------------------------------------------------------------------- */
-
 t_node	*new_node(t_cmds *cmds)
 {
 	t_node	*node;
@@ -143,7 +136,8 @@ t_node	*new_node(t_cmds *cmds)
 		exit (1);
 	node->token = cmds->token;
 	node->data = ft_strdup(cmds->data);
-	free_info_cmds(cmds);
+	if (cmds->data)
+		free(cmds->data);
 	printf ("token:%d | data: %s\n", node->token, node->data);
 	return (node);
 }
@@ -201,20 +195,30 @@ void	handel_pipe(t_info *info, t_cmds *cmds)
 
  /* -------------------------------------------------------------------------- */
 
-void	handel_in(t_info *info, t_cmds *cmds, char *str)
+void	while_operator(t_info *info, char *str)
 {
-	int j = 0;
-	info->i++;
-	scape_space(info);
+	int	j;
+
+	j = 0;
 	while (info->input[info->i] && check_operator(info, 1) && \
 		info->input[info->i] != ' ')
 	{
-		while (info->input[info->i] == DOUBLEQ || info->input[info->i] == SINGELQ)
+		while (info->input[info->i] == DOUBLEQ || \
+			info->input[info->i] == SINGELQ)
 			info->i++;
 		str[j] = info->input[info->i];
 		info->i++;
 		j++;
 	}
+}
+
+  /* -------------------------------------------------------------------------- */
+
+void	handel_in(t_info *info, t_cmds *cmds, char *str)
+{
+	info->i++;
+	scape_space(info);
+	while_operator(info, str);
 	if (access(str, F_OK) != 0)
 	{
 		printf("no such file or directory!\n");
@@ -231,18 +235,9 @@ void	handel_in(t_info *info, t_cmds *cmds, char *str)
 
  void	handel_herdoc(t_info *info, t_cmds *cmds, char *str)
 {
-	int j = 0;
 	info->i += 2;
 	scape_space(info);
-	while (info->input[info->i] && check_operator(info, 1) && \
-		info->input[info->i] != ' ')
-	{
-		while (info->input[info->i] == DOUBLEQ || info->input[info->i] == SINGELQ)
-			info->i++;
-		str[j] = info->input[info->i];
-		info->i++;
-		j++;
-	}
+	while_operator(info, str);
 	if (str && *str)
 		cmds->data = ft_strdup(str);
 	else
@@ -256,8 +251,9 @@ void	handel_in(t_info *info, t_cmds *cmds, char *str)
 
 void	handel_out(t_info *info, t_cmds *cmds, char *str)
 {
-	int j = 0;
-	int i = 0;
+	int	i;
+
+	i = 0;
 	if (info->input[info->i] == APPEND)
 	{
 		info->i += 2;
@@ -266,20 +262,12 @@ void	handel_out(t_info *info, t_cmds *cmds, char *str)
 	else
 		info->i++;
 	scape_space(info);
-	while (info->input[info->i] && check_operator(info, 1) && \
-		info->input[info->i] != ' ')
-	{
-		while (info->input[info->i] == DOUBLEQ || info->input[info->i] == SINGELQ)
-			info->i++;
-		str[j] = info->input[info->i];
-		info->i++;
-		j++;
-	}
+	while_operator(info, str);
 	if (str && *str)
 		cmds->data = ft_strdup(str);
 	else
 		cmds->data = NULL;
-	if(i == 1)
+	if (i == 1)
 		cmds->token = APPEND;
 	else
 		cmds->token = OUT;
@@ -291,13 +279,14 @@ void	handel_out(t_info *info, t_cmds *cmds, char *str)
 
 void	handel_command(t_info *info, t_cmds *cmds, char *str)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	scape_space(info);
 	while (info->input[info->i] && check_operator(info, 1))
 	{
-		while (info->input[info->i] == DOUBLEQ || info->input[info->i] == SINGELQ)
+		while (info->input[info->i] == DOUBLEQ || \
+			info->input[info->i] == SINGELQ)
 			info->i++;
 		str[j] = info->input[info->i];
 		info->i++;
@@ -331,8 +320,6 @@ void	store_data(t_info *info)
 			handel_command(info, cmds, str);
 			continue ;
 		}
-		else if (info->input[info->i] == PIPE)
-			handel_pipe(info, cmds);
 		else if (info->input[info->i] == IN)
 		{
 			handel_in(info, cmds, str);
@@ -348,6 +335,8 @@ void	store_data(t_info *info)
 			handel_herdoc(info, cmds, str);
 			continue ;
 		}
+		else if (info->input[info->i] == PIPE)
+			handel_pipe(info, cmds);
 		info->i++;
 	}
 }
@@ -365,7 +354,6 @@ int	parcer(char *str, t_info *info)
 	isexit = check_syntax2(str);
 	if (isexit == yes || !ft_strcmp(str, "\0"))
 		return (free (str), 1);
-		printf("%s\n", info->input);
 	store_data(info);
 	return (0);
 }
