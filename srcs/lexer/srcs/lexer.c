@@ -162,7 +162,6 @@ t_quote	*check_input(t_info *info)
 		else
 			in_out(info->input, &i, quotes);
 	}
-	printf("%s\n", info->input);
 	unclosed_quotes(quotes, info);
 	return (quotes);
 }
