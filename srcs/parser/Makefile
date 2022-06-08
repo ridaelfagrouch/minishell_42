@@ -26,7 +26,7 @@ CC			:= gcc
 CC_FLAGS	:= -Wall -Wextra -Werror
 
 SRCS_DIR := srcs/
-SRCS_LST := parser.c
+SRCS_LST := parser.c handling_oper.c new_node.c  pars_syntax.c pars_utils.c store_data.c
 SRCS := ${addprefix ${SRCS_DIR}, ${SRCS_LST}}
 
 OBJS_DIR := objs/

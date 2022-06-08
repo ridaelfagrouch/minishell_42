@@ -27,6 +27,14 @@
 
 
 /* --------------------------------- PROTOTYPES ----------------------------- */
-int	lexer_start(t_info *info);
+void	new_quote(t_quote **quotes, int i, int on, int class);
+void	in_out(char *input, int *i, t_quote	*quotes);
+int		check_dollar(t_info *info, int i, t_quote *quotes);
+void	unclosed_quotes(t_quote *quotes, t_info *info);
+void	free_quotes(t_quote *quotes);
+void	d_quotes(t_quote **quotes, char *input, int i, int *check);
+void	s_quotes(t_quote **quotes, char *input, int i, int *check);
+int		quoted(t_quote *quotes, int i);
+void	handle_quotes(t_quote **quotes, char *quote, int i, int *check);
 
 #endif

@@ -37,7 +37,7 @@
 # define CYN	"\033[36m"
 # define GRA	"\033[37m"
 
-# define SPECIAL_		"|&<>"
+# define SPECIAL_		"|&<>;"
 # define WHITESPACE		" \r\v\n\t\f"
 
 /* --------------------------------- TYPEDEFs ------------------------------- */
@@ -99,7 +99,5 @@ typedef struct s_quote {
 /* --------------------------------- PROTOTYPES ----------------------------- */
 int		lexer_start(t_info *info);
 int		parcer(char *str, t_info *info);
-void	handle_quotes(t_quote **quotes, char *quote, int i, int *check);
-int		quoted(t_quote *quotes, int i);
 
 #endif

@@ -26,7 +26,7 @@ CC			:= gcc
 CC_FLAGS	:= -Wall -Wextra -Werror
 
 SRCS_DIR := srcs/
-SRCS_LST := lexer.c
+SRCS_LST := lexer.c lexer_utils.c lexer_free.c
 SRCS := ${addprefix ${SRCS_DIR}, ${SRCS_LST}}
 
 OBJS_DIR := objs/

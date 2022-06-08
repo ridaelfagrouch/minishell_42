@@ -10,11 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARsER_H
-# define PARsER_H
+#ifndef PARSER_H
+# define PARSER_H
 
 /* ------------------------------- LIBRARIES -------------------------------- */
 # include "../../minishell.h"
+# include "../lexer/lexer.h"
 
 /* --------------------------------- MACROS --------------------------------- */
 
@@ -27,6 +28,17 @@
 
 
 /* --------------------------------- PROTOTYPES ----------------------------- */
-int	parcer(char *str, t_info *info);
-
+int		check_special(char *str, int c);
+int		check_syntax2(char *str);
+int		check_operator(t_info *info, int flag);
+void	store_data(t_info *info);
+void	handel_command(t_info *info, t_cmds *cmds, char *str);
+void	handel_out(t_info *info, t_cmds *cmds, char *str);
+void	handel_herdoc(t_info *info, t_cmds *cmds, char *str);
+void	handel_in(t_info *info, t_cmds *cmds, char *str);
+void	handel_pipe(t_info *info, t_cmds *cmds);
+void	while_operator(t_info *info, char *str);
+void	scape_space(t_info *info);
+void	add_back(t_node **lst, t_node *node);
+t_node	*new_node(t_cmds *cmds);
 #endif

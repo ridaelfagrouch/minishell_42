@@ -76,10 +76,13 @@ static int	prompt(t_info *info, char **env)
 			continue ;
 		add_history(rdln_output);
 		str = ft_strdup(info->input);
-		if (lexer_start(info) == 0)
+		if (!lexer_start(info))
+		{
+			free(info->input);
+			free(str);
 			continue ;
-		if (parcer(str, info))
-			return (1);
+		}
+		parcer(str, info);
 		free(info->input);
 		free(str);
 	}

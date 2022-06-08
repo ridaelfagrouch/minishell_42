@@ -14,72 +14,6 @@
 
 /* -------------------------------------------------------------------------- */
 
-void	new_quote(t_quote **quotes, int i, int on, int class)
-{
-	t_quote	*quote;
-	t_quote	*tmp;
-
-	quote = malloc(sizeof(t_quote) * 1);
-	quote->i = i;
-	if (on >= 0)
-		quote->on = 1;
-	else
-		quote->on = 0;
-	quote->class = class;
-	quote->next = NULL;
-	if (!*quotes)
-		*quotes = quote;
-	else
-	{
-		tmp = *quotes;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = quote;
-	}
-}
-
-/* -------------------------------------------------------------------------- */
-
-int	quoted(t_quote *quotes, int i)
-{
-	t_quote	*tmp;
-
-	if (quotes == NULL)
-		return (0);
-	tmp = quotes;
-	while (tmp->next)
-		tmp = tmp->next;
-	if (i)
-		if (tmp->on == 1 && tmp->class == 1)
-			return (0);
-	if (tmp->on == 0)
-		return (0);
-	return (1);
-}
-
-/* -------------------------------------------------------------------------- */
-
-void	unclosed_quotes(t_quote *quotes, t_info *info)
-{
-	if (quoted(quotes, 0))
-	{
-		printf("Unclosed quotes!\n");
-		info->uncqu = 1;
-	}
-}
-
-/* -------------------------------------------------------------------------- */
-
-int	check_dollar(t_info *info, int i, t_quote *quotes)
-{
-	return (info->input[i] == '$' && info->input[i + 1]
-		&& (ft_isalnum(info->input[i + 1])
-			|| info->input[i + 1] == '?'
-			|| info->input[i + 1] == '_') && !quoted(quotes, 1));
-}
-
-/* -------------------------------------------------------------------------- */
-
 void	d_quotes(t_quote **quotes, char *input, int i, int *check)
 {
 	if (*check == 1)
@@ -114,32 +48,6 @@ void	handle_quotes(t_quote **quotes, char *quote, int i, int *check)
 
 /* -------------------------------------------------------------------------- */
 
-void	in_out(char *input, int *i, t_quote	*quotes)
-{
-	if (input[*i] == '<' && !quoted(quotes, 0))
-	{
-		if (input[*i + 1] == '<')
-		{
-			input[*i] = HAREDOC;
-			(*i) += 2;
-		}
-		else
-			input[*i] = IN;
-	}
-	else if (input[*i] == '>' && !quoted(quotes, 0))
-	{
-		if (input[*i + 1] == '>')
-		{
-			input[*i] = APPEND;
-			(*i) += 2;
-		}
-		else
-			input[*i] = OUT;
-	}
-}
-
-/* -------------------------------------------------------------------------- */
-
 t_quote	*check_input(t_info *info)
 {
 	t_quote	*quotes;
@@ -153,31 +61,17 @@ t_quote	*check_input(t_info *info)
 	{
 		if (info->input[i] == '\"' || info->input[i] == '\'')
 			handle_quotes(&quotes, info->input, i, &check);
-		else if (info->input[i] == '|' && quoted(quotes, 0) == 0)	// Repetition
+		else if (info->input[i] == '|' && !quoted(quotes, 0))
 			info->input[i] = PIPE;
-		else if (info->input[i] == ';' && quoted(quotes, 0) == 0)
+		else if (info->input[i] == ';' && !quoted(quotes, 0))
 			info->input[i] = SEMICOLON;
 		else if (check_dollar(info, i, quotes))
 			info->input[i] = EXPAND;
-		else
+		else if (!quoted(quotes, 0))
 			in_out(info->input, &i, quotes);
 	}
 	unclosed_quotes(quotes, info);
 	return (quotes);
-}
-
-/* -------------------------------------------------------------------------- */
-
-void	free_quotes(t_quote *quotes)
-{
-	t_quote	*next;
-
-	while (quotes)
-	{
-		next = quotes->next;
-		free(quotes);
-		quotes = next;
-	}
 }
 
 /* -------------------------------------------------------------------------- */
