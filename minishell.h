@@ -16,14 +16,16 @@
 /* ------------------------------- LIBRARIES -------------------------------- */
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <sys/stat.h>
 # include <sys/wait.h>
 # include <stdbool.h>
-# include <stdio.h>
+# include <limits.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <fcntl.h>
 # include <signal.h>
 # include <curses.h>
+# include <stdio.h>
+# include <fcntl.h>
 # include "libft/libft.h"
 
 /* --------------------------------- MACROS --------------------------------- */
@@ -63,9 +65,10 @@ typedef enum e_error {
 
 // ----------- STRUCTs ---------- //
 typedef struct s_env_vars {
-	char			*key;
-	char			*value;
-	struct s_env	*next;
+	char				*key;
+	char				*value;
+	bool				is_env_var;
+	struct s_env_vars	*next;
 }	t_env_vars;
 
 typedef struct s_node

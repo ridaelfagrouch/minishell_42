@@ -14,7 +14,7 @@
 
 /* -------------------------------------------------------------------------- */
 
-void	free_env_linked_list(t_env_vars *head)
+void	free_env(t_env_vars *head)
 {
 	t_env_vars	*node;
 	t_env_vars	*tracer;
@@ -32,7 +32,7 @@ void	free_env_linked_list(t_env_vars *head)
 
 /* -------------------------------------------------------------------------- */
 
-int	fill_node_with_key_value_env(char *env_var, t_env_vars *node)
+int	init_node(char *env_var, t_env_vars *node)
 {
 	int	i;
 
@@ -45,47 +45,62 @@ int	fill_node_with_key_value_env(char *env_var, t_env_vars *node)
 	node->key = ft_substr(env_var, 0, i);
 	if (node->key == NULL)
 		return (-1);
-	if (env_var[i++] == '=')
-	{
-		node->value = ft_strdup(env_var + i);
-		if (node->value == NULL)
-			return (free(node->key), -1);
-	}
-	else
-	{
-		node->value = ft_strdup("");
-		if (node->value == NULL)
-			return (free(node->key), -1);
-	}
+	node->value = ft_strdup(++i + env_var);
+	if (node->value == NULL)
+		return (free(node->key), -1);
 	return (0);
 }
 
 /* -------------------------------------------------------------------------- */
 
-t_env_vars	*convert_env_vars_to_linked_list(char **envp)
+char	*get_sorted_env(char **envp)
 {
-	int		nodes_count;
+	static int	f_result;
+	int			t_result;
+	char		*ret_value;
+	int			i;
+	int			j;
+
+	i = 0;
+	while (envp[i])
+	{
+		j = 0;
+		while (envp[j])
+		{
+			t_result = ft_strcmp(envp[i], envp[j]);
+			if (t_result < f_result)
+			{
+				f_result = t_result;
+				ret_value = env[i];
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+/* -------------------------------------------------------------------------- */
+
+t_env_vars	*conv_env(char **envp)
+{
 	t_env_vars	*head;
 	t_env_vars	**node;
-	int		i;
+	char		*srtd_env;
+	int			max;
+	int			i;
 
-	nodes_count = 0;
-	while (envp[nodes_count])
-		nodes_count++;
-	if (nodes_count == 0)
-		return (NULL);
+	max = 0;
+	while (envp[max])
+		max++;
+	head = NULL;
+	node = &head;
 	i = 0;
-	head = (t_env_vars *)ft_calloc(1, sizeof(t_env_vars));
-	if (head == NULL)
-		return (NULL);
-	if (fill_node_with_key_value_env(envp[i], head) != 0)
-		return (free_env_linked_list(head), NULL);
-	node = &head->next;
-	while (++i < nodes_count)
+	while (i++ < max)
 	{
+		srtd_env = get_sorted_env(envp);
 		*node = (t_env_vars *)ft_calloc(1, sizeof(t_env_vars));
-		if (*node == NULL || fill_node_with_key_value_env(envp[i], *node) != 0)
-			return (free_env_linked_list(head), NULL);
+		if (*node == NULL || init_node(srtd_env, *node) != 0)
+			return (free_env(head), NULL);
 		node = &(*node)->next;
 	}
 	return (head);
@@ -93,16 +108,16 @@ t_env_vars	*convert_env_vars_to_linked_list(char **envp)
 
 /* -------------------------------------------------------------------------- */
 
-char	**split_env_vars_path_var(void)
-{
-	char	*paths;
-	char	**splited_paths;
+// char	**split_env_vars_path_var(void)
+// {
+// 	char	*paths;
+// 	char	**splited_paths;
 
-	paths = getenv("PATH");
-	if (paths == NULL)
-		return (NULL);
-	splited_paths = ft_split(paths, ':');
-	return (splited_paths);
-}
+// 	paths = getenv("PATH");
+// 	if (paths == NULL)
+// 		return (NULL);
+// 	splited_paths = ft_split(paths, ':');
+// 	return (splited_paths);
+// }
 
 /* -------------------------------------------------------------------------- */

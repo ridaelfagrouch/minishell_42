@@ -60,7 +60,7 @@ $(OBJS_DIR):
 
 test_compile: ${TEST_MAIN} ${HEADER}
 	@make -C ../../libft
-	@${CC} -Wall -Wextra ${MAIN} -o test_output ${SRCS} -L../../libft -lft
+	@${CC} -Wall -Wextra ${MAIN} -fsanitize=leak -o test_output ${SRCS} -L../../libft -lft
 	@echo "${GRN}Testing executable ${GRA}test_output${GRN} created" \
 		"successfully${NNN} :)\n"
 

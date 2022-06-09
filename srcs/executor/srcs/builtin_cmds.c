@@ -12,16 +12,34 @@
 
 #include "../executor.h"
 
+/*
+	Built-In vs Shell Programs
+
+	Built-in commands are executed as a function.But it may fork first if you 
+	use it in a pipeline '|', for example:
+		$ cd / | echo 
+	it forks and calls cd in the child. You can also notice this by how 
+	the directory doesn't actually change.
+*/
+
 /* -------------------------------------------------------------------------- */
 
-static void	print_env_vars_vars(t_env_vars *env_head)
+static void	print_env_vars(t_env_vars *env_head, bool is_env)
 {
 	t_env_vars	*node;
 
 	node = env_head;
 	while (node)
 	{
-		printf("%s=%s\n", node->key, node->value);
+		if (is_env && node->is_env_var)
+			printf("%s=%s\n", node->key, node->value);
+		else if (!is_env && !node->is_env_var)
+		{
+			printf("%s", node->key);
+			if (node->value)
+				printf("=\"%s\"", node->value);
+			write(1, "\n", 1);
+		}
 		node = node->next;
 	}
 }
@@ -33,13 +51,14 @@ int	export_cmd(t_env_vars *env_head, char *key_value)
 	t_env_vars	**tracer;
 	t_env_vars	*node;
 
+	node = NULL;
 	if (key_value == NULL)
-		return (print_env_vars_vars(env_head), 0);
+		return (print_env_vars(env_head, false), 0);
 	tracer = &env_head;
 	while ((*tracer)->next)
 		tracer = &(*tracer)->next;
 	node = (t_env_vars *)ft_calloc(1, sizeof(t_env_vars));
-	if (node == NULL || fill_node_with_key_value_env(key_value, node) != 0)
+	if (!node || init_node(key_value, node) != 0)
 		return (free(node), -1);
 	(*tracer)->next = node;
 	return (0);
@@ -59,10 +78,26 @@ int	export_cmd(t_env_vars *env_head, char *key_value)
 
 // Set CWD in env after changing directory
 
-int	cd_cmd(char *path, t_env_vars *env_head)
-{
-	return (0);
-}
+// int	cd_cmd(char *path)
+// {
+// 	char	*old_wd;
+
+// 	old_wd
+// 	if (getcwd(cwd, sizeof(cwd)) == NULL)
+// 		return (-1);
+// 	printf("%s\n", cwd);
+// 	return (0);
+// }
+
+
+
+// stat("srcs", &stats);
+// if (S_ISREG(stats.st_mode))
+// 	printf("file is a Regular File");
+// else if (S_ISDIR(stats.st_mode))
+// 	printf("file is a Directory");
+// else
+// 	printf("Unknown Filetype");
 
 /*
 	CMD RULES:
@@ -99,7 +134,7 @@ int	echo_cmd(char **input, bool n_flag)
 		return (-1);
 	i = 0;
 	while (input[i])
-		printf("%s", input[i++]);
+		printf("%s ", input[i++]);
 	if (n_flag == false)
 		write(1, "\n", 1);
 	return (0);
@@ -116,10 +151,36 @@ int	echo_cmd(char **input, bool n_flag)
 	interpret -- to mean the end of options.
 */
 
+t_env_vars	*get_env_var(t_env_vars *env_head, char *varname)
+{
+	t_env_vars	*node;
+
+	node = env_head;
+	while (node && ft_strcmp(node->key, varname) != 0)
+		node = node->next;
+	if (ft_strcmp(node->key, varname) != 0)
+		return (NULL);
+	return (node);
+	
+}
+
 /* -------------------------------------------------------------------------- */
 
-int	pwd_cmd(void)
+int	pwd_cmd(t_env_vars *env_head)
 {
+	char 		cwd[PATH_MAX];
+	t_env_vars	*node;
+
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+		return (-1);
+	node = get_env_var(env_head, "PWD");
+	printf("Key: %s\n", node->key);
+	if (node)
+	{
+		free(env_head->value);
+		env_head->value = ft_strdup(cwd);
+	}
+	printf("%s\n", cwd);
 	return (0);
 }
 
@@ -133,10 +194,10 @@ int	pwd_cmd(void)
 
 /* -------------------------------------------------------------------------- */
 
-int	unset_cmd(char *path)
-{
-	return (0);
-}
+// int	unset_cmd(char *path)
+// {
+// 	return (0);
+// }
 
 /*
 	CMD RULES:
@@ -151,29 +212,27 @@ int	unset_cmd(char *path)
 
 /* -------------------------------------------------------------------------- */
 
-int	env_cmd(t_env_vars *head)
+int	env_cmd(t_env_vars *head, char *args)
 {
 	t_env_vars	*node;
 
-	node = head;
-	while (node)
+	if (args == NULL)
 	{
-		if (node->key && node->value)
+		node = head;
+		while (node)
 		{
-			printf("%s=%s", node->key);
-			if (node->value)
-				printf("", node->value);
+			if (node->key && node->value)
+				printf("%s=%s\n", node->key, node->value);
+			node = node->next;
 		}
-		else
-			return
-		node = node->next;
-		write(1, "\n", 1);
 	}
 	return (0);
 }
 
 /*
 	CMD RULES:
+
+	Without any argument : print out a list of all environment variables.
 */
 
 /* -------------------------------------------------------------------------- */

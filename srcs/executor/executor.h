@@ -14,6 +14,7 @@
 # define EXECUTOR_H
 
 /* ------------------------------- LIBRARIES -------------------------------- */
+# include <stdlib.h>
 # include "../../minishell.h"
 
 /* --------------------------------- MACROS --------------------------------- */
@@ -24,11 +25,11 @@
 // ----------- STRUCTs ---------- //
 
 /* --------------------------------- PROTOTYPES ----------------------------- */
-t_env_vars	*convert_env_vars_to_linked_list(char **envp);
+t_env_vars	*conv_env(char **envp);
 void		free_env_linked_list(t_env_vars *head);
 char		**split_env_vars_path_var(void);
-int			fill_node_with_key_value_env(char	*env_var, t_env_vars *node);
+int			init_node(char	*env_var, t_env_vars *node);
 
 int			export_cmd(t_env_vars *env_head, char *key_value);
-
+int			pwd_cmd(t_env_vars *env_head);
 #endif
