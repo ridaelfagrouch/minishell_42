@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:15:52 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/08 13:15:55 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/09 15:36:09 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_syntax3(char c, char check, int *count)
 	if (check_special(SPECIAL_, c) != -1)
 	{
 		if (check != c)
-			return (printf ("minishell: parse error near3 !\n"), 1);
+			return (printf ("minishell: parse error near! 3\n"), 1);
 		if (check == c)
 		{
 			if (check == '|' || check == '&' || check == ';')

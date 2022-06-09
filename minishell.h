@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishel.h                                         :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-fagr <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 21:32:20 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/05/23 21:32:22 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/09 16:46:00 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,18 @@
 
 /* ------------------------------- LIBRARIES -------------------------------- */
 
-# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
+# include <stdbool.h>
+# include <limits.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <fcntl.h>
-# include <sys/wait.h>
 # include <signal.h>
 # include <curses.h>
+# include <stdio.h>
+# include <fcntl.h>
 # include "libft/libft.h"
 
 /* --------------------------------- MACROS --------------------------------- */
