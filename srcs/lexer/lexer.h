@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaimi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 15:49:53 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/06/03 15:49:59 by mnaimi           ###   ########.fr       */
+/*   Updated: 2022/06/11 17:18:20 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 /* ------------------------------- LIBRARIES -------------------------------- */
 # include "../../minishell.h"
+# include <string.h>
 
 /* --------------------------------- MACROS --------------------------------- */
 
@@ -36,5 +37,6 @@ void	d_quotes(t_quote **quotes, char *input, int i, int *check);
 void	s_quotes(t_quote **quotes, char *input, int i, int *check);
 int		quoted(t_quote *quotes, int i);
 void	handle_quotes(t_quote **quotes, char *quote, int i, int *check);
+char	*input_expand(t_info *info);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 08:46:49 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/11 13:46:55 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/11 16:56:28 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	*get_path(char *av)
 	data->path = NULL;
 	data->cmd_split = NULL;
 	if (check_cmd(data, av))
-		return (NULL);	
+		return (NULL);
 	data->path = getenv("PATH");
 	if (data->path == NULL)
 	{

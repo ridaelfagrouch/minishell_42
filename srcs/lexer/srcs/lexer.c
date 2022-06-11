@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 04:31:41 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/09 16:45:54 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/11 17:19:48 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ t_quote	*check_input(t_info *info)
 		else if (!quoted(quotes, 0))
 			in_out(info->input, &i, quotes);
 	}
+	info->input = ft_strdup(input_expand(info));
 	unclosed_quotes(quotes, info);
 	return (quotes);
 }
