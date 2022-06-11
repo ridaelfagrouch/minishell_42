@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 21:32:20 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/09 16:46:00 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/11 13:40:49 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,14 @@ typedef struct s_node
 	struct s_node	*next;
 	int				token;
 	char			*data;
+	char			*path;
 }	t_node;
 
 typedef struct s_cmds
 {
-	int				token;
-	char			*data;
+	int		token;
+	char	*data;
+	char	*path;
 }	t_cmds;
 
 typedef struct s_info
@@ -98,6 +100,18 @@ typedef struct s_quote {
 	int				class;
 	struct s_quote	*next;
 }	t_quote;
+
+typedef struct d_data
+{
+	char		**path_split;
+	char		*path;
+	char		**cmd_split;
+	char		*cmd;
+	char		*final_path;
+	int			i;
+	int			check_access;
+	char		*ptr;
+}	t_data;
 
 /* --------------------------------- PROTOTYPES ----------------------------- */
 int		lexer_start(t_info *info);

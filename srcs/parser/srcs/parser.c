@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 04:31:53 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/09 16:46:23 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/11 13:42:26 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ int	parcer(char *str, t_info *info)
 		return (1);
 	if (check_syntax2(str) || !ft_strcmp(str, "\0"))
 		return (1);
-	store_data(info);
+	if (store_data(info))
+		return (1);
 	return (0);
 }
 

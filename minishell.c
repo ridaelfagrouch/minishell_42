@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mian.c                                             :+:      :+:    :+:   */
+/*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-fagr <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 21:30:02 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/05/23 21:30:04 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/11 14:09:55 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,12 @@ char	*get_env_var_value(const char *var, char **env)
 
 /* -------------------------------------------------------------------------- */
 
-static int	prompt(t_info *info, char **env)
+static int	prompt(t_info *info)
 {
 	char	*rdln_output;
 	//char	*prompt;
 	char	*str;
 
-	env = NULL;
 	while (1)
 	{
 		//prompt = get_dynamic_prompt(env);
@@ -95,8 +94,9 @@ int	main(int ac, char **av, char **env)
 {
 	t_info	info;
 
+	(void)env;
 	if (ft_strcmp(av[0], "./minishell") == 0 && ac == 1)
-		if (prompt(&info, env))
+		if (prompt(&info))
 			return (0);
 	return (0);
 }

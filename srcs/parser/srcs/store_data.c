@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:16:09 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/08 13:16:12 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/11 13:41:35 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,13 @@ int	operator_statements(t_info *info)
 
 /* -------------------------------------------------------------------------- */
 
-void	all_operator(t_info *info, char *str, t_cmds *cmds)
+int	all_operator(t_info *info, char *str, t_cmds *cmds)
 {
-    if (check_operator(info, 1) && info->input[info->i] != ' ')
-		handel_command(info, cmds, str);
+	if (check_operator(info, 1) && info->input[info->i] != ' ')
+	{
+		if (handel_command(info, cmds, str))
+			return (1);
+	}
 	else if (info->input[info->i] == IN)
 		handel_in(info, cmds, str);
 	else if (info->input[info->i] == OUT || \
@@ -50,12 +53,12 @@ void	all_operator(t_info *info, char *str, t_cmds *cmds)
 		handel_out(info, cmds, str);
 	else if (info->input[info->i] == HAREDOC)
 		handel_herdoc(info, cmds, str);
-
+	return (0);
 }
 
 /* -------------------------------------------------------------------------- */
 
-void	store_data(t_info *info)
+int	store_data(t_info *info)
 {
 	char	*str;
 	t_cmds	*cmds;
@@ -71,11 +74,13 @@ void	store_data(t_info *info)
 	{
 		if (operator_statements(info))
 		{
-			all_operator(info, str, cmds);
+			if (all_operator(info, str, cmds))
+				return (1);
 			continue ;
 		}
 		else if (info->input[info->i] == PIPE)
 			handel_pipe(info, cmds);
 		info->i++;
 	}
+	return (0);
 }
