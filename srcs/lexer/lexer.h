@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 15:49:53 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/06/11 17:18:20 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/13 15:14:04 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,16 @@
 
 
 // ----------- STRUCTs ---------- //
+
+typedef struct expand
+{
+	char		*result;
+	int			check;
+	size_t		i;
+	size_t		cnt;
+	size_t		newlen;
+	size_t		oldlen;
+}	t_expand;
 
 
 /* --------------------------------- PROTOTYPES ----------------------------- */

@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:14:56 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/11 18:06:48 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/13 15:17:34 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,40 +30,37 @@ void	free_quotes(t_quote *quotes)
 
 char	*replaceWord(char *s, char *old, char *new)
 {
-	char		*result;
-	size_t		i;
-	size_t		cnt;
-	size_t		newlen;
-	size_t		oldlen;
+	t_expand exp;
 
-	i = 0;
-	cnt = 0;
-	newlen = ft_strlen((const char *)new);
-	oldlen = ft_strlen((const char *)old);
-	while (s[i])
+	exp.i = 0;
+	exp.cnt = 0;
+	exp.newlen = ft_strlen((const char *)new);
+	exp.oldlen = ft_strlen((const char *)old);
+	while (s[exp.i])
 	{
-		if (strstr(&s[i], old) == &s[i])
+		if (strstr(&s[exp.i], old) == &s[exp.i])
 		{
-			cnt++;
-			i += oldlen - 1;
+			exp.cnt++;
+			exp.i += exp.oldlen - 1;
 		}
-		i++;
+		exp.i++;
 	}
-	result = (char *)malloc(i + cnt * (newlen - oldlen) + 1);
-	i = 0;
+	exp.result = (char *)malloc(exp.i + exp.cnt * (exp.newlen - exp.oldlen) + 1);
+	exp.i = 0;
 	while (*s)
 	{
-		if (strstr(s, old) == s)
+		if (strstr(s, old) == s && exp.check == 0)
 		{
-			strcpy(&result[i], new);
-			i += newlen;
-			s += oldlen;
+			strcpy(&exp.result[exp.i], new);
+			exp.i += exp.newlen;
+			s += exp.oldlen;
+			exp.check += 1;
 		}
 		else
-		result[i++] = *s++;
+		exp.result[exp.i++] = *s++;
 	}
-	result[i] = '\0';
-	return (result);
+	exp.result[exp.i] = '\0';
+	return (exp.result);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -84,12 +81,12 @@ char	*input_expand(t_info *info)
 		{
 			info->input[info->i] = '$';
 			while (info->input[info->i] && info->input[info->i] != ' ' \
-				&& info->input[info->i] != '\"')
+				&& info->input[info->i] != DOUBLEQ)
 				str[i++] = info->input[info->i++];
 			ptr = info->input;
 			info->input = ft_strdup(replaceWord(info->input, str, getenv(ft_strtrim(str, "$"))));
 			free(ptr);
-			ft_bzero(str, 50);
+			free(str);
 			input_expand(info);
 		}
 		info->i++;
