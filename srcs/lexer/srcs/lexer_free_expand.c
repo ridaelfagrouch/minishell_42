@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:14:56 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/13 15:17:34 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/13 17:25:57 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,53 +28,60 @@ void	free_quotes(t_quote *quotes)
 
 /* -------------------------------------------------------------------------- */
 
-char	*replaceWord(char *s, char *old, char *new)
+void	expanding(t_expand *expd, char *s, char *old, char *new)
 {
-	t_expand exp;
-
-	exp.i = 0;
-	exp.cnt = 0;
-	exp.newlen = ft_strlen((const char *)new);
-	exp.oldlen = ft_strlen((const char *)old);
-	while (s[exp.i])
-	{
-		if (strstr(&s[exp.i], old) == &s[exp.i])
-		{
-			exp.cnt++;
-			exp.i += exp.oldlen - 1;
-		}
-		exp.i++;
-	}
-	exp.result = (char *)malloc(exp.i + exp.cnt * (exp.newlen - exp.oldlen) + 1);
-	exp.i = 0;
 	while (*s)
 	{
-		if (strstr(s, old) == s && exp.check == 0)
+		if (strstr(s, old) == s && expd->check == 0)
 		{
-			strcpy(&exp.result[exp.i], new);
-			exp.i += exp.newlen;
-			s += exp.oldlen;
-			exp.check += 1;
+			ft_strcpy(&expd->result[expd->i], new);
+			expd->i += expd->newlen;
+			s += expd->oldlen;
+			expd->check += 1;
 		}
 		else
-		exp.result[exp.i++] = *s++;
+		expd->result[expd->i++] = *s++;
 	}
-	exp.result[exp.i] = '\0';
-	return (exp.result);
+	expd->result[expd->i] = '\0';
+}
+
+/* -------------------------------------------------------------------------- */
+
+char	*replaceword(char *s, char *old, char *new)
+{
+	t_expand	expd;
+
+	expd.i = 0;
+	expd.check = 0;
+	expd.cnt = 0;
+	expd.newlen = ft_strlen((const char *)new);
+	expd.oldlen = ft_strlen((const char *)old);
+	while (s[expd.i])
+	{
+		if (strstr(&s[expd.i], old) == &s[expd.i])
+		{
+			expd.cnt++;
+			expd.i += expd.oldlen - 1;
+		}
+		expd.i++;
+	}
+	expd.result = (char *) \
+		malloc(expd.i + expd.cnt * (expd.newlen - expd.oldlen) + 1);
+	expd.i = 0;
+	expanding(&expd, s, old, new);
+	return (expd.result);
 }
 
 /* -------------------------------------------------------------------------- */
 
 char	*input_expand(t_info *info)
 {
-	char	*ptr;
-	char	*str;
-	int		i;	
+	t_expand	expd;
 
 	info->i = 0;
-	i = 0;
-	str = (char *)malloc(50);
-	ft_bzero(str, 50);
+	expd.i = 0;
+	expd.str = (char *)malloc(50);
+	ft_bzero(expd.str, 50);
 	while (info->input[info->i])
 	{
 		if (info->input[info->i] == EXPAND)
@@ -82,11 +89,19 @@ char	*input_expand(t_info *info)
 			info->input[info->i] = '$';
 			while (info->input[info->i] && info->input[info->i] != ' ' \
 				&& info->input[info->i] != DOUBLEQ)
-				str[i++] = info->input[info->i++];
-			ptr = info->input;
-			info->input = ft_strdup(replaceWord(info->input, str, getenv(ft_strtrim(str, "$"))));
-			free(ptr);
-			free(str);
+				expd.str[expd.i++] = info->input[info->i++];
+			expd.ptr = info->input;
+			expd.result = getenv(ft_strtrim(expd.str, "$"));
+			if (expd.result == NULL)
+			{
+				expd.i = 0;
+				ft_bzero(expd.str, 50);
+				continue ;
+			}
+			info->input = \
+				ft_strdup(replaceword(info->input, expd.str, expd.result));
+			free(expd.ptr);
+			free(expd.str);
 			input_expand(info);
 		}
 		info->i++;

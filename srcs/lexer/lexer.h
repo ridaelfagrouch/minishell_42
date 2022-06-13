@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 15:49:53 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/06/13 15:14:04 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/13 15:19:42 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 typedef struct expand
 {
 	char		*result;
+	char		*ptr;
+	char		*str;
 	int			check;
 	size_t		i;
 	size_t		cnt;
