@@ -6,11 +6,57 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 10:47:20 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/14 13:09:21 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/14 16:59:09 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parser.h"
+
+void	removechar(char *str, char chartoremmove)
+{
+	int	i;
+	int	j;
+	int	len;
+
+	i = 0;
+	len = strlen(str);
+	while (i < len)
+	{
+		if (str[i] == chartoremmove)
+		{
+			j = i;
+			while (j < len)
+			{
+				str[j] = str[j + 1];
+				j++;
+			}
+			len--;
+			i--;
+		}
+		i++;
+	}
+}
+
+/* -------------------------------------------------------------------------- */
+
+char	*remove_dq_sq(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+		{
+			removechar(str, str[i]);
+			remove_dq_sq(str);
+		}
+		i++;
+	}
+	return (str);
+}
+
+/* -------------------------------------------------------------------------- */
 
 static char	**ft_creat(char *s, char **result, int row)
 {
@@ -94,7 +140,7 @@ char	**ft_split_cmd(char *str)
 	if (!str)
 		return (NULL);
 	tmp1 = ft_strtrim(str, " ");
-	tmp = ft_space(tmp1);
+	tmp = remove_dq_sq(ft_space(tmp1));
 	count = str_row(tmp);
 	if (*str)
 		count++;
