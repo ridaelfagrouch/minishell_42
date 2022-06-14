@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 08:46:49 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/11 16:56:28 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/14 12:48:25 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ char	*get_path(char *av)
 		return (NULL);
 	}
 	data->path_split = ft_split(data->path, ':');
-	// free(data->path);
 	data->i = 0;
 	return (found_path(data, av));
 }

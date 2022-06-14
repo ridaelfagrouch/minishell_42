@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:15:46 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/14 11:39:38 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/14 12:49:03 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_split(char **str)
 	i = 0;
 	while (str[i])
 	{
-		printf("|%s|\t", str[i]);
+		printf("%s | ", str[i]);
 		i++;
 	}
 	printf("\n");

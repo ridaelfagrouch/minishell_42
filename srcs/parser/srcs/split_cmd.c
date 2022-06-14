@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 10:47:20 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/14 11:48:22 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/14 13:09:21 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char	**ft_split_cmd(char *str)
 	result = NULL;
 	if (!str)
 		return (NULL);
-	tmp1 = ft_strdup(str);
+	tmp1 = ft_strtrim(str, " ");
 	tmp = ft_space(tmp1);
 	count = str_row(tmp);
 	if (*str)

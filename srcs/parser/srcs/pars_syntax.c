@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:15:52 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/14 09:48:06 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/14 13:13:43 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,13 @@ int	check_syntax3(char c, char check, int *count)
 
 /* -------------------------------------------------------------------------- */
 
+void	init_syntax_data(int *dq, int *i, int *cout)
+{
+	*dq = -1;
+	*i = 0;
+	*cout = 0;
+}
+
 int	check_syntax2(char *str)
 {
 	int				i;
@@ -48,9 +55,7 @@ int	check_syntax2(char *str)
 	int				dq;
 
 	quotes = NULL;
-	dq = -1;
-	i = 0;
-	cout = 0;
+	init_syntax_data(&dq, &i, &cout);
 	while (str[i])
 	{
 		if (str[i] == '\"' || str[i] == '\'')
