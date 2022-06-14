@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 13:27:49 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/14 10:20:00 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/14 12:02:48 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,21 @@ void	handel_out(t_info *info, t_cmds *cmds, char *str)
 }
 
 /* -------------------------------------------------------------------------- */
+
+int	check_builtins(char *str)
+{
+	if (ft_strcmp(str, "echo") == 0 || ft_strcmp(str, "cd") == 0 || \
+		ft_strcmp(str, "pwd") == 0 || ft_strcmp(str, "export") == 0 || \
+		ft_strcmp(str, "unset") == 0 || ft_strcmp(str, "env") == 0 || \
+		ft_strcmp(str, "exit") == 0)
+		return (1);
+	if (ft_strcmp(str, "ECHO") == 0 || ft_strcmp(str, "CD") == 0 || \
+		ft_strcmp(str, "PWD") == 0 || ft_strcmp(str, "EXPORT") == 0 || \
+		ft_strcmp(str, "UNSET") == 0 || ft_strcmp(str, "ENV") == 0 || \
+		ft_strcmp(str, "EXIT") == 0)
+		return (1);
+	return (0);
+}
 
 int	handel_command(t_info *info, t_cmds *cmds, char *str)
 {

@@ -6,7 +6,7 @@
 #    By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by ███████╗██║       #+#    #+#              #
-#    Updated: 2022/06/11 09:22:48 by rel-fagr         ###   ########.fr        #
+#    Updated: 2022/06/14 11:23:10 by rel-fagr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ CC			:= gcc
 CC_FLAGS	:= -Wall -Wextra -Werror
 
 SRCS_DIR := srcs/
-SRCS_LST := parser.c handling_oper.c new_node.c pars_syntax.c pars_utils.c store_data.c foundpath.c
+SRCS_LST := parser.c handling_oper.c new_node.c pars_syntax.c pars_utils.c store_data.c foundpath.c\
+			split_cmd.c
 SRCS := ${addprefix ${SRCS_DIR}, ${SRCS_LST}}
 
 OBJS_DIR := objs/

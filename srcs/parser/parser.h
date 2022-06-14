@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 15:50:09 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/06/11 13:40:36 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/14 11:41:15 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,5 @@ void	scape_space(t_info *info);
 void	add_back(t_node **lst, t_node *node);
 t_node	*new_node(t_cmds *cmds);
 char	*get_path(char *av);
+char	**ft_split_cmd(char *str);
 #endif
