@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 21:32:20 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/11 13:40:49 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/14 09:52:08 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ typedef enum e_flags {
 	APPEND,
 	HAREDOC,
 	SEMICOLON,
-	DOUBLEQ,
-	SINGELQ,
 	COMMAND,
 	PIPE,
 }	t_flags;

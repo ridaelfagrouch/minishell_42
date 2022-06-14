@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 13:27:49 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/11 14:28:46 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/14 10:20:00 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,11 @@ void	handel_out(t_info *info, t_cmds *cmds, char *str)
 	while_operator(info, str);
 	if (access(str, W_OK) != 0 && access(str, F_OK) == 0)
 		printf("minishell: %s: Permission denied\n", str);
-	if (str && *str && access(str, F_OK) != 0)
+	if (str && *str)
 	{
 		cmds->data = ft_strdup(str);
+		if (access(str, F_OK) != 0)
+			open(str, O_CREAT | O_RDWR, 00774);
 	}
 	else
 		cmds->data = NULL;
@@ -102,9 +104,6 @@ int	handel_command(t_info *info, t_cmds *cmds, char *str)
 	scape_space(info);
 	while (info->input[info->i] && check_operator(info, 1))
 	{
-		while (info->input[info->i] == DOUBLEQ || \
-			info->input[info->i] == SINGELQ)
-			info->i++;
 		str[j] = info->input[info->i];
 		info->i++;
 		j++;

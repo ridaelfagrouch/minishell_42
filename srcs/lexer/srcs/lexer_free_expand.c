@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:14:56 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/13 17:25:57 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/14 09:43:51 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char	*input_expand(t_info *info)
 		{
 			info->input[info->i] = '$';
 			while (info->input[info->i] && info->input[info->i] != ' ' \
-				&& info->input[info->i] != DOUBLEQ)
+				&& info->input[info->i] != '\"')
 				expd.str[expd.i++] = info->input[info->i++];
 			expd.ptr = info->input;
 			expd.result = getenv(ft_strtrim(expd.str, "$"));

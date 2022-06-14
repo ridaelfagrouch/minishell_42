@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 04:31:41 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/13 17:25:44 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/14 09:53:45 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,24 @@
 
 /* -------------------------------------------------------------------------- */
 
-void	d_quotes(t_quote **quotes, char *input, int i, int *check)
+void	d_quotes(t_quote **quotes, int i, int *check)
 {
 	if (*check == 1)
 		*check = -1;
 	else if (*check == -1)
 		*check = 1;
 	new_quote(quotes, i, *check, 1);
-	input[i] = DOUBLEQ;
 }
 
 /* -------------------------------------------------------------------------- */
 
-void	s_quotes(t_quote **quotes, char *input, int i, int *check)
+void	s_quotes(t_quote **quotes, int i, int *check)
 {
 	if (*check == 0)
 		*check = -1;
 	else if (*check == -1)
 		*check = 0;
 	new_quote(quotes, i, *check, 0);
-	input[i] = SINGELQ;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -41,9 +39,9 @@ void	s_quotes(t_quote **quotes, char *input, int i, int *check)
 void	handle_quotes(t_quote **quotes, char *quote, int i, int *check)
 {
 	if (quote[i] == '\"' && (*check != 0))
-		d_quotes(quotes, quote, i, check);
+		d_quotes(quotes, i, check);
 	else if (quote[i] == '\'' && (*check != 1))
-		s_quotes(quotes, quote, i, check);
+		s_quotes(quotes, i, check);
 }
 
 /* -------------------------------------------------------------------------- */

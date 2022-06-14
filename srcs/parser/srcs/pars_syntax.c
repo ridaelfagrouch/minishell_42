@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:15:52 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/11 16:40:32 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/14 09:48:06 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,6 @@ int	check_syntax3(char c, char check, int *count)
 
 /* -------------------------------------------------------------------------- */
 
-void	handle_quotes1(t_quote **quotes, char *quote, int i, int *check)
-{
-	if (quote[i] == DOUBLEQ && (*check != 0))
-		d_quotes(quotes, quote, i, check);
-	else if (quote[i] == SINGELQ && (*check != 1))
-		s_quotes(quotes, quote, i, check);
-}
-
-/* -------------------------------------------------------------------------- */
-
 int	check_syntax2(char *str)
 {
 	int				i;
@@ -63,8 +53,8 @@ int	check_syntax2(char *str)
 	cout = 0;
 	while (str[i])
 	{
-		if (str[i] == DOUBLEQ || str[i] == SINGELQ)
-			handle_quotes1(&quotes, str, i, &dq);
+		if (str[i] == '\"' || str[i] == '\'')
+			handle_quotes(&quotes, str, i, &dq);
 		if (check_special(SPECIAL_, str[i]) != -1 && !quoted(quotes, 0))
 		{
 			check = str[i++];
