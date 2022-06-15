@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:15:52 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/14 13:13:43 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/15 14:05:58 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int	check_syntax2(char *str)
 			handle_quotes(&quotes, str, i, &dq);
 		if (check_special(SPECIAL_, str[i]) != -1 && !quoted(quotes, 0))
 		{
+			if ((unsigned long)i == (ft_strlen(str) - 1))
+				return (printf ("minishell: parse error near! 6\n"), 1);
 			check = str[i++];
 			if (check_syntax3(str[i], check, &cout))
 				return (1);
