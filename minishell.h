@@ -63,11 +63,11 @@ typedef enum e_error {
 }	t_error;
 
 // ----------- STRUCTs ---------- //
-typedef struct s_env {
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
+typedef struct s_env_vars {
+	char				*key;
+	char				*value;
+	struct s_env_vars	*next;
+}	t_env_vars;
 
 typedef struct s_node
 {
