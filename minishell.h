@@ -14,21 +14,7 @@
 # define MINISHELL_H
 
 /* ------------------------------- LIBRARIES -------------------------------- */
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <sys/stat.h>
-# include <sys/wait.h>
-# include <stdbool.h>
-# include <stdint.h>
-# include <stdlib.h>
-# include <signal.h>
-# include <unistd.h>
-# include <limits.h>
-# include <curses.h>
-# include <stdio.h>
-# include <fcntl.h>
-# include <paths.h>
-# include "libft/libft.h"
+
 
 /* --------------------------------- MACROS --------------------------------- */
 // COLOR CODES //
