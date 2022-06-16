@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_conversion.c                                   :+:      :+:    :+:   */
+/*   exit_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnaimi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,52 +10,28 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../executor.h"
+#include "../../executor.h"
 
 /* -------------------------------------------------------------------------- */
 
-t_env_vars	*get_env_var(char *varname, t_env_vars *env_head)
+int	exit_cmd(char **input, t_env_vars *env_head)
 {
-	t_env_vars	*node;
+	int8_t	exit_status;
 
-	node = env_head;
-	while (node)
-	{
-		if (ft_strcmp(node->key, varname) == 0)
-			return (node);
-		node = node->next;
-	}
-	return (NULL);
+	//exit_status = ft_atoi()
+	// if input false, exit with -1 and display error message
+	// exit(0);
+	return (0);
 }
 
 /* -------------------------------------------------------------------------- */
 
-char	**split_path_env_var(t_env_vars *env_head)
-{
-	t_env_vars	*paths;
-	char		**splited_paths;
+/*
+	CMD RULES:
 
-	paths = get_env_var("PATH", env_head);
-	if (paths->value == NULL)
-		return (NULL);
-	splited_paths = ft_split(paths->value, ':');
-	return (splited_paths);
-}
-
-/* -------------------------------------------------------------------------- */
-
-void	print_filetype(char *input)
-{
-	struct stat	file_stat;
-
-	if (stat(input, &file_stat))
-		return ;
-	if (S_ISREG(file_stat.st_mode))
-		printf("Filetype:\tRegular File\n");
-	else if (S_ISDIR(file_stat.st_mode))
-		printf("Filetype:\tDirectory\n");
-	else
-		printf("Unknown Filetype\n");
-}
+	Exit the shell, returning a status of n to the shell’s parent. If n is
+	omitted, the exit status is that of the last command executed. Any trap
+	on EXIT is executed before the shell terminates.
+*/
 
 /* -------------------------------------------------------------------------- */

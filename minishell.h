@@ -19,13 +19,15 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <stdbool.h>
-# include <limits.h>
+# include <stdint.h>
 # include <stdlib.h>
-# include <unistd.h>
 # include <signal.h>
+# include <unistd.h>
+# include <limits.h>
 # include <curses.h>
 # include <stdio.h>
 # include <fcntl.h>
+# include <paths.h>
 # include "libft/libft.h"
 
 /* --------------------------------- MACROS --------------------------------- */
@@ -67,7 +69,6 @@ typedef enum e_error {
 typedef struct s_env_vars {
 	char				*key;
 	char				*value;
-	bool				is_env_var;
 	struct s_env_vars	*next;
 }	t_env_vars;
 

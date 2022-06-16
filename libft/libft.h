@@ -35,6 +35,7 @@ void	*ft_memset(void *b, int c, size_t len);
 void	*ft_calloc(size_t count, size_t size);
 void	ft_bzero(void *s, size_t n);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
+char	*ft_strstr(const char *haystack, const char *needle);
 char	*ft_strcpy(char *dest, const char *src);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strchr(const char *s, int c);

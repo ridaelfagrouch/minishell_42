@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_conversion.c                                   :+:      :+:    :+:   */
+/*   echo_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnaimi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,52 +10,37 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../executor.h"
+#include "../../executor.h"
 
 /* -------------------------------------------------------------------------- */
 
-t_env_vars	*get_env_var(char *varname, t_env_vars *env_head)
+int	echo_cmd(char **input, t_env_vars *env_head)
 {
-	t_env_vars	*node;
+	bool	n_flag;
+	int		i;
 
-	node = env_head;
-	while (node)
-	{
-		if (ft_strcmp(node->key, varname) == 0)
-			return (node);
-		node = node->next;
-	}
-	return (NULL);
+	n_flag = false;
+	if ( ft_strstr(input[1], "-n"))
+		n_flag = true;
+	i = 0;
+	while (input[i])
+		printf("");
+	if (n_flag == false)
+		write(1, "\n", 1);
+	return (0);
 }
 
 /* -------------------------------------------------------------------------- */
 
-char	**split_path_env_var(t_env_vars *env_head)
-{
-	t_env_vars	*paths;
-	char		**splited_paths;
+/*
+	CMD RULES:
 
-	paths = get_env_var("PATH", env_head);
-	if (paths->value == NULL)
-		return (NULL);
-	splited_paths = ft_split(paths->value, ':');
-	return (splited_paths);
-}
-
-/* -------------------------------------------------------------------------- */
-
-void	print_filetype(char *input)
-{
-	struct stat	file_stat;
-
-	if (stat(input, &file_stat))
-		return ;
-	if (S_ISREG(file_stat.st_mode))
-		printf("Filetype:\tRegular File\n");
-	else if (S_ISDIR(file_stat.st_mode))
-		printf("Filetype:\tDirectory\n");
-	else
-		printf("Unknown Filetype\n");
-}
+	Output the args, separated by spaces, terminated with a newline. The
+	return status is 0 unless a write error occurs. If -n is specified, the
+	trailing newline is suppressed.
+	The xpg_echo shell option may be used to dynamically determine whether or
+	not echo expands these escape characters by default. echo does not
+	interpret -- to mean the end of options.
+*/
 
 /* -------------------------------------------------------------------------- */

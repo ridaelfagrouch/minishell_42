@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_conversion.c                                   :+:      :+:    :+:   */
+/*   pwd_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnaimi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,52 +10,42 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../executor.h"
+#include "../../executor.h"
 
 /* -------------------------------------------------------------------------- */
 
-t_env_vars	*get_env_var(char *varname, t_env_vars *env_head)
+int	pwd_cmd(char **input, t_env_vars *env_head)
 {
 	t_env_vars	*node;
+	char 		cwd[PATH_MAX];
 
-	node = env_head;
-	while (node)
+	input = NULL;
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		if (ft_strcmp(node->key, varname) == 0)
-			return (node);
-		node = node->next;
+		node = get_env_var("PWD", env_head);
+		if (node)
+		{
+			free(node->value);
+			node->value = ft_strdup(cwd);
+		}
+		printf("%s\n", cwd);
+		return (0);
 	}
-	return (NULL);
+	node = get_env_var("PWD", env_head);
+	if (node == NULL)
+		return (-1);
+	printf("%s\n", node->value);
+	return (0);
 }
 
 /* -------------------------------------------------------------------------- */
 
-char	**split_path_env_var(t_env_vars *env_head)
-{
-	t_env_vars	*paths;
-	char		**splited_paths;
+/*
+	CMD RULES:
 
-	paths = get_env_var("PATH", env_head);
-	if (paths->value == NULL)
-		return (NULL);
-	splited_paths = ft_split(paths->value, ':');
-	return (splited_paths);
-}
-
-/* -------------------------------------------------------------------------- */
-
-void	print_filetype(char *input)
-{
-	struct stat	file_stat;
-
-	if (stat(input, &file_stat))
-		return ;
-	if (S_ISREG(file_stat.st_mode))
-		printf("Filetype:\tRegular File\n");
-	else if (S_ISDIR(file_stat.st_mode))
-		printf("Filetype:\tDirectory\n");
-	else
-		printf("Unknown Filetype\n");
-}
+	Print the absolute pathname of the current working directory. The return
+	status is zero unless an error is encountered while determining the name
+	of the current directory or an invalid option is supplied.
+*/
 
 /* -------------------------------------------------------------------------- */

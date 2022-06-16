@@ -26,7 +26,9 @@ CC			:= gcc
 CC_FLAGS	:= -Wall -Wextra -Werror
 
 SRCS_DIR	:= srcs/
-SRCS_LST	:= env_conversion.c builtin_cmds.c
+SRCS_LST	:= env_init_1st.c exec_cmds.c exec_misc.c \
+	cd_cmd.c echo_cmd.c env_cmd.c exit_cmd.c \
+	export_cmd.c pwd_cmd.c unset_cmd.c
 SRCS		:= ${addprefix ${SRCS_DIR}, ${SRCS_LST}}
 
 OBJS_DIR	:= objs/
@@ -60,7 +62,7 @@ $(OBJS_DIR):
 
 test_compile: ${TEST_MAIN} ${HEADER}
 	@make -C ../../libft
-	@${CC} -Wall -Wextra ${MAIN} -fsanitize=leak -o test_output ${SRCS} -L../../libft -lft
+	@${CC} ${CC_FLAGS} ${MAIN} -o test_output ${SRCS} -L../../libft -lft
 	@echo "${GRN}Testing executable ${GRA}test_output${GRN} created" \
 		"successfully${NNN} :)\n"
 
