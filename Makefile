@@ -6,7 +6,7 @@
 #    By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by ███████╗██║       #+#    #+#              #
-#    Updated: 2022/06/11 11:36:12 by rel-fagr         ###   ########.fr        #
+#    Updated: 2022/06/17 00:54:48 by rel-fagr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,11 +52,11 @@ HEADER		:= minishell.h
 LIBFT_ARCH	:= libft/libft.a
 LEXR_ARCH	:= srcs/lexer/liblexer.a
 PARS_ARCH	:= srcs/parser/libparser.a
-EXEC_ARCH	:= srcs/executor/libexecutor.a
+# EXEC_ARCH	:= srcs/executor/libexecutor.a
 ARCHIVES	:= -Llibft -lft \
 			-Lsrcs/lexer -llexer \
 			-Lsrcs/parser -lparser \
-			-Lsrcs/executor -lexecutor
+			# -Lsrcs/executor -lexecutor
 
 # ---------------------------------------------------------------------------- #
 .PHONY: all clean fclean re title

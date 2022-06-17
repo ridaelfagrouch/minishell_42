@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:14:56 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/14 09:43:51 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/17 01:38:07 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,19 @@ char	*replaceword(char *s, char *old, char *new)
 
 /* -------------------------------------------------------------------------- */
 
+int	check_expand(t_info *info)
+{
+	if (info->input[info->i] && info->input[info->i] != ' ' && \
+		info->input[info->i] != '\"' && info->input[info->i] != '\'' \
+		&& info->input[info->i] != PIPE && info->input[info->i] != OUT \
+		&& info->input[info->i] != IN && info->input[info->i] != EXPAND \
+		&& info->input[info->i] != HAREDOC && \
+		info->input[info->i] != APPEND)
+		return (1);
+	else
+		return (0);
+}
+
 char	*input_expand(t_info *info)
 {
 	t_expand	expd;
@@ -87,8 +100,7 @@ char	*input_expand(t_info *info)
 		if (info->input[info->i] == EXPAND)
 		{
 			info->input[info->i] = '$';
-			while (info->input[info->i] && info->input[info->i] != ' ' \
-				&& info->input[info->i] != '\"')
+			while (check_expand(info))
 				expd.str[expd.i++] = info->input[info->i++];
 			expd.ptr = info->input;
 			expd.result = getenv(ft_strtrim(expd.str, "$"));
