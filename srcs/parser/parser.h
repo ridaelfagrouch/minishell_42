@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 15:50:09 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/06/15 13:56:08 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/17 14:35:37 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,14 @@
 // ------------ ENUMs ----------- //
 
 // ----------- STRUCTs ---------- //
+
+typedef struct syntax
+{
+	int		i;
+	int		cout;
+	char	check;
+	int		dq;
+}	t_syntax;
 
 /* --------------------------------- PROTOTYPES ----------------------------- */
 int		check_special(char *str, int c);
@@ -42,4 +50,5 @@ char	*get_path(char *av);
 char	**ft_split_cmd(char *str);
 int		check_builtins(char *str);
 void	out_check_str(char *str, int i, t_cmds *cmds);
+void	removechar(char *str, char chartoremmove);
 #endif

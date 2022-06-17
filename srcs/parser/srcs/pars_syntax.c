@@ -6,11 +6,36 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:15:52 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/15 14:05:58 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/17 14:41:52 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parser.h"
+
+void	removechar(char *str, char chartoremmove)
+{
+	int	i;
+	int	j;
+	int	len;
+
+	i = 0;
+	len = strlen(str);
+	while (i < len)
+	{
+		if (str[i] == chartoremmove)
+		{
+			j = i;
+			while (j < len)
+			{
+				str[j] = str[j + 1];
+				j++;
+			}
+			len--;
+			i--;
+		}
+		i++;
+	}
+}
 
 /* -------------------------------------------------------------------------- */
 
@@ -39,39 +64,36 @@ int	check_syntax3(char c, char check, int *count)
 
 /* -------------------------------------------------------------------------- */
 
-void	init_syntax_data(int *dq, int *i, int *cout)
+void	init_syntax_data(t_syntax *synta)
 {
-	*dq = -1;
-	*i = 0;
-	*cout = 0;
+	synta->dq = -1;
+	synta->i = 0;
+	synta->cout = 0;
 }
 
 int	check_syntax2(char *str)
 {
-	int				i;
-	int				cout;
-	char			check;
-	t_quote			*quotes;
-	int				dq;
+	t_syntax	synta;
+	t_quote		*quotes;
 
 	quotes = NULL;
-	init_syntax_data(&dq, &i, &cout);
-	while (str[i])
+	init_syntax_data(&synta);
+	while (str[synta.i])
 	{
-		if (str[i] == '\"' || str[i] == '\'')
-			handle_quotes(&quotes, str, i, &dq);
-		if (check_special(SPECIAL_, str[i]) != -1 && !quoted(quotes, 0))
+		if (str[synta.i] == '\"' || str[synta.i] == '\'')
+			handle_quotes(&quotes, str, synta.i, &synta.dq);
+		if (check_special(SPECIAL_, str[synta.i]) != -1 && !quoted(quotes, 0))
 		{
-			if ((unsigned long)i == (ft_strlen(str) - 1))
+			if ((unsigned long)synta.i == (ft_strlen(str) - 1))
 				return (printf ("minishell: parse error near! 6\n"), 1);
-			check = str[i++];
-			if (check_syntax3(str[i], check, &cout))
+			synta.check = str[synta.i++];
+			if (check_syntax3(str[synta.i], synta.check, &synta.cout))
 				return (1);
 		}
 		else
 		{
-			cout = 0;
-			i++;
+			synta.cout = 0;
+			synta.i++;
 		}
 	}
 	return (0);

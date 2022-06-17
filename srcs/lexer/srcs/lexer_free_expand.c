@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:14:56 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/17 01:38:07 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/17 13:48:54 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	expanding(t_expand *expd, char *s, char *old, char *new)
 {
 	while (*s)
 	{
-		if (strstr(s, old) == s && expd->check == 0)
+		if (ft_strstr(s, old) == s && expd->check == 0)
 		{
 			ft_strcpy(&expd->result[expd->i], new);
 			expd->i += expd->newlen;
@@ -58,7 +58,7 @@ char	*replaceword(char *s, char *old, char *new)
 	expd.oldlen = ft_strlen((const char *)old);
 	while (s[expd.i])
 	{
-		if (strstr(&s[expd.i], old) == &s[expd.i])
+		if (ft_strstr(&s[expd.i], old) == &s[expd.i])
 		{
 			expd.cnt++;
 			expd.i += expd.oldlen - 1;

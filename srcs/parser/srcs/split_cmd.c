@@ -6,36 +6,11 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 10:47:20 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/14 16:59:09 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/17 13:51:01 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parser.h"
-
-void	removechar(char *str, char chartoremmove)
-{
-	int	i;
-	int	j;
-	int	len;
-
-	i = 0;
-	len = strlen(str);
-	while (i < len)
-	{
-		if (str[i] == chartoremmove)
-		{
-			j = i;
-			while (j < len)
-			{
-				str[j] = str[j + 1];
-				j++;
-			}
-			len--;
-			i--;
-		}
-		i++;
-	}
-}
 
 /* -------------------------------------------------------------------------- */
 
