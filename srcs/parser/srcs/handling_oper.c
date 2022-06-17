@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 13:27:49 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/17 15:46:58 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/17 17:13:47 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	handel_pipe(t_info *info, t_cmds *cmds)
 	cmds->token = PIPE;
 	cmds->data = NULL;
 	cmds->path = NULL;
+	cmds->file_fd = -1;
 	add_back(&info->head, new_node(cmds));
 }
 
@@ -35,7 +36,10 @@ void	handel_in(t_info *info, t_cmds *cmds, char *str)
 		exit(1);
 	}
 	if (access(str, R_OK | F_OK) == 0)
+	{
 		cmds->data = ft_strdup(str);
+		cmds->file_fd = open(cmds->data, O_RDONLY, 00500);
+	}
 	cmds->token = IN;
 	cmds->path = NULL;
 	add_back(&info->head, new_node(cmds));
@@ -55,6 +59,7 @@ void	handel_herdoc(t_info *info, t_cmds *cmds, char *str)
 		cmds->data = NULL;
 	cmds->token = HAREDOC;
 	cmds->path = NULL;
+	cmds->file_fd = -1;
 	add_back(&info->head, new_node(cmds));
 	ft_bzero(str, 50);
 }
@@ -96,6 +101,7 @@ int	handel_command(t_info *info, t_cmds *cmds, char *str)
 		j++;
 	}
 	cmds->token = COMMAND;
+	cmds->file_fd = -1;
 	cmds->data = ft_strdup(str);
 	if (check_builtins(str) == 0)
 	{

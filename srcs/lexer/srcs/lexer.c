@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 04:31:41 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/17 15:45:36 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/17 17:07:24 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	handle_quotes(t_quote **quotes, char *quote, int i, int *check)
 
 // void	reverse_input(t_info *info)
 // {
+// 	while (info->input)
 // 	;
 // }
 

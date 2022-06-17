@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 21:32:20 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/14 11:31:31 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/17 17:07:16 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_node
 	int				token;
 	char			*data;
 	char			*path;
+	int				file_fd;
 	char			**cmd_split;
 }	t_node;
 
@@ -83,6 +84,7 @@ typedef struct s_cmds
 	int		token;
 	char	*data;
 	char	*path;
+	int		file_fd;
 }	t_cmds;
 
 typedef struct s_info
