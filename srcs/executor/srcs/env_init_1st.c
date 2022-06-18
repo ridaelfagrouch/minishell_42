@@ -14,17 +14,17 @@
 
 /* -------------------------------------------------------------------------- */
 
-int	set_default_pwd(t_env_vars **head)
-{
-	char	*env_var;
+// int	set_default_pwd(t_env_vars **head)
+// {
+// 	char	*env_var;
 
-	env_var = get_cwd_env_var();
-	if (env_var == NULL)
-		return (-1);
-	if (init_node(env_var, head) != 0)
-		return (free(env_var), -1);
-	return (free(env_var), 0);
-}
+// 	env_var = get_cwd_env_var();
+// 	if (env_var == NULL)
+// 		return (-1);
+// 	if (init_node(env_var, head) != 0)
+// 		return (free(env_var), -1);
+// 	return (free(env_var), 0);
+// }
 
 /* -------------------------------------------------------------------------- */
 
@@ -35,7 +35,7 @@ int	set_shell_lvl(t_env_vars **head)
 	char		*shlvl_str;
 	char		*shlvl_env;
 
-	node = get_env_var("SHLVL");
+	node = get_env_var("SHLVL", *head);
 	if (node == NULL)
 		return (init_node("SHLVL=1", head));
 	shlvl_int = ft_atoi(node->value);
@@ -67,7 +67,7 @@ int	set_default_env_vars(t_env_vars **head)
 	set_default_pwd(head);
 	set_shell_lvl(head);
 	init_node("OLDPWD", head);
-
+	return (0);
 }
 
 /* -------------------------------------------------------------------------- */

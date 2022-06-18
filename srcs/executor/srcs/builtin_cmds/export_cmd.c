@@ -14,42 +14,6 @@
 
 /* -------------------------------------------------------------------------- */
 
-// void	free_sorted_env(char **sorted_env)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (sorted_env[i++])
-// 		free(sorted_env[i++]);
-// 	free(sorted_env);
-// }
-
-/* -------------------------------------------------------------------------- */
-
-// char	**copy_envp(char **envp)
-// {
-// 	int	count;
-// 	char **output;
-// 	int	i;
-
-// 	count= 0;
-// 	while (envp[count])
-// 		count++;
-// 	output = (char **)ft_calloc(count + 1, sizeof(char *));
-// 	if (output == NULL)
-// 		return (NULL);
-// 	i = 0;
-// 	while (i < count)
-// 	{
-// 		output[i] = ft_strdup(envp[i])
-// 		if (output[i++] == NULL)
-// 			return (free_sorted_env(output), NULL);
-// 	}
-// 	return (output);
-// }
-
-/* -------------------------------------------------------------------------- */
-
 static char	**copy_envp_keys(t_env_vars *env_vars)
 {
 	t_env_vars	*node;
@@ -77,7 +41,7 @@ static char	**copy_envp_keys(t_env_vars *env_vars)
 /* -------------------------------------------------------------------------- */
 
 static char	**get_sorted_env(t_env_vars *env_vars)
-{;lk;
+{
 	char	**cp_env;
 	char	*temp;
 	int		i;
@@ -134,13 +98,6 @@ int	print_sorted_env(t_env_vars *env_head)
 
 /* -------------------------------------------------------------------------- */
 
-// Should be 'input' instead of 'key_value', you should parse the arguments
-// Shell level
-// OLDPWD
-// $
-// !
-// PWD with no path, or no PWD at all (use macro <paths.h>)
-// '+=' with empty value: do nothing
 int	export_cmd(char **input, t_env_vars *env_head)
 {
 	t_env_vars	**tracer;
@@ -153,7 +110,7 @@ int	export_cmd(char **input, t_env_vars *env_head)
 	tracer = &env_head;
 	while ((*tracer)->next)
 		tracer = &(*tracer)->next;
-	i = 0;
+	i = 1;
 	while (input[i])
 	{
 		node = (t_env_vars *)ft_calloc(1, sizeof(t_env_vars));
@@ -163,15 +120,5 @@ int	export_cmd(char **input, t_env_vars *env_head)
 	}
 	return (0);
 }
-
-/*
-	CMD RULES:
-
-	If no keys are supplied, a list of keys of all exported variables is 
-	displayed.
-
-	The return status is zero unless an invalid option is supplied, one of 
-	the keys is not a valid shell variable name.
-*/
 
 /* -------------------------------------------------------------------------- */

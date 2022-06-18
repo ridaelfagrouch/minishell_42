@@ -20,11 +20,11 @@ int	echo_cmd(char **input, t_env_vars *env_head)
 	int		i;
 
 	n_flag = false;
-	if ( ft_strstr(input[1], "-n"))
+	if (ft_strstr(input[1], "-n"))
 		n_flag = true;
 	i = 0;
 	while (input[i])
-		printf("");
+		printf("%s", input[i]);
 	if (n_flag == false)
 		write(1, "\n", 1);
 	return (0);

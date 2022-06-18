@@ -59,3 +59,39 @@ void	print_filetype(char *input)
 }
 
 /* -------------------------------------------------------------------------- */
+
+void	free_sorted_env(char **sorted_env)
+{
+	int	i;
+
+	i = 0;
+	while (sorted_env[i++])
+		free(sorted_env[i++]);
+	free(sorted_env);
+}
+
+/* -------------------------------------------------------------------------- */
+
+char	**copy_envp(char **envp)
+{
+	int	count;
+	char **output;
+	int	i;
+
+	count= 0;
+	while (envp[count])
+		count++;
+	output = (char **)ft_calloc(count + 1, sizeof(char *));
+	if (output == NULL)
+		return (NULL);
+	i = 0;
+	while (i < count)
+	{
+		output[i] = ft_strdup(envp[i]);
+		if (output[i++] == NULL)
+			return (free_sorted_env(output), NULL);
+	}
+	return (output);
+}
+
+/* -------------------------------------------------------------------------- */

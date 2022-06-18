@@ -35,28 +35,23 @@ int	execute_non_builtin(char **input, t_env_vars *head)
 
 int	execute_command(char **input, t_env_vars *env_vars)
 {
-	int		return_value;
-
-	return_value = -1;
 	if (input == NULL || *input)
 		return (-1);
 	else if (ft_strcmp(input[0], "echo"))
-		return_value = echo_cmd(input, env_vars);
+		return (echo_cmd(input, env_vars));
 	else if (ft_strcmp(input[0], "cd"))
-		return_value = cd_cmd(input, env_vars);
+		return (cd_cmd(input, env_vars));
 	else if (ft_strcmp(input[0], "pwd"))
-		return_value = pwd_cmd(input, env_vars);
+		return (pwd_cmd(input, env_vars));
 	else if (ft_strcmp(input[0], "export"))
-		return_value = export_cmd(input, env_vars);
+		return (export_cmd(input, env_vars));
 	else if (ft_strcmp(input[0], "unset"))
-		return_value = unset_cmd(input, env_vars);
+		return (unset_cmd(input, env_vars));
 	else if (ft_strcmp(input[0], "env"))
-		return_value = env_cmd(input, env_vars);
+		return (env_cmd(input, env_vars));
 	else if (ft_strcmp(input[0], "exit"))
-		return_value = exit_cmd(input, env_vars);
-	else
-		return_value = execute_non_builtin(input, env_vars);
-	return (return_value);
+		return(exit_cmd(input, env_vars), 0);
+	return (execute_non_builtin(input, env_vars));
 }
 
 /* -------------------------------------------------------------------------- */

@@ -14,14 +14,32 @@
 
 /* -------------------------------------------------------------------------- */
 
-int	exit_cmd(char **input, t_env_vars *env_head)
+void	exit_error(char *varname, char *message)
+{
+	write(2, varname, ft_strlen(varname));
+	write(2, ":\t", 2);
+	write(2, message, ft_strlen(message));
+	write(2, "\n", 1);
+}
+
+/* -------------------------------------------------------------------------- */
+
+void	exit_cmd(char **input, t_env_vars *env_head)
 {
 	int8_t	exit_status;
+	int		i;
 
-	//exit_status = ft_atoi()
-	// if input false, exit with -1 and display error message
-	// exit(0);
-	return (0);
+	i = 0;
+	while (input[1][i])
+	{
+		if (!ft_isdigit(input[1][i++]))
+		{
+			exit_error(input[1], "numeric argument required");
+			exit(-1);
+		}
+	}
+	exit_status = ft_atoi(input[1]);
+	exit(exit_status);
 }
 
 /* -------------------------------------------------------------------------- */

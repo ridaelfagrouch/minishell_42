@@ -14,6 +14,14 @@
 
 /* -------------------------------------------------------------------------- */
 
+void	print_err(char *error)
+{
+	write(2, error, ft_strlen(error));
+	write(2, "\n", 1);
+}
+
+/* -------------------------------------------------------------------------- */
+
 int	add_key_value(char *input, t_env_vars **head, char *sep)
 {
 	char		*key;
@@ -88,19 +96,6 @@ int	init_node(char *input, t_env_vars **head)
 char	*get_cwd_env_var(void)
 {
 	char 	cwd[PATH_MAX];
-	char	*output;
-
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-		return (print_err("Failed to get PWD"), NULL);
-	return (ft_strjoin("PATH=", cwd));
-}
-
-/* -------------------------------------------------------------------------- */
-
-char	*get_cwd_env_var(void)
-{
-	char 	cwd[PATH_MAX];
-	char	*output;
 
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 		return (print_err("Failed to get PWD"), NULL);

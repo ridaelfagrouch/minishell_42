@@ -25,6 +25,7 @@ static char	*parse_cd_input(char **input, t_env_vars *env_head)
 		node = get_env_var("OLDPWD", env_head);
 		output = ft_strdup(node->value);
 	}
+	else
 		output = ft_strdup(input[1]);
 	return (output);
 }
