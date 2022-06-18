@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 04:31:53 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/11 13:42:26 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/17 14:22:53 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	check_special(char *str, int c)
 
 /* -------------------------------------------------------------------------- */
 
-int	check_beginning(char *str, int i)
+int	check_beginning(char *str, int i, t_quote *quotes, int *dq)
 {
 	if (check_special(SPECIAL_, str[i]) != -1 && i == 0)
 	{
@@ -47,6 +47,16 @@ int	check_beginning(char *str, int i)
 			return (printf ("minishell: parse error near! 2\n"), 1);
 		if (check_special(SPECIAL_, str[i + 1]) != -1 && ft_strlen(str) == 1)
 			return (printf ("minishell: parse error near! 2\n"), 1);
+	}
+	if (str[i] == '\"' || str[i] == '\'')
+		handle_quotes(&quotes, str, i, dq);
+	if (str[i] == '|' && str[i + 1] == ' ' && !quoted(quotes, 0))
+	{
+		i++;
+		while (str[i] && str[i] == ' ')
+			i++;
+		if (str[i] == '|')
+			return (printf ("minishell: parse error near! 1\n"), 1);
 	}
 	return (0);
 }
@@ -62,10 +72,8 @@ int	check_syntax1(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (check_beginning(str, i))
+		if (check_beginning(str, i, quotes, &dq))
 			return (1);
-		if (str[i] == '\"' || str[i] == '\'')
-			handle_quotes(&quotes, str, i, &dq);
 		if (check_special(SPECIAL_, str[i]) != -1 && str[i] != '|' && \
 			str[i + 1] == ' ' && !quoted(quotes, 0))
 		{

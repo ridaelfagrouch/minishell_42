@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 08:46:49 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/14 12:48:25 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/17 15:59:32 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,23 @@ int	check_cmd(t_data *data, char *av)
 
 //************************get_path****************************
 
+void	remove_dqsq(char *av)
+{
+	int		i;
+
+	i = 0;
+	while (av[i])
+	{
+		if (av[i] == '\'' || av[i] == '\"')
+		{
+			removechar(av, av[i]);
+			i = 0;
+			continue ;
+		}
+		i++;
+	}
+}
+
 char	*get_path(char *av)
 {
 	t_data	*data;
@@ -82,6 +99,7 @@ char	*get_path(char *av)
 	data->i = 0;
 	data->path = NULL;
 	data->cmd_split = NULL;
+	remove_dqsq(av);
 	if (check_cmd(data, av))
 		return (NULL);
 	data->path = getenv("PATH");
