@@ -24,20 +24,14 @@
 // ----------- STRUCTs ---------- //
 
 /* --------------------------------- PROTOTYPES ----------------------------- */
-t_env_vars	*get_env_var(char *varname, t_env_vars *env_head);
+// env_init_1st.c
 t_env_vars	*conv_env(char **envp);
-void		free_env_linked_list(t_env_vars *head);
-char		**split_env_vars_path_var(void);
-int			init_node(char *input, t_env_vars **head);
+int			set_shell_lvl(t_env_vars **head);
+int			set_default_pwd(t_env_vars **head);
+int			set_default_pwd(t_env_vars **head);
+int			set_default_env_vars(t_env_vars **head);
 
-int			export_cmd(char **input, t_env_vars *env_head);
-int			cd_cmd(char **input, t_env_vars *env_head);
-int			pwd_cmd(char **input, t_env_vars *env_head);
-int			unset_cmd(char **input, t_env_vars *env_head);
-int			env_cmd(char **input, t_env_vars *env_head);
-int			echo_cmd(char **input, t_env_vars *env_head);
-int			exit_cmd(char **input, t_env_vars *env_head);
+// env_init_2nd.c
 
-int			print_sorted_env(t_env_vars *env_head);
 
 #endif
