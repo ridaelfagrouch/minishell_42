@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 09:02:51 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/18 15:30:50 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/18 16:54:32 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,39 +37,6 @@ int	check_special(char *str, int c)
 
 /* -------------------------------------------------------------------------- */
 
-void	delete_word(t_info *info, char *word)
-{
-	t_reverse	rev;
-
-	rev.i = 0;
-	rev.j = 0;
-	while (rev.i < ft_strlen(info->input))
-	{
-		if (info->input[rev.i] == word[rev.j])
-			rev.j++;
-		else
-			rev.j = 0;
-		if (rev.j == ft_strlen(word))
-		{
-			rev.t = 0;
-			while (rev.t <= ft_strlen(word))
-			{
-				rev.k = 0;
-				while (rev.k < ft_strlen(info->input))
-				{
-					info->input[rev.i - rev.j + rev.k] = \
-						info->input[rev.i - rev.j + rev.k + 1];
-					rev.k++;
-				}
-				rev.t++;
-			}
-		}
-		rev.i++;
-	}
-}
-
-/* -------------------------------------------------------------------------- */
-
 int	not_operator(t_info *info, int i)
 {
 	if (info->input[i] != PIPE && info->input[i] != IN && \
@@ -81,67 +48,14 @@ int	not_operator(t_info *info, int i)
 
 /* -------------------------------------------------------------------------- */
 
-void	remp_bef_aft_pipe(t_info *info, char *bef_pipe, char *aft_pipe, int k)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (info->input[i] && i <= k)
-		bef_pipe[j++] = info->input[i++];
-	j = 0;
-	while (info->input[i])
-		aft_pipe[j++] = info->input[i++];
-}
-
-/* -------------------------------------------------------------------------- */
-
 void	init_rev(t_reverse *rev)
 {
 	rev->i = 0;
 	rev->k = -1;
 	rev->k = 0;
-	ft_bzero(rev->word, 50);
+	ft_bzero(rev->word, 20);
 	ft_bzero(rev->bef_pipe, 50);
 	ft_bzero(rev->aft_pipe, 50);
-}
-
-/* -------------------------------------------------------------------------- */
-
-void	set_rev(t_reverse *rev, t_info *info)
-{
-	rev->j = 0;
-	if (info->input[rev->i] == IN || info->input[rev->i] == OUT)
-		rev->word[rev->j++] = info->input[rev->i++];
-	else if (info->input[rev->i] == APPEND)
-	{
-		rev->word[rev->j++] = info->input[rev->i++];
-		rev->word[rev->j++] = info->input[rev->i++];
-	}
-	while (info->input[rev->i] == ' ')
-		rev->word[rev->j++] = info->input[rev->i++];
-	while (info->input[rev->i] && not_operator(info, rev->i))
-		rev->word[rev->j++] = info->input[rev->i++];
-	delete_word(info, rev->word);
-	rev->word[rev->j] = ' ';
-	rev->ptr = info->input;
-}
-
-/* -------------------------------------------------------------------------- */
-
-void	check_rev(t_reverse *rev, t_info *info)
-{
-	if (rev->k != 0)
-	{
-		remp_bef_aft_pipe(info, rev->bef_pipe, rev->aft_pipe, rev->k);
-		info->input = ft_strjoin(rev->bef_pipe, rev->word);
-		free(rev->ptr);
-		rev->ptr = info->input;
-		info->input = ft_strjoin(info->input, rev->aft_pipe);
-	}
-	else
-		info->input = ft_strjoin(rev->word, info->input);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -150,7 +64,7 @@ void	reverse_input(t_info *info)
 {
 	t_reverse	rev;
 
-	rev.word = (char *)malloc(50);
+	rev.word = (char *)malloc(20);
 	rev.bef_pipe = (char *)malloc(50);
 	rev.aft_pipe = (char *)malloc(50);
 	init_rev(&rev);
@@ -163,16 +77,16 @@ void	reverse_input(t_info *info)
 		{
 			set_rev(&rev, info);
 			check_rev(&rev, info);
-			ft_bzero(rev.word, 50);
+			ft_bzero(rev.word, 20);
 			ft_bzero(rev.bef_pipe, 50);
 			ft_bzero(rev.aft_pipe, 50);
-			free(rev.ptr);
 			continue ;
 		}
 		rev.i++;
 	}
-	printf("|%s|\n", info->input);
 	free(rev.word);
+	free(rev.bef_pipe);
+	free(rev.aft_pipe);
 }
 
 /* -------------------------------------------------------------------------- */

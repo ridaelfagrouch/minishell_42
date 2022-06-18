@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 15:49:53 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/06/18 15:15:10 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/18 17:24:29 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,9 @@ void	handle_quotes(t_quote **quotes, char *quote, int i, int *check);
 char	*input_expand(t_info *info);
 void	reverse_input(t_info *info);
 int		check_special(char *str, int c);
+void	set_rev(t_reverse *rev, t_info *info);
+void	check_rev(t_reverse *rev, t_info *info);
+int		not_operator(t_info *info, int i);
+void	free_expand(t_expand *expd);
 
 #endif

@@ -1,30 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_free_expand.c                                :+:      :+:    :+:   */
+/*   lexer_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:14:56 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/17 13:48:54 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/18 17:32:26 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../lexer.h"
-
-/* -------------------------------------------------------------------------- */
-
-void	free_quotes(t_quote *quotes)
-{
-	t_quote	*next;
-
-	while (quotes)
-	{
-		next = quotes->next;
-		free(quotes);
-		quotes = next;
-	}
-}
 
 /* -------------------------------------------------------------------------- */
 
@@ -87,23 +73,30 @@ int	check_expand(t_info *info)
 		return (0);
 }
 
+void	get_expand_env(t_info *info, t_expand *expd)
+{
+	info->input[info->i] = '$';
+	while (check_expand(info))
+		expd->str[expd->i++] = info->input[info->i++];
+	expd->ptr = info->input;
+	expd->result = getenv(ft_strtrim(expd->str, "$"));
+}
+
+/* -------------------------------------------------------------------------- */
+
 char	*input_expand(t_info *info)
 {
 	t_expand	expd;
 
-	info->i = 0;
+	info->i = -1;
 	expd.i = 0;
 	expd.str = (char *)malloc(50);
 	ft_bzero(expd.str, 50);
-	while (info->input[info->i])
+	while (info->input[++(info->i)])
 	{
 		if (info->input[info->i] == EXPAND)
 		{
-			info->input[info->i] = '$';
-			while (check_expand(info))
-				expd.str[expd.i++] = info->input[info->i++];
-			expd.ptr = info->input;
-			expd.result = getenv(ft_strtrim(expd.str, "$"));
+			get_expand_env(info, &expd);
 			if (expd.result == NULL)
 			{
 				expd.i = 0;
@@ -112,11 +105,11 @@ char	*input_expand(t_info *info)
 			}
 			info->input = \
 				ft_strdup(replaceword(info->input, expd.str, expd.result));
-			free(expd.ptr);
-			free(expd.str);
+			free_expand(&expd);
 			input_expand(info);
 		}
-		info->i++;
 	}
 	return (info->input);
 }
+
+/* -------------------------------------------------------------------------- */
