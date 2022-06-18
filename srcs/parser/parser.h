@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 15:50:09 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/06/17 14:35:37 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/18 09:06:15 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct syntax
 }	t_syntax;
 
 /* --------------------------------- PROTOTYPES ----------------------------- */
-int		check_special(char *str, int c);
 int		check_syntax2(char *str);
 int		check_operator(t_info *info, int flag);
 int		store_data(t_info *info);

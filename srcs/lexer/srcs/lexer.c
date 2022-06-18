@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 04:31:41 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/17 17:07:24 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/18 11:51:08 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,6 @@ void	handle_quotes(t_quote **quotes, char *quote, int i, int *check)
 
 /* -------------------------------------------------------------------------- */
 
-// void	reverse_input(t_info *info)
-// {
-// 	while (info->input)
-// 	;
-// }
-
 t_quote	*check_input(t_info *info)
 {
 	t_quote	*quotes;
@@ -74,6 +68,7 @@ t_quote	*check_input(t_info *info)
 		else if (!quoted(quotes, 0))
 			in_out(info->input, &i, quotes);
 	}
+	reverse_input(info);
 	info->input = ft_strdup(input_expand(info));
 	unclosed_quotes(quotes, info);
 	return (quotes);

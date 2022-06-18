@@ -6,11 +6,13 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 21:30:02 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/11 14:09:55 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/18 09:30:32 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// static int keeprunnig = 1;
 
 /* -------------------------------------------------------------------------- */
 
@@ -53,14 +55,19 @@ char	*get_env_vars_var_value(const char *var, char **env)
 
 // }
 
+// void	inthandler(int k)
+// {
+// 	(void)k;
+// 	keeprunnig = 0;
+// }
+
 /* -------------------------------------------------------------------------- */
 
 static int	prompt(t_info *info)
 {
-	char	*rdln_output;
+	char				*rdln_output;
+	char				*str;
 	//char	*prompt;
-	char	*str;
-
 	while (1)
 	{
 		//prompt = get_dynamic_prompt(env);
@@ -84,6 +91,8 @@ static int	prompt(t_info *info)
 		parcer(str, info);
 		free(info->input);
 		free(str);
+		// signal(SIGINT, inthandler);
+		// while (keeprunnig);
 	}
 	return (0);
 }
@@ -92,12 +101,14 @@ static int	prompt(t_info *info)
 
 int	main(int ac, char **av, char **env)
 {
-	t_info	info;
+	t_info				info;
 
 	(void)env;
 	if (ft_strcmp(av[0], "./minishell") == 0 && ac == 1)
+	{
 		if (prompt(&info))
 			return (0);
+	}
 	return (0);
 }
 

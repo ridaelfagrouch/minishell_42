@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:16:01 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/17 17:08:43 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/18 10:44:45 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,10 @@ void	out_check_str(char *str, int i, t_cmds *cmds)
 	if (str && *str)
 	{
 		cmds->data = ft_strdup(str);
-		if (access(str, F_OK) != 0)
-			cmds->file_fd = open(str, O_CREAT | O_RDWR, 00774);
+		if (access(str, F_OK) != 0 && i != 1)
+			cmds->file_fd = open(str, O_CREAT | O_RDWR | O_TRUNC, 00774);
+		else if (access(str, F_OK) != 0 && i == 1)
+			cmds->file_fd = open(str, O_CREAT | O_RDWR | O_APPEND, 00774);
 	}
 	else
 		cmds->data = NULL;

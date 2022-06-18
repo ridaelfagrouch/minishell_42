@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 15:49:53 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/06/14 09:54:35 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/18 15:15:10 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,21 @@
 
 /* --------------------------------- MACROS --------------------------------- */
 
-
 /* --------------------------------- TYPEDEFs ------------------------------- */
 // ------------ ENUMs ----------- //
 
-
 // ----------- STRUCTs ---------- //
+typedef struct reverse
+{
+	size_t	i;
+	size_t	j;
+	size_t	t;
+	size_t	k;
+	char	*word;
+	char	*ptr;
+	char	*bef_pipe;
+	char	*aft_pipe;
+}	t_reverse;
 
 typedef struct expand
 {
@@ -49,5 +58,7 @@ void	s_quotes(t_quote **quotes, int i, int *check);
 int		quoted(t_quote *quotes, int i);
 void	handle_quotes(t_quote **quotes, char *quote, int i, int *check);
 char	*input_expand(t_info *info);
+void	reverse_input(t_info *info);
+int		check_special(char *str, int c);
 
 #endif
