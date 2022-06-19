@@ -19,14 +19,15 @@ int	echo_cmd(char **input, t_env_vars *env_head)
 	bool	n_flag;
 	int		i;
 
+	(void)env_head;
 	n_flag = false;
 	if (ft_strstr(input[1], "-n"))
 		n_flag = true;
-	i = 0;
+	i = 1;
 	while (input[i])
-		printf("%s", input[i]);
+		printf("%s", input[i++]);
 	if (n_flag == false)
-		write(1, "\n", 1);
+		printf("\n");
 	return (0);
 }
 

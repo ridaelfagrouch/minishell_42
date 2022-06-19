@@ -27,21 +27,17 @@ CC_FLAGS	:= -Wall -Wextra -Werror
 
 SRCS_DIR	:=	srcs/
 SRCS_LST	:=	env_init_1st.c env_init_2nd.c env_init_3rd.c \
-				exec_cmds.c exec_misc.c
+				exec_cmds.c exec_misc.c builtin_cmds/cd_cmd.c \
+				builtin_cmds/echo_cmd.c builtin_cmds/env_cmd.c \
+				builtin_cmds/exit_cmd.c builtin_cmds/export_cmd.c \
+				builtin_cmds/pwd_cmd.c builtin_cmds/unset_cmd.c
 SRCS		:=	${addprefix ${SRCS_DIR}, ${SRCS_LST}}
 
 OBJS_DIR	:=	objs/
 OBJS_LST	:=	${patsubst %.c, %.o, ${SRCS_LST}}
 OBJS		:=	${addprefix ${OBJS_DIR}, ${OBJS_LST}}
 
-S_BUILTINS_DIR	:=	srcs/builtin_cmds/
-S_BULITINS_LST	:=	cd_cmd.c echo_cmd.c env_cmd.c exit_cmd.c \
-					export_cmd.c pwd_cmd.c unset_cmd.c
-S_BUILTINS		:=	${addprefix ${S_BUILTIN_DIR}, ${S_BUILTIN_LST}}
-
-O_BUILTINS_DIR	:=	objs/builtin_cmds/
-O_BUILTINS_LST	:=	${patsubst %.c, %.o, ${S_BUILTINS_LST}}
-O_BUILTINS		:=	${addprefix ${O_BUILTINS_DIR}, ${O_BUILTINS_LST}}
+O_BLTN_DIR	:=	objs/builtin_cmds/
 
 PROJECT :=	executor
 HEADER	:=	executor.h
@@ -57,7 +53,7 @@ all: title ${NAME}
 title:
 	@echo "\n${YEL}\033[4mEntering ${GRA}${PROJECT}${YEL}'s makefile${NNN}\n"
 
-${NAME}: ${OBJS_DIR} ${O_BUILTINS} ${OBJS} ${HEADER}
+${NAME}: ${OBJS_DIR} ${O_BLTN_DIR} ${OBJS} ${HEADER}
 	@ar -rcs ${NAME} ${OBJS}
 	@echo "$(BLU)Archive file $(GRA)$(NAME)$(BLU) created successfully$(NNN)\n"
 
@@ -65,13 +61,11 @@ ${OBJS_DIR}%.o: ${SRCS_DIR}%.c ${HEADER}
 	@${CC} ${CC_FLAGS} -c $< -o $@
 	@echo "${MGN}Object file ${GRA}$@${MGN} created from ${GRA}$<${MGN}${NNN}"
 
-${O_BUILTINS_DIR}%.o: ${S_BUILTINS_DIR}%.c ${HEADER}
-	@${CC} ${CC_FLAGS} -c $< -o $@
-	@echo "${MGN}Object file ${GRA}$@${MGN} created from ${GRA}$<${MGN}${NNN}"
-
 ${OBJS_DIR}:
 	@mkdir ${OBJS_DIR}
-	@mkdir ${O_BUILTINS_DIR}
+
+${O_BLTN_DIR}:
+	@mkdir ${O_BLTN_DIR}
 
 test_compile: ${TEST_MAIN} ${HEADER}
 	@make -C ../../libft
@@ -87,7 +81,7 @@ clean:
 	@rm -rf ${OBJS_DIR}
 	@echo "${GRA}${PROJECT}${RED}\tobject files have been deleted${NNN}"
 
-fclean:
+fclean: clean test_clean
 	@rm -f ${NAME}
 	@echo "${GRA}${PROJECT}${RED}\tarchive file ${GRA}${NAME}${RED}\t"\
 		"has been deleted${NNN}"

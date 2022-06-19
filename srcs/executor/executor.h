@@ -23,6 +23,12 @@
 
 // ----------- STRUCTs ---------- //
 
+typedef struct s_shell_metadata
+{
+	t_env_vars	*env_head;
+	int			last_exit_status;
+}	t_shell_metadata;
+
 /* --------------------------------- PROTOTYPES ----------------------------- */
 // env_init_1st.c
 t_env_vars	*conv_env(char **envp);
@@ -54,7 +60,6 @@ int			pwd_cmd(char **input, t_env_vars *env_head);
 void		exit_cmd(char **input, t_env_vars *env_head);
 
 // exec_cmds.c
-int			execute_non_builtin(char **input, t_env_vars *head);
 int			execute_command(char **input, t_env_vars *env_vars);
 
 // exec_misc.c

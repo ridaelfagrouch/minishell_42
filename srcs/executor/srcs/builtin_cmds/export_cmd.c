@@ -102,10 +102,10 @@ int	export_cmd(char **input, t_env_vars *env_head)
 {
 	t_env_vars	**tracer;
 	t_env_vars	*node;
-	int			*i;
+	int			i;
 
 	node = NULL;
-	if (input == NULL)
+	if (input[1] == NULL)
 		return (print_sorted_env(env_head));
 	tracer = &env_head;
 	while ((*tracer)->next)
@@ -120,5 +120,7 @@ int	export_cmd(char **input, t_env_vars *env_head)
 	}
 	return (0);
 }
+
+// Still needs the "_=........"
 
 /* -------------------------------------------------------------------------- */

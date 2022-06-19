@@ -24,13 +24,37 @@ void	exit_error(char *varname, char *message)
 
 /* -------------------------------------------------------------------------- */
 
-void	exit_cmd(char **input, t_env_vars *env_head)
+u_int8_t	ascii_to_8bit_int(const char *str)
 {
-	int8_t	exit_status;
-	int		i;
+	int8_t		sign;
+	u_int8_t	sum;
+	int			i;
 
 	i = 0;
-	while (input[1][i])
+	sum = 0;
+	sign = 0;
+	while (ft_isspace(str[i]))
+		++i;
+	if (str[i] == '-' || str[i] == '+')
+		sign = str[i] - '+';
+	while (ft_isdigit(str[i]))
+		sum = (sum * 10) + (str[i++] - '0');
+	if (sign)
+		sum *= -1;
+	return (sum);
+}
+
+/* -------------------------------------------------------------------------- */
+
+void	exit_cmd(char **input, t_env_vars *env_head)
+{
+	u_int8_t	exit_status;
+	int			i;
+
+	(void)env_head;
+	i = 0;
+	//exit_status = last_exit_status;
+	while (input[1] && input[1][i])
 	{
 		if (!ft_isdigit(input[1][i++]))
 		{
@@ -38,8 +62,8 @@ void	exit_cmd(char **input, t_env_vars *env_head)
 			exit(-1);
 		}
 	}
-	exit_status = ft_atoi(input[1]);
-	exit(exit_status);
+	exit_status = ascii_to_8bit_int(input[1]);
+	exit((int)exit_status);
 }
 
 /* -------------------------------------------------------------------------- */

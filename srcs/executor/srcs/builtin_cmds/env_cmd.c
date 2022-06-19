@@ -25,17 +25,10 @@ int	env_cmd(char **input, t_env_vars *env_head)
 		if (node->key && node->value)
 			printf("%s=%s\n", node->key, node->value);
 		node = node->next;
-		return (0);
 	}
-	return (-1);
+	return (0);
 }
 
-/* -------------------------------------------------------------------------- */
-
-/*
-	CMD RULES:
-
-	Without any argument : print out a list of all environment variables.
-*/
+// still needs the "_=........"
 
 /* -------------------------------------------------------------------------- */
