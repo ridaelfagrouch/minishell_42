@@ -14,19 +14,22 @@
 # define MINISHELL_H
 
 /* ------------------------------- LIBRARIES -------------------------------- */
-
+// Libraries: Functions
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
-# include <stdbool.h>
-# include <limits.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <signal.h>
-# include <curses.h>
-# include <stdio.h>
 # include <fcntl.h>
+
+// Libraries: Macros and Data-Types
+# include <stdbool.h>
+# include <limits.h>
+
+// Libraries: Custom
 # include "libft/libft.h"
 
 /* --------------------------------- MACROS --------------------------------- */
@@ -115,8 +118,18 @@ typedef struct d_data
 	char		*ptr;
 }	t_data;
 
+typedef struct s_glob_info
+{
+	u_int8_t	exit_status;
+	int			d_stdout;
+	int			d_stdin;
+}	t_glob_info;
+
+t_glob_info	g_glob_info;
+
 /* --------------------------------- PROTOTYPES ----------------------------- */
 int		lexer_start(t_info *info);
 int		parcer(char *str, t_info *info);
+int 	handle_execution(t_info *usr_input);
 
 #endif

@@ -73,7 +73,7 @@ test_compile: ${TEST_MAIN} ${HEADER}
 	@echo "${GRN}Testing executable ${GRA}test_output${GRN} created" \
 		"successfully${NNN} :)\n"
 
-test_clean: test_output
+test_clean:
 	@rm -f test_output
 	@echo "${GRA}test_output${RED}\texecutable have been deleted${NNN}"
 
@@ -81,7 +81,7 @@ clean:
 	@rm -rf ${OBJS_DIR}
 	@echo "${GRA}${PROJECT}${RED}\tobject files have been deleted${NNN}"
 
-fclean: clean test_clean
+fclean: clean
 	@rm -f ${NAME}
 	@echo "${GRA}${PROJECT}${RED}\tarchive file ${GRA}${NAME}${RED}\t"\
 		"has been deleted${NNN}"

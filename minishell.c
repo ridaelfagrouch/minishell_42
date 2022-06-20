@@ -92,12 +92,13 @@ static int	prompt(t_info *info)
 
 int	main(int ac, char **av, char **env)
 {
-	t_info				info;
+	t_info	info;
 
 	(void)env;
 	if (ft_strcmp(av[0], "./minishell") == 0 && ac == 1)
-		if (prompt(&info))
-			return (0);
+		if (prompt(&info) == 1)
+			return (1);
+	handle_execution(&info);
 	return (0);
 }
 

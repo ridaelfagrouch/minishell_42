@@ -2,16 +2,16 @@
 
 int main(int argc, char **argv, char **envp)
 {
-	t_env_vars	*new_envp;
-	char		*cmd1[3] = {"env", NULL, NULL};
-	//char		*cmd2[3] = {"cd", "/Users/mnaimi/Desktop", NULL};
-	//char		*cmd3[3] = {"pwd", "", NULL};
+	int	d_stdout;
+	int	err;
+	int	new_output_fd;
 
-	argc = 0;
-	argv = NULL;
-	new_envp = conv_env(envp);
-	execute_command(cmd1, new_envp);
-	//execute_command(cmd2, new_envp);
-	//execute_command(cmd3, new_envp);
+	new_output_fd = open("file", );
+	d_stdout = dup(STDOUT_FILENO);
+	if (d_stdout < 0)
+		return (-1);
+	err = dup2(new_output_fd, STDOUT_FILENO);
+	if (err < 0)
+		return (-1);
 	return (0);
 }

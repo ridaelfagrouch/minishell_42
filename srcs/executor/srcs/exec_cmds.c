@@ -12,16 +12,6 @@
 
 #include "../executor.h"
 
-/*
-	Built-In vs Shell Programs
-
-	Built-in commands are executed as a function.But it may fork first if you 
-	use it in a pipeline '|', for example:
-		$ cd / | echo 
-	it forks and calls cd in the child. You can also notice this by how 
-	the directory doesn't actually change.
-*/
-
 /* -------------------------------------------------------------------------- */
 
 static char	**init_new_envp(t_env_vars *head, char **new_envp)
@@ -86,7 +76,6 @@ static int	execute_non_builtin(char **input, t_env_vars *head)
 		env_arr = lnkd_lst_env_to_char(head);
 		if (execve(input[0], input, env_arr) != 0)
 			exit(-1);
-		//free(env_arr);
 		exit(0);
 	}
 	waitpid(pid, &status, 0);
@@ -114,7 +103,6 @@ int	execute_command(char **input, t_env_vars *env_vars)
 	else if (ft_strcmp(input[0], "exit") == 0)
 		return(exit_cmd(input, env_vars), 0);
 	return (execute_non_builtin(input, env_vars));
-	//return (0);
 }
 
 /* -------------------------------------------------------------------------- */

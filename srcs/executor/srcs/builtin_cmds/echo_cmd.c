@@ -32,16 +32,3 @@ int	echo_cmd(char **input, t_env_vars *env_head)
 }
 
 /* -------------------------------------------------------------------------- */
-
-/*
-	CMD RULES:
-
-	Output the args, separated by spaces, terminated with a newline. The
-	return status is 0 unless a write error occurs. If -n is specified, the
-	trailing newline is suppressed.
-	The xpg_echo shell option may be used to dynamically determine whether or
-	not echo expands these escape characters by default. echo does not
-	interpret -- to mean the end of options.
-*/
-
-/* -------------------------------------------------------------------------- */

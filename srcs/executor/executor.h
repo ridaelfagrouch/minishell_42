@@ -17,6 +17,14 @@
 # include "../../minishell.h"
 
 /* --------------------------------- MACROS --------------------------------- */
+// ERROR Messages
+# define EXIT_ERR	"numeric argument required"
+# define CHDR_ERR	""
+# define PWDR_ERR	""
+# define XPRT_ERR	""
+# define ENVR_ERR	""
+# define ECHO_ERR	""
+# define UNST_ERR	""
 
 /* --------------------------------- TYPEDEFs ------------------------------- */
 // ------------ ENUMs ----------- //
@@ -64,5 +72,10 @@ int			execute_command(char **input, t_env_vars *env_vars);
 
 // exec_misc.c
 t_env_vars	*get_env_var(char *varname, t_env_vars *env_head);
+
+// redirect_exec.c
+int	reset_stds_fd(void);
+int	redirect_input(int new_input_fd);
+int	redirect_output(int new_output_fd);
 
 #endif

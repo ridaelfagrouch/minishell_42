@@ -60,7 +60,7 @@ void	print_filetype(char *input)
 
 /* -------------------------------------------------------------------------- */
 
-void	free_sorted_env(char **sorted_env)
+void	free_two_dim_arr(char **sorted_env)
 {
 	int	i;
 
@@ -89,7 +89,7 @@ char	**copy_envp(char **envp)
 	{
 		output[i] = ft_strdup(envp[i]);
 		if (output[i++] == NULL)
-			return (free_sorted_env(output), NULL);
+			return (free_two_dim_arr(output), NULL);
 	}
 	return (output);
 }
