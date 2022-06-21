@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:15:14 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/08 13:15:22 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/21 17:06:47 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,15 @@ void	unclosed_quotes(t_quote *quotes, t_info *info)
 
 int	check_dollar(t_info *info, int i, t_quote *quotes)
 {
+	int	j;
+
+	j = i;
+	while (j >= 0 && info->input[j] != PIPE && info->input[j] != IN && \
+		info->input[j] != OUT && info->input[j] != APPEND && \
+		info->input[j] != HAREDOC)
+		j--;
+	if (info->input[j] == HAREDOC)
+		return (0);
 	return (info->input[i] == '$' && info->input[i + 1]
 		&& (ft_isalnum(info->input[i + 1])
 			|| info->input[i + 1] == '?'

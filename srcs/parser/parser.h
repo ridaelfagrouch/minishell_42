@@ -50,4 +50,6 @@ char	**ft_split_cmd(char *str);
 int		check_builtins(char *str);
 void	out_check_str(char *str, int i, t_cmds *cmds);
 void	removechar(char *str, char chartoremmove);
+int		check_builtins(char *str);
+void	free_split(char **ptr);
 #endif
