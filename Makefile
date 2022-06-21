@@ -43,7 +43,7 @@ export TITLE
 
 # ---------------------------------------------------------------------------- #
 CC			:= gcc
-CC_FLAGS	:= -Wall -Wextra -Werror -lreadline
+CC_FLAGS	:= -Wall -Wextra -Werror -lreadline -fsanitize=address -static-libsan
 
 NAME		:= minishell
 MAIN		:= minishell.c
@@ -76,9 +76,9 @@ ${EXEC_ARCH}:
 	@make -C srcs/executor/
 
 ${NAME}: ${LIBFT_ARCH} ${LEXR_ARCH} ${PARS_ARCH} ${EXEC_ARCH} ${HEADER}
-	@${CC} ${CC_FLAGS} ${MAIN} -o ${NAME} ${ARCHIVES}
-	@echo "${GRN}Executable ${GRA}${NAME}${GRN} created" \
-		"successfully${NNN} :)\n"
+	@${CC} ${CC_FLAGS} ${MAIN} -o ${NAME} ${ARCHIVES} -g
+	@echo "${GRN}Executable ${GRA}${NAME}${GRN} created \
+	successfully${NNN} :)""\n"
 
 clean:
 	@make -C libft/ clean
