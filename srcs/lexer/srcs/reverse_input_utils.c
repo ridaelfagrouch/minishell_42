@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:51:41 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/18 16:56:54 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/21 18:05:33 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,17 @@ void	check_rev(t_reverse *rev, t_info *info)
 
 /* -------------------------------------------------------------------------- */
 
+int	condition_valid(t_reverse rev, t_info *info, char *word)
+{
+	if (rev.j == ft_strlen(word) && (info->input[rev.i + 1] == ' ' || \
+		info->input[rev.i + 1] == PIPE || info->input[rev.i + 1] == IN || \
+		info->input[rev.i + 1] == OUT || \
+		info->input[rev.i + 1] == HAREDOC || \
+		info->input[rev.i + 1] == APPEND || info->input[rev.i + 1] == '\0'))
+		return (1);
+	return (0);
+}
+
 void	delete_word(t_info *info, char *word)
 {
 	t_reverse	rev;
@@ -64,7 +75,7 @@ void	delete_word(t_info *info, char *word)
 			rev.j++;
 		else
 			rev.j = 0;
-		if (rev.j == ft_strlen(word))
+		if (condition_valid(rev, info, word))
 		{
 			rev.t = -1;
 			while (++(rev.t) <= ft_strlen(word))
