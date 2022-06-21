@@ -55,8 +55,8 @@ PARS_ARCH	:= srcs/parser/libparser.a
 EXEC_ARCH	:= srcs/executor/libexecutor.a
 ARCHIVES	:= -Llibft -lft \
 			-Lsrcs/lexer -llexer \
-			-Lsrcs/parser -lparser \
-			-Lsrcs/executor -lexecutor
+			-Lsrcs/parser -lparser
+# -Lsrcs/executor -lexecutor
 
 # ---------------------------------------------------------------------------- #
 .PHONY: all clean fclean re title
@@ -75,7 +75,7 @@ ${PARS_ARCH}:
 ${EXEC_ARCH}:
 	@make -C srcs/executor/
 
-${NAME}: ${LIBFT_ARCH} ${LEXR_ARCH} ${PARS_ARCH} ${EXEC_ARCH} ${HEADER}
+${NAME}: ${LIBFT_ARCH} ${LEXR_ARCH} ${PARS_ARCH} ${HEADER}
 	@${CC} ${CC_FLAGS} ${MAIN} -o ${NAME} ${ARCHIVES}
 	@echo "${GRN}Executable ${GRA}${NAME}${GRN} created" \
 		"successfully${NNN} :)\n"

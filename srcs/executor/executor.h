@@ -26,8 +26,19 @@
 # define ECHO_ERR	""
 # define UNST_ERR	""
 
+# define TRUE	1
+# define FALSE	0
+
+# define BUILT_INS	"echo cd pwd export unset env exit"
 /* --------------------------------- TYPEDEFs ------------------------------- */
 // ------------ ENUMs ----------- //
+
+typedef enum e_pipe_stat
+{
+	NO_PIPE,
+	TO_PIPE,
+	FROM_PIPE,
+}	t_pipe_stat;
 
 // ----------- STRUCTs ---------- //
 
@@ -68,7 +79,7 @@ int			pwd_cmd(char **input, t_env_vars *env_head);
 void		exit_cmd(char **input, t_env_vars *env_head);
 
 // exec_cmds.c
-int			execute_command(char **input, t_env_vars *env_vars);
+int			execute_command(char **input, t_env_vars *env_vars, int to_fork);
 
 // exec_misc.c
 t_env_vars	*get_env_var(char *varname, t_env_vars *env_head);

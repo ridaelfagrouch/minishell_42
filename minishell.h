@@ -121,6 +121,7 @@ typedef struct d_data
 typedef struct s_glob_info
 {
 	u_int8_t	exit_status;
+	int			pipe_fd[2];
 	int			d_stdout;
 	int			d_stdin;
 }	t_glob_info;

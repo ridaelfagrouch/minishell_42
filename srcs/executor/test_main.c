@@ -2,16 +2,12 @@
 
 int main(int argc, char **argv, char **envp)
 {
-	int	d_stdout;
-	int	err;
-	int	new_output_fd;
+	char *input[3] = {"/bin/ls", "", NULL};
+	t_env_vars *env_vars;
 
-	new_output_fd = open("file", );
-	d_stdout = dup(STDOUT_FILENO);
-	if (d_stdout < 0)
-		return (-1);
-	err = dup2(new_output_fd, STDOUT_FILENO);
-	if (err < 0)
-		return (-1);
+	(void)argc;
+	(void)argv;
+	env_vars = conv_env(envp);
+	execute_command(input, env_vars);
 	return (0);
 }
