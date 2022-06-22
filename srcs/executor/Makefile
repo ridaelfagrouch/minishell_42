@@ -6,7 +6,7 @@
 #    By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by ███████╗██║       #+#    #+#              #
-#    Updated: 2022/06/22 19:23:19 by rel-fagr         ###   ########.fr        #
+#    Updated: 2022/06/22 20:27:15 by rel-fagr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ SRCS_LST	:=	env_init_1st.c env_init_2nd.c env_init_3rd.c \
 				builtin_cmds/echo_cmd.c builtin_cmds/env_cmd.c \
 				builtin_cmds/exit_cmd.c builtin_cmds/export_cmd.c \
 				builtin_cmds/pwd_cmd.c builtin_cmds/unset_cmd.c \
-				executor.c
+				executor.c redir_and_pipe.c
 SRCS		:=	${addprefix ${SRCS_DIR}, ${SRCS_LST}}
 
 OBJS_DIR	:=	objs/

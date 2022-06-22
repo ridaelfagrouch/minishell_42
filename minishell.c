@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 21:30:02 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/22 19:17:45 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/22 20:40:55 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	prompt(t_info *info, char **envp)
 	//char	*prompt;
 	while (1)
 	{
-		//prompt = get_dynamic_prompt(env);
+
 		rdln_output = readline(GRN"Minishell > "NNN);
 		info->input = ft_strtrim(rdln_output, WHITESPACE);
 		if (info->input == NULL)

@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:15:46 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/22 19:15:16 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/22 20:47:54 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,13 @@ t_node	*new_node(t_cmds *cmds)
 {
 	t_node	*node;
 
-	node = (t_node *)malloc(sizeof(t_node));
+	node = (t_node *)calloc(1, sizeof(t_node));
 	if (!node)
 		exit (1);
 	node->token = cmds->token;
 	node->data = ft_strdup(cmds->data);
 	node->path = ft_strdup(cmds->path);
+	node->next = NULL;
 	node->file_fd = cmds->file_fd;
 	if (node->token == COMMAND)
 		node->cmd_split = ft_split_cmd(cmds->data);
@@ -59,18 +60,18 @@ void	add_back(t_node **lst, t_node *node)
 {
 	t_node	*new;
 
+	new = *lst;
 	if (!node)
 		return ;
 	if (!lst[0])
 	{
 		lst[0] = node;
-		node->next = node;
 		return ;
 	}
-	new = lst[0];
-	while (new->next != lst[0])
+	// new = lst[0];
+	while (new->next != NULL)
 		new = new->next;
-	node->next = NULL;
+	new->next = node;
 }
 
 /* -------------------------------------------------------------------------- */

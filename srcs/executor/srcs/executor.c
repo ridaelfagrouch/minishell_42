@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 17:11:47 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/06/22 19:24:19 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/22 21:59:18 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 /* -------------------------------------------------------------------------- */
 
-int	here_doc_(t_data *delimiter)
+int	here_doc_(char *delimiter)
 {
 	char	*ptr;
 	int		file1;
@@ -65,7 +65,7 @@ int handle_execution(t_info *usr_input, char **envp)
 	env_head = conv_env(envp);
 	in_fd = -1;
 	out_fd = -1;
-	while (node);
+	while (node)
 	{
 		if (node->token == OUT || node->token == APPEND)
 			out_fd = node->file_fd;
@@ -73,7 +73,7 @@ int handle_execution(t_info *usr_input, char **envp)
 			in_fd = node->file_fd;
 		else if (node->token == COMMAND)
 		{
-			if (node->next->token == PIPE)
+			if (node->next && node->next->token == PIPE)
 			{
 				pipe(pipe_fd);
 				pid = fork();
@@ -82,30 +82,58 @@ int handle_execution(t_info *usr_input, char **envp)
 					if (in_fd != -1)
 						redirect_input(in_fd);
 					if (out_fd != -1)
-						redirect_output(out_fd);
-					else if (out_fd == -1)
 					{
-						redirect_output(pipe_fd[1]);
-						close(pipe_fd[0]);
+						redirect_output(out_fd);
+						out_fd = -1;
 					}
-					exit(execute_command(node->cmd_split, env_head));
+					else if (out_fd == -1)
+						redirect_output(pipe_fd[1]);
+					exit(execute_command(node, env_head));
 				}
 				waitpid(pid, &status, 0); // Protect 'waitpid' output
+				close(pipe_fd[1]);
 				exit_status = WEXITSTATUS(status);
 				in_fd = pipe_fd[0];
 			}
 			else
 			{
-				if (in_fd != -1)
-					redirect_input(in_fd);
-				if (out_fd != -1)
-					redirect_output(out_fd);
+				if (ft_strstr(BUILT_INS, node->cmd_split[0])) // To lower strstr
+				{
+					printf("hello\n");
+					if (in_fd != -1)
+						redirect_input(in_fd);
+					if (out_fd != -1)
+					{
+						redirect_output(out_fd);
+						out_fd = -1;
+					}
+					execute_command(node, env_head);
+				}
+				else
+				{
+					pid = fork();
+					if (pid == 0)
+					{
+						if (in_fd != -1)
+							redirect_input(in_fd);
+						if (out_fd != -1)
+						{
+							redirect_output(out_fd);
+							out_fd = -1;
+						}
+						execute_command(node, env_head);
+						close(pipe_fd[0]);
+					}
+					waitpid(pid, &status, 0); // Protect 'waitpid' output
+					exit_status = WEXITSTATUS(status);
+				}
 			}
 		}
 		else if (node->token == HAREDOC)
-			in_fd = here_doc(node->data);
+			in_fd = here_doc_(node->data);
 		node = node->next;
 	}
+	return (0);
 }
 
 /* -------------------------------------------------------------------------- */
