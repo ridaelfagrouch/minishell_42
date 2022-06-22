@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaimi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 17:11:47 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/06/03 17:13:05 by mnaimi           ###   ########.fr       */
+/*   Updated: 2022/06/22 19:22:37 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int			pwd_cmd(char **input, t_env_vars *env_head);
 void		exit_cmd(char **input, t_env_vars *env_head);
 
 // exec_cmds.c
-int			execute_command(char **input, t_env_vars *env_vars, int to_fork);
+int			execute_command(t_node *node, t_env_vars *env_vars);
 
 // exec_misc.c
 t_env_vars	*get_env_var(char *varname, t_env_vars *env_head);
@@ -88,5 +88,7 @@ t_env_vars	*get_env_var(char *varname, t_env_vars *env_head);
 int	reset_stds_fd(void);
 int	redirect_input(int new_input_fd);
 int	redirect_output(int new_output_fd);
+
+void	free_two_dim_arr(char **sorted_env);
 
 #endif

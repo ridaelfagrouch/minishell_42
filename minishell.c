@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 21:30:02 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/18 16:01:19 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/22 19:17:45 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,11 @@ char	*get_env_vars_var_value(const char *var, char **env)
 // 		current_dir += ft_strlen(home);
 	// "user@hostname [hh:mm:ss] [current_dir]"
 	// ">% "
-
-
 // }
-
 
 /* -------------------------------------------------------------------------- */
 
-static int	prompt(t_info *info)
+static int	prompt(t_info *info, char **envp)
 {
 	char				*rdln_output;
 	char				*str;
@@ -84,19 +81,19 @@ static int	prompt(t_info *info)
 		parcer(str, info);
 		free(info->input);
 		free(str);
+		handle_execution(info, envp);
 	}
 	return (0);
 }
 
 /* -------------------------------------------------------------------------- */
 
-int	main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **envp)
 {
 	t_info	info;
 
-	(void)env;
 	if (ft_strcmp(av[0], "./minishell") == 0 && ac == 1)
-		if (prompt(&info) == 1)
+		if (prompt(&info, envp) == 1)
 			return (1);
 	return (0);
 }

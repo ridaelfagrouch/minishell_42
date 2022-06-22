@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cmds.c                                     :+:      :+:    :+:   */
+/*   exec_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaimi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 21:37:46 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/06/03 21:37:48 by mnaimi           ###   ########.fr       */
+/*   Updated: 2022/06/22 19:20:39 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ static char	**lnkd_lst_env_to_char(t_env_vars *head)
 
 /* -------------------------------------------------------------------------- */
 
-static int	execute_non_builtin(char **input, t_env_vars *head)
+static int	execute_non_builtin(char *cmd, char **input, t_env_vars *head)
 {
 	char	**env_arr;
 
 	env_arr = lnkd_lst_env_to_char(head);
-	if (!input || !*input || !env_arr || execve(input[0], input, env_arr) != 0)
+	if (execve(cmd, input, env_arr) != 0)
 		return (-1);
 	return (0);
 }
@@ -90,36 +90,16 @@ int	execute_builtins(char **input, t_env_vars *env_vars)
 		return (env_cmd(input, env_vars));
 	else if (ft_strcmp(input[0], "exit") == 0)
 		return (exit_cmd(input, env_vars), 0);
-	return (-1);
+	return (-1); // Add to lower to strcmp, !exit, !unset, !export
 }
 
 /* -------------------------------------------------------------------------- */
 
-int	execute_command(char **input, t_env_vars *env_vars, int to_fork)
+int	execute_command(t_node *node, t_env_vars *env_vars)
 {
-	pid_t	pid;
-	int		status;
-
-	if (input == NULL || input[0] == NULL)
-		return (-1);
-	if (to_fork == TRUE)
-	{
-		pid = fork();
-		if (pid < 0)
-			return (-1);
-		if (pid != 0)
-		{
-			waitpid(pid, &status, 0);
-			return (WEXITSTATUS(status));
-		}
-	}
-	if (ft_strstr(BUILT_INS, input[0]))
-		status = execute_builtins(input, env_vars);
-	else
-		status = execute_non_builtin(input, env_vars);
-	if (to_fork == TRUE)
-		exit (status);
-	return (status);
+	if (ft_strstr(BUILT_INS, node->cmd_split[0])) // To lower strstr
+		return(execute_builtins(node->cmd_split, env_vars));
+	return(execute_non_builtin(node->path, node->cmd_split, env_vars));
 }
 
 /* -------------------------------------------------------------------------- */

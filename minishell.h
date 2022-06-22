@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 21:32:20 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/22 12:27:23 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/22 19:18:19 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,6 @@ t_glob_info	g_glob_info;
 /* --------------------------------- PROTOTYPES ----------------------------- */
 int		lexer_start(t_info *info);
 int		parcer(char *str, t_info *info);
-int 	handle_execution(t_info *usr_input);
+int		handle_execution(t_info *usr_input, char **envp);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:15:46 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/21 18:13:22 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/22 19:15:16 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ t_node	*new_node(t_cmds *cmds)
 		free(cmds->data);
 	if (cmds->path)
 		free(cmds->path);
-	printf ("token:%d | data: %s | path: %s | file_fd = %d\n", \
-		node->token, node->data, node->path, node->file_fd);
-	if (node->token == COMMAND)
-		print_split(node->cmd_split);
+	// printf ("token:%d | data: %s | path: %s | file_fd = %d\n", \
+	// 	node->token, node->data, node->path, node->file_fd);
+	// if (node->token == COMMAND)
+	// 	print_split(node->cmd_split);
 	return (node);
 }
 
