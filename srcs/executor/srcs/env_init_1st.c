@@ -84,6 +84,7 @@ t_env_vars	*conv_env(char **envp)
 		if (init_node(envp[i++], &head) != 0)
 			return (NULL);
 	}
+	// set_default_env_vars(t_env_vars **head)
 	return (head);
 }
 

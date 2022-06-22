@@ -26,12 +26,12 @@ static char	**init_new_envp(t_env_vars *head, char **new_envp)
 	{
 		new_envp[i] = ft_strjoin(node->key, "=");
 		if (new_envp[i] == NULL)
-			return (NULL);			// should free allocated mem
+			return (free_two_dim_arr(new_envp), NULL);
 		ptr = new_envp[i];
 		new_envp[i] = ft_strjoin(ptr, node->value);
 		free(ptr);
 		if (new_envp[i] == NULL)
-			return (NULL);			// should free allocated mem
+			return (free_two_dim_arr(new_envp), NULL);
 		node = node->next;
 		++i;
 	}
@@ -65,30 +65,18 @@ static char	**lnkd_lst_env_to_char(t_env_vars *head)
 static int	execute_non_builtin(char **input, t_env_vars *head)
 {
 	char	**env_arr;
-	pid_t	pid;
-	int		status;
 
-	pid = fork();
-	if (pid < 0)
+	env_arr = lnkd_lst_env_to_char(head);
+	if (!input || !*input || !env_arr || execve(input[0], input, env_arr) != 0)
 		return (-1);
-	else if (pid == 0)
-	{
-		env_arr = lnkd_lst_env_to_char(head);
-		if (execve(input[0], input, env_arr) != 0)
-			exit(-1);
-		exit(0);
-	}
-	waitpid(pid, &status, 0);
-	return (WEXITSTATUS(status));
+	return (0);
 }
 
 /* -------------------------------------------------------------------------- */
 
-int	execute_command(char **input, t_env_vars *env_vars)
+int	execute_builtins(char **input, t_env_vars *env_vars)
 {
-	if (input == NULL || input[0] == NULL)
-		return (-1);
-	else if (ft_strcmp(input[0], "echo") == 0)
+	if (ft_strcmp(input[0], "echo") == 0)
 		return (echo_cmd(input, env_vars));
 	else if (ft_strcmp(input[0], "cd") == 0)
 		return (cd_cmd(input, env_vars));
@@ -101,10 +89,37 @@ int	execute_command(char **input, t_env_vars *env_vars)
 	else if (ft_strcmp(input[0], "env") == 0)
 		return (env_cmd(input, env_vars));
 	else if (ft_strcmp(input[0], "exit") == 0)
-		return(exit_cmd(input, env_vars), 0);
-	return (execute_non_builtin(input, env_vars));
+		return (exit_cmd(input, env_vars), 0);
+	return (-1);
 }
 
 /* -------------------------------------------------------------------------- */
+
+int	execute_command(char **input, t_env_vars *env_vars, int to_fork)
+{
+	pid_t	pid;
+	int		status;
+
+	if (input == NULL || input[0] == NULL)
+		return (-1);
+	if (to_fork == TRUE)
+	{
+		pid = fork();
+		if (pid < 0)
+			return (-1);
+		if (pid != 0)
+		{
+			waitpid(pid, &status, 0);
+			return (WEXITSTATUS(status));
+		}
+	}
+	if (ft_strstr(BUILT_INS, input[0]))
+		status = execute_builtins(input, env_vars);
+	else
+		status = execute_non_builtin(input, env_vars);
+	if (to_fork == TRUE)
+		exit (status);
+	return (status);
+}
 
 /* -------------------------------------------------------------------------- */

@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:16:09 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/11 13:41:35 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/22 12:28:58 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ int	store_data(t_info *info)
 	if (!str || !cmds)
 		exit(1);
 	ft_bzero(str, 50);
+	cmds->i = 0;
+	cmds->j = 0;
 	while (info->input[info->i])
 	{
 		if (operator_statements(info))
@@ -79,7 +81,11 @@ int	store_data(t_info *info)
 			continue ;
 		}
 		else if (info->input[info->i] == PIPE)
+		{
+			cmds->j = 0;
+			cmds->i = 0;
 			handel_pipe(info, cmds);
+		}
 		info->i++;
 	}
 	return (0);

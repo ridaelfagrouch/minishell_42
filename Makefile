@@ -6,7 +6,7 @@
 #    By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by ███████╗██║       #+#    #+#              #
-#    Updated: 2022/06/17 00:54:48 by rel-fagr         ###   ########.fr        #
+#    Updated: 2022/06/22 13:16:11 by rel-fagr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,11 +52,11 @@ HEADER		:= minishell.h
 LIBFT_ARCH	:= libft/libft.a
 LEXR_ARCH	:= srcs/lexer/liblexer.a
 PARS_ARCH	:= srcs/parser/libparser.a
-EXEC_ARCH	:= srcs/executor/libexecutor.a
+# EXEC_ARCH	:= srcs/executor/libexecutor.a
 ARCHIVES	:= -Llibft -lft \
 			-Lsrcs/lexer -llexer \
-			-Lsrcs/parser -lparser \
-			-Lsrcs/executor -lexecutor
+			-Lsrcs/parser -lparser
+# -Lsrcs/executor -lexecutor
 
 # ---------------------------------------------------------------------------- #
 .PHONY: all clean fclean re title
@@ -72,10 +72,10 @@ ${LEXR_ARCH}:
 ${PARS_ARCH}:
 	@make -C srcs/parser/
 
-${EXEC_ARCH}:
-	@make -C srcs/executor/
+# ${EXEC_ARCH}:
+# 	@make -C srcs/executor/
 
-${NAME}: ${LIBFT_ARCH} ${LEXR_ARCH} ${PARS_ARCH} ${EXEC_ARCH} ${HEADER}
+${NAME}: ${LIBFT_ARCH} ${LEXR_ARCH} ${PARS_ARCH} ${HEADER}
 	@${CC} ${CC_FLAGS} ${MAIN} -o ${NAME} ${ARCHIVES} -g
 	@echo "${GRN}Executable ${GRA}${NAME}${GRN} created \
 	successfully${NNN} :)""\n"
@@ -84,7 +84,7 @@ clean:
 	@make -C libft/ clean
 	@make -C srcs/lexer/ clean
 	@make -C srcs/parser/ clean
-	@make -C srcs/executor clean
+# @make -C srcs/executor clean
 
 fclean: clean
 	@make -C libft/ fclean
@@ -92,7 +92,7 @@ fclean: clean
 	@make -C srcs/parser/ fclean
 	@rm -f ${NAME}
 	@echo "\n${GRA}${NAME}${RED}\texecutable file has been deleted${NNN}"
-	@make -C srcs/executor fclean
+# @make -C srcs/executor fclean
 
 re: fclean all
 

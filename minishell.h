@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 21:32:20 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/17 17:46:46 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/22 12:27:23 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ typedef struct s_cmds
 	int		token;
 	char	*data;
 	char	*path;
+	int		i;
+	int		j;
 	int		file_fd;
 }	t_cmds;
 
@@ -121,6 +123,7 @@ typedef struct d_data
 typedef struct s_glob_info
 {
 	u_int8_t	exit_status;
+	int			pipe_fd[2];
 	int			d_stdout;
 	int			d_stdin;
 }	t_glob_info;

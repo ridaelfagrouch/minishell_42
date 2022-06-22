@@ -16,17 +16,17 @@
 
 int	echo_cmd(char **input, t_env_vars *env_head)
 {
-	bool	n_flag;
+	int	n_flag;
 	int		i;
 
 	(void)env_head;
-	n_flag = false;
+	n_flag = FALSE;
 	if (ft_strstr(input[1], "-n"))
-		n_flag = true;
+		n_flag = TRUE;
 	i = 1;
 	while (input[i])
 		printf("%s", input[i++]);
-	if (n_flag == false)
+	if (n_flag == FALSE)
 		printf("\n");
 	return (0);
 }

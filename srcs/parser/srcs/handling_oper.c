@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 13:27:49 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/21 18:12:44 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/22 12:28:20 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,13 @@ void	handel_in(t_info *info, t_cmds *cmds, char *str)
 	}
 	cmds->token = IN;
 	cmds->path = NULL;
-	add_back(&info->head, new_node(cmds));
+	if (cmds->i == 0)
+	{
+		add_back(&info->head, new_node(cmds));
+		cmds->i = 1;
+	}
+	else
+		free(cmds->data);
 	ft_bzero(str, 50);
 }
 
@@ -82,7 +88,13 @@ void	handel_out(t_info *info, t_cmds *cmds, char *str)
 	while_operator(info, str);
 	out_check_str(str, i, cmds);
 	cmds->path = NULL;
-	add_back(&info->head, new_node(cmds));
+	if (cmds->j == 0)
+	{
+		add_back(&info->head, new_node(cmds));
+		cmds->j = 1;
+	}
+	else
+		free(cmds->data);
 	ft_bzero(str, 50);
 }
 
@@ -96,7 +108,7 @@ char *check_str_cmd(char *str)
 	split = ft_split(str, ' ');
 	cmd = ft_strdup(split[0]);
 	free_split(split);
-	return(cmd);
+	return (cmd);
 }
 
 int	handel_command(t_info *info, t_cmds *cmds, char *str)
