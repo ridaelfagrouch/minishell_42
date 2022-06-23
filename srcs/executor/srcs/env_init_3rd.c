@@ -82,6 +82,8 @@ int	init_node(char *input, t_env_vars **head)
 	if (input == NULL || *input == '\0')
 		return (-1);
 	sep = ft_strchr(input, '=');
+	if (sep == input)
+		return (-1); // Print error
 	if (sep == NULL)
 		return (add_key_only(input, head));
 	else if (sep && *(sep - 1) == '+' && *(sep + 1))

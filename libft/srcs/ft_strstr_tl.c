@@ -1,41 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo_cmd.c                                         :+:      :+:    :+:   */
+/*   ft_strstr_tl.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnaimi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/03 17:11:47 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/06/03 17:13:05 by mnaimi           ###   ########.fr       */
+/*   Created: 2021/07/02 09:22:37 by mnaimi            #+#    #+#             */
+/*   Updated: 2021/07/07 14:39:30 by mnaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../executor.h"
+#include "../libft.h"
 
 /* -------------------------------------------------------------------------- */
 
-int	echo_cmd(char **input, t_env_vars *env_head)
+char	*ft_strstr_tl(const char *haystack, const char *needle)
 {
-	int	n_flag;
-	int		i;
+	int	i;
+	int	j;
 
-	(void)env_head;
-	n_flag = FALSE;
-	i = 1;
-	while (input[i] && ft_strstr(input[i], "-n"))
+	i = 0;
+	j = 0;
+	if (needle[j] == '\0')
+		return (NULL);
+	while (haystack[i])
 	{
-		n_flag = TRUE;
+		j = 0;
+		while (haystack[i + j] == ft_tolower(needle[j]) || needle[j] == '\0')
+			if (needle[j++] == '\0')
+				return ((char *)&haystack[i]);
 		i++;
 	}
-	while (input[i])
-	{
-		printf("%s", input[i++]);
-		if (input[i])
-			printf(" ");
-	}
-	if (n_flag == FALSE)
-		printf("\n");
-	return (0);
+	return (NULL);
 }
 
 /* -------------------------------------------------------------------------- */

@@ -128,7 +128,7 @@ typedef struct s_glob_info
 	int			d_stdin;
 }	t_glob_info;
 
-t_glob_info	g_glob_info;
+t_glob_info	g_glob;
 
 /* --------------------------------- PROTOTYPES ----------------------------- */
 int		lexer_start(t_info *info);

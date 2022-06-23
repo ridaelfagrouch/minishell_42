@@ -97,7 +97,7 @@ int	execute_builtins(char **input, t_env_vars *env_vars)
 
 int	execute_command(t_node *node, t_env_vars *env_vars)
 {
-	if (ft_strstr(BUILT_INS, node->cmd_split[0])) // To lower strstr
+	if (ft_strstr_tl(BUILT_INS, node->cmd_split[0])) // To lower strstr
 		return(execute_builtins(node->cmd_split, env_vars));
 	return(execute_non_builtin(node->path, node->cmd_split, env_vars));
 }

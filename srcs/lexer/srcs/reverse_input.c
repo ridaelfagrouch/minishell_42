@@ -73,7 +73,7 @@ void	reverse_input(t_info *info)
 		if (info->input[rev.i] == PIPE)
 			rev.k = rev.i;
 		if (info->input[rev.i] == IN || info->input[rev.i] == OUT || \
-			info->input[rev.i] == APPEND)
+			info->input[rev.i] == APPEND || info->input[rev.i] == HAREDOC)
 		{
 			set_rev(&rev, info);
 			check_rev(&rev, info);

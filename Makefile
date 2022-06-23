@@ -78,7 +78,7 @@ ${EXEC_ARCH}:
 ${NAME}: ${LIBFT_ARCH} ${LEXR_ARCH} ${PARS_ARCH} ${EXEC_ARCH} ${HEADER}
 	@${CC} ${CC_FLAGS} ${MAIN} -o ${NAME} ${ARCHIVES} -g
 	@echo "${GRN}Executable ${GRA}${NAME}${GRN} created \
-		successfully${NNN} :)""\n"
+		successfully${NNN} :)\n"
 
 clean:
 	@make -C libft/ clean

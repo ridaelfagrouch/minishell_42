@@ -25,7 +25,7 @@ int	here_doc_(char *delimiter)
 	char	*ptr;
 	int		file1;
 
-	file1 = open(".temp", O_CREAT | O_RDWR | O_TRUNC, 00777);
+	file1 = open(".tmp", O_CREAT | O_RDWR | O_TRUNC, 00777);
 	if (file1 < 0)
 	{
 		write(2, "error! opening the temp\n", 24);
@@ -39,9 +39,7 @@ int	here_doc_(char *delimiter)
 			free(ptr);
 			break ;
 		}
-		write(g_glob_info.d_stdout, ptr, ft_strlen(ptr));
 		write(file1, ptr, ft_strlen(ptr));
-		write(g_glob_info.d_stdout, "\n", 1);
 		write(file1, "\n", 1);
 		free(ptr);
 	}
@@ -61,6 +59,7 @@ int handle_execution(t_info *usr_input, char **envp)
 	int				exit_status;
 	int				status;
 	
+	store_stds();
 	node = usr_input->head;
 	env_head = conv_env(envp);
 	in_fd = -1;
@@ -90,16 +89,15 @@ int handle_execution(t_info *usr_input, char **envp)
 						redirect_output(pipe_fd[1]);
 					exit(execute_command(node, env_head));
 				}
-				waitpid(pid, &status, 0); // Protect 'waitpid' output
+				waitpid(pid, &status, 0);
 				close(pipe_fd[1]);
-				exit_status = WEXITSTATUS(status);
+				g_glob.exit_status = WEXITSTATUS(status);
 				in_fd = pipe_fd[0];
 			}
 			else
 			{
-				if (ft_strstr(BUILT_INS, node->cmd_split[0])) // To lower strstr
+				if (ft_strstr_tl(BUILT_INS, node->cmd_split[0]))
 				{
-					printf("hello\n");
 					if (in_fd != -1)
 						redirect_input(in_fd);
 					if (out_fd != -1)
@@ -107,7 +105,8 @@ int handle_execution(t_info *usr_input, char **envp)
 						redirect_output(out_fd);
 						out_fd = -1;
 					}
-					execute_command(node, env_head);
+					g_glob.exit_status = execute_command(node, env_head);
+					dup2(g_glob.d_stdout, STDOUT_FILENO);
 				}
 				else
 				{
@@ -121,11 +120,14 @@ int handle_execution(t_info *usr_input, char **envp)
 							redirect_output(out_fd);
 							out_fd = -1;
 						}
-						execute_command(node, env_head);
-						close(pipe_fd[0]);
+						else
+							dup2(g_glob.d_stdout, STDOUT_FILENO);
+						exit_status = execute_command(node, env_head);
+						// close(pipe_fd[0]);
+						exit(exit_status);
 					}
 					waitpid(pid, &status, 0); // Protect 'waitpid' output
-					exit_status = WEXITSTATUS(status);
+					g_glob.exit_status = WEXITSTATUS(status);
 				}
 			}
 		}
@@ -133,6 +135,7 @@ int handle_execution(t_info *usr_input, char **envp)
 			in_fd = here_doc_(node->data);
 		node = node->next;
 	}
+	reset_stds_fd();
 	return (0);
 }
 

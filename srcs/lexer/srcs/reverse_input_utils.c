@@ -99,7 +99,7 @@ void	set_rev(t_reverse *rev, t_info *info)
 	rev->j = 0;
 	if (info->input[rev->i] == IN || info->input[rev->i] == OUT)
 		rev->word[rev->j++] = info->input[rev->i++];
-	else if (info->input[rev->i] == APPEND)
+	else if (info->input[rev->i] == APPEND || info->input[rev->i] == HAREDOC)
 	{
 		rev->word[rev->j++] = info->input[rev->i++];
 		rev->word[rev->j++] = info->input[rev->i++];

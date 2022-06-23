@@ -88,6 +88,7 @@ t_env_vars	*get_env_var(char *varname, t_env_vars *env_head);
 int	reset_stds_fd(void);
 int	redirect_input(int new_input_fd);
 int	redirect_output(int new_output_fd);
+int	store_stds(void);
 
 void	free_two_dim_arr(char **sorted_env);
 

@@ -62,13 +62,18 @@ int	set_default_pwd(t_env_vars **head)
 
 /* -------------------------------------------------------------------------- */
 
-int	set_default_env_vars(t_env_vars **head)
-{
-	set_default_pwd(head);
-	set_shell_lvl(head);
-	init_node("OLDPWD", head);
-	return (0);
-}
+
+
+/* -------------------------------------------------------------------------- */
+
+// int	set_default_env_vars(t_env_vars **head)
+// {
+// 	if (set_default_pwd(head) \
+// 		|| set_shell_lvl(head) \
+// 		|| init_node("OLDPWD", head) \
+// 		|| set_launch_prog(head, ))
+// 		return (0);
+// }
 
 /* -------------------------------------------------------------------------- */
 
