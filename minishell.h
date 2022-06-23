@@ -57,7 +57,7 @@ typedef enum e_flags {
 	SEMICOLON,
 	COMMAND,
 	PIPE,
-	SPACE,
+	SPACE_,
 }	t_flags;
 
 typedef enum e_error {
