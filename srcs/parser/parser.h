@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 15:50:09 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/06/18 09:06:15 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/23 20:14:30 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,5 @@ void	out_check_str(char *str, int i, t_cmds *cmds);
 void	removechar(char *str, char chartoremmove);
 int		check_builtins(char *str);
 void	free_split(char **ptr);
+char	*remove_dq_sq(char *str);
 #endif

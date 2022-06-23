@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 21:30:02 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/22 20:40:55 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/23 17:56:30 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static int	prompt(t_info *info, char **envp)
 {
 	char				*rdln_output;
 	char				*str;
-	//char	*prompt;
 	while (1)
 	{
 

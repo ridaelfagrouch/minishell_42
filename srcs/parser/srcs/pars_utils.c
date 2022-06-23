@@ -6,48 +6,21 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:16:01 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/21 18:12:51 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/23 20:15:32 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parser.h"
 
-void	if_wille_operator(int *j, t_info *info, char *str)
-{
-	while (info->input[info->i] == '\"' || info->input[info->i] == '\'')
-		info->i++;
-	while (info->input[info->i] != '\"' && info->input[info->i] != '\'')
-	{
-		str[*j] = info->input[info->i];
-		info->i++;
-		*j += 1;
-	}
-	while (info->input[info->i] == '\"' || info->input[info->i] == '\'')
-		info->i++;
-}
-
 void	while_operator(t_info *info, char *str)
 {
 	int	j;
-	int	i;
 
 	j = 0;
-	i = 0;
-	if (info->input[info->i] == '\"' || info->input[info->i] == '\'')
-		if_wille_operator(&j, info, str);
-	else
-	{
-		while (info->input[info->i] && check_operator(info, 1) \
-			&& info->input[info->i] != ' ')
-		{
-			while (info->input[info->i] == '\"' || \
-				info->input[info->i] == '\'')
-				info->i++;
-			str[j] = info->input[info->i];
-			info->i++;
-			j++;
-		}
-	}
+	while (info->input[info->i] && check_operator(info, 1))
+		str[j++] = info->input[info->i++];
+	remove_dq_sq(str);
+	printf("|%s|\n", str);
 }
 
 /* -------------------------------------------------------------------------- */
