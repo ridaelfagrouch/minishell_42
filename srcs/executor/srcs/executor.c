@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 17:11:47 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/06/23 15:48:58 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/23 17:40:03 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 /* -------------------------------------------------------------------------- */
 
-int	here_doc_(char *delimiter)
+void	here_doc_(char *delimiter)
 {
 	char	*ptr;
 	int		file1;
@@ -29,7 +29,7 @@ int	here_doc_(char *delimiter)
 	if (file1 < 0)
 	{
 		write(2, "error! opening the tmp\n", 24);
-		return(-1);
+		return ;
 	}
 	while (1)
 	{
@@ -43,7 +43,7 @@ int	here_doc_(char *delimiter)
 		write(file1, "\n", 1);
 		free(ptr);
 	}
-	return(file1);
+	close(file1);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -96,22 +96,7 @@ int handle_execution(t_info *usr_input, char **envp)
 			}
 			else
 			{
-				// if (ft_strstr_tl(BUILT_INS, node->cmd_split[0]))
-				// {
-				// 	if (in_fd != -1)
-				// 		redirect_input(in_fd);
-				// 	if (out_fd != -1)
-				// 	{
-				// 		redirect_output(out_fd);
-				// 		out_fd = -1;
-				// 	}
-				// 	g_glob.exit_status = execute_command(node, env_head);
-				// 	dup2(g_glob.d_stdout, STDOUT_FILENO);
-				// }
-				// else
-				// {
-				pid = fork();
-				if (pid == 0)
+				if (ft_strstr_tl(BUILT_INS, node->cmd_split[0]))
 				{
 					if (in_fd != -1)
 						redirect_input(in_fd);
@@ -120,17 +105,36 @@ int handle_execution(t_info *usr_input, char **envp)
 						redirect_output(out_fd);
 						out_fd = -1;
 					}
-					else
-						dup2(g_glob.d_stdout, STDOUT_FILENO);
-					exit_status = execute_command(node, env_head);
-					exit(exit_status);
+					g_glob.exit_status = execute_command(node, env_head);
+					dup2(g_glob.d_stdout, STDOUT_FILENO);
 				}
-				waitpid(pid, &status, 0); // Protect 'waitpid' output
-				g_glob.exit_status = WEXITSTATUS(status);
+				else
+				{
+					pid = fork();
+					if (pid == 0)
+					{
+						if (in_fd != -1)
+							redirect_input(in_fd);
+						if (out_fd != -1)
+						{
+							redirect_output(out_fd);
+							out_fd = -1;
+						}
+						else
+							dup2(g_glob.d_stdout, STDOUT_FILENO);
+						exit_status = execute_command(node, env_head);
+						exit(exit_status);
+					}
+					waitpid(pid, &status, 0); // Protect 'waitpid' output
+					g_glob.exit_status = WEXITSTATUS(status);
+				}
 			}
 		}
 		else if (node->token == HAREDOC)
-			in_fd = here_doc_(node->data);
+		{
+			here_doc_(node->data);
+			in_fd = open(".tmp", O_RDWR, 00777);
+		}
 		node = node->next;
 	}
 	reset_stds_fd();
