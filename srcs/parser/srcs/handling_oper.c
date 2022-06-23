@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 13:27:49 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/22 12:28:20 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/23 15:29:47 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,11 +118,7 @@ int	handel_command(t_info *info, t_cmds *cmds, char *str)
 	j = 0;
 	scape_space(info);
 	while (info->input[info->i] && check_operator(info, 1))
-	{
-		str[j] = info->input[info->i];
-		info->i++;
-		j++;
-	}
+		str[j++] = info->input[info->i++];
 	cmds->token = COMMAND;
 	cmds->file_fd = -1;
 	cmds->data = ft_strdup(str);

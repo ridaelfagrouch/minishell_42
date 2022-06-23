@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 17:11:47 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/06/22 21:59:18 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/23 15:48:58 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	here_doc_(char *delimiter)
 	file1 = open(".tmp", O_CREAT | O_RDWR | O_TRUNC, 00777);
 	if (file1 < 0)
 	{
-		write(2, "error! opening the temp\n", 24);
+		write(2, "error! opening the tmp\n", 24);
 		return(-1);
 	}
 	while (1)
@@ -96,7 +96,22 @@ int handle_execution(t_info *usr_input, char **envp)
 			}
 			else
 			{
-				if (ft_strstr_tl(BUILT_INS, node->cmd_split[0]))
+				// if (ft_strstr_tl(BUILT_INS, node->cmd_split[0]))
+				// {
+				// 	if (in_fd != -1)
+				// 		redirect_input(in_fd);
+				// 	if (out_fd != -1)
+				// 	{
+				// 		redirect_output(out_fd);
+				// 		out_fd = -1;
+				// 	}
+				// 	g_glob.exit_status = execute_command(node, env_head);
+				// 	dup2(g_glob.d_stdout, STDOUT_FILENO);
+				// }
+				// else
+				// {
+				pid = fork();
+				if (pid == 0)
 				{
 					if (in_fd != -1)
 						redirect_input(in_fd);
@@ -105,30 +120,13 @@ int handle_execution(t_info *usr_input, char **envp)
 						redirect_output(out_fd);
 						out_fd = -1;
 					}
-					g_glob.exit_status = execute_command(node, env_head);
-					dup2(g_glob.d_stdout, STDOUT_FILENO);
+					else
+						dup2(g_glob.d_stdout, STDOUT_FILENO);
+					exit_status = execute_command(node, env_head);
+					exit(exit_status);
 				}
-				else
-				{
-					pid = fork();
-					if (pid == 0)
-					{
-						if (in_fd != -1)
-							redirect_input(in_fd);
-						if (out_fd != -1)
-						{
-							redirect_output(out_fd);
-							out_fd = -1;
-						}
-						else
-							dup2(g_glob.d_stdout, STDOUT_FILENO);
-						exit_status = execute_command(node, env_head);
-						// close(pipe_fd[0]);
-						exit(exit_status);
-					}
-					waitpid(pid, &status, 0); // Protect 'waitpid' output
-					g_glob.exit_status = WEXITSTATUS(status);
-				}
+				waitpid(pid, &status, 0); // Protect 'waitpid' output
+				g_glob.exit_status = WEXITSTATUS(status);
 			}
 		}
 		else if (node->token == HAREDOC)
