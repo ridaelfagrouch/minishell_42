@@ -6,50 +6,45 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:16:01 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/21 18:12:51 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/24 15:57:37 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parser.h"
 
-void	if_wille_operator(int *j, t_info *info, char *str)
+/* -------------------------------------------------------------------------- */
+
+char	*check_str_cmd(char *str)
 {
-	while (info->input[info->i] == '\"' || info->input[info->i] == '\'')
-		info->i++;
-	while (info->input[info->i] != '\"' && info->input[info->i] != '\'')
-	{
-		str[*j] = info->input[info->i];
-		info->i++;
-		*j += 1;
-	}
-	while (info->input[info->i] == '\"' || info->input[info->i] == '\'')
-		info->i++;
+	char	**split;
+	char	*cmd;
+
+	split = ft_split(str, ' ');
+	cmd = ft_strdup(split[0]);
+	free_split(split);
+	return (cmd);
 }
+
+/* -------------------------------------------------------------------------- */
 
 void	while_operator(t_info *info, char *str)
 {
-	int	j;
-	int	i;
+	t_quote	*quotes;
+	int		check;
+	int		j;
 
 	j = 0;
-	i = 0;
-	if (info->input[info->i] == '\"' || info->input[info->i] == '\'')
-		if_wille_operator(&j, info, str);
-	else
+	quotes = NULL;
+	check = -1;
+	while (info->input[info->i] && check_operator(info, 1))
 	{
-		while (info->input[info->i] && check_operator(info, 1) \
-			&& info->input[info->i] != ' ')
-		{
-			while (info->input[info->i] == '\"' || \
-				info->input[info->i] == '\'')
-				info->i++;
-			str[j] = info->input[info->i];
-			info->i++;
-			j++;
-		}
+		if (info->input[info->i] == '\"' || info->input[info->i] == '\'')
+			handle_quotes(&quotes, info->input, info->i, &check);
+		if (info->input[info->i] == ' ' && !quoted(quotes, 0))
+			break ;
+		str[j++] = info->input[info->i++];
 	}
 	remove_dq_sq(str);
-	printf("|%s|\n", str);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -64,15 +59,18 @@ void	scape_space(t_info *info)
 
 int	check_builtins(char *str)
 {
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		str[i] = ft_tolower(str[i]);
+		i++ ;
+	}
 	if (ft_strcmp(str, "echo") == 0 || ft_strcmp(str, "cd") == 0 || \
 		ft_strcmp(str, "pwd") == 0 || ft_strcmp(str, "export") == 0 || \
 		ft_strcmp(str, "unset") == 0 || ft_strcmp(str, "env") == 0 || \
 		ft_strcmp(str, "exit") == 0)
-		return (1);
-	if (ft_strcmp(str, "ECHO") == 0 || ft_strcmp(str, "CD") == 0 || \
-		ft_strcmp(str, "PWD") == 0 || ft_strcmp(str, "EXPORT") == 0 || \
-		ft_strcmp(str, "UNSET") == 0 || ft_strcmp(str, "ENV") == 0 || \
-		ft_strcmp(str, "EXIT") == 0)
 		return (1);
 	return (0);
 }

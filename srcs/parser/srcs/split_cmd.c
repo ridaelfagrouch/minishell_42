@@ -46,13 +46,13 @@ static char	**ft_creat(char *s, char **result, int row)
 	while (++j < row)
 	{
 		len = 0;
-		while (s[i] && s[i] != SPACE)
+		while (s[i] && s[i] != SPACE_)
 		{
 			len++;
 			i++;
 		}
 		result[j] = ft_substr(s, start, len);
-		while (s[i] == SPACE)
+		while (s[i] == SPACE_)
 			i++;
 		start = i;
 	}
@@ -69,10 +69,10 @@ static int	str_row(char *tmp)
 	count = 0;
 	while (*tmp)
 	{
-		if (*tmp == SPACE)
+		if (*tmp == SPACE_)
 		{
 			count++;
-			while (*tmp == SPACE)
+			while (*tmp == SPACE_)
 				tmp++;
 		}
 		else
@@ -97,7 +97,7 @@ char	*ft_space(char *str)
 		if (str[i] == '\"' || str[i] == '\'')
 			handle_quotes(&quotes, str, i, &check);
 		else if (str[i] == ' ' && !quoted(quotes, 0))
-			str[i] = SPACE;
+			str[i] = SPACE_;
 	}
 	return (str);
 }

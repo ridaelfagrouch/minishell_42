@@ -6,11 +6,13 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:15:46 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/23 15:37:35 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/24 15:58:11 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parser.h"
+
+/* -------------------------------------------------------------------------- */
 
 void	print_split(char **str)
 {
@@ -47,10 +49,6 @@ t_node	*new_node(t_cmds *cmds)
 		free(cmds->data);
 	if (cmds->path)
 		free(cmds->path);
-	// printf ("token:%d | data: %s | path: %s | file_fd = %d\n", \
-	// 	node->token, node->data, node->path, node->file_fd);
-	// if (node->token == COMMAND)
-	// 	print_split(node->cmd_split);
 	return (node);
 }
 
@@ -68,7 +66,6 @@ void	add_back(t_node **lst, t_node *node)
 		lst[0] = node;
 		return ;
 	}
-	// new = lst[0];
 	while (new->next != NULL)
 		new = new->next;
 	new->next = node;

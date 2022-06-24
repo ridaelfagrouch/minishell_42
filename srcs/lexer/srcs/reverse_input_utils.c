@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:51:41 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/21 18:05:33 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/24 15:52:44 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int	condition_valid(t_reverse rev, t_info *info, char *word)
 		return (1);
 	return (0);
 }
+
+/* -------------------------------------------------------------------------- */
 
 void	delete_word(t_info *info, char *word)
 {

@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 09:02:51 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/23 15:36:51 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/24 15:51:31 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	reverse_input(t_info *info)
 {
 	t_reverse	rev;
 
+	info->input = remove_red_in(info->input, 0);
 	rev.word = (char *)malloc(20);
 	rev.bef_pipe = (char *)malloc(50);
 	rev.aft_pipe = (char *)malloc(50);
@@ -83,9 +84,7 @@ void	reverse_input(t_info *info)
 			continue ;
 		}
 	}
-	free(rev.word);
-	free(rev.bef_pipe);
-	free(rev.aft_pipe);
+	free_reverse(&rev);
 }
 
 /* -------------------------------------------------------------------------- */
