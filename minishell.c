@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 21:30:02 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/24 13:48:30 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/24 15:37:22 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,12 @@ static int	prompt(t_info *info, char **envp)
 			continue ;
 		add_history(rdln_output);
 		str = ft_strdup(info->input);
-		if (!lexer_start(info))
+		if (!lexer_start(info) || parcer(str, info))
 		{
 			free(info->input);
 			free(str);
 			continue ;
 		}
-		parcer(str, info);
 		free(info->input);
 		free(str);
 		handle_execution(info, envp);

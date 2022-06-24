@@ -6,7 +6,7 @@
 #    By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by ███████╗██║       #+#    #+#              #
-#    Updated: 2022/06/24 13:53:12 by rel-fagr         ###   ########.fr        #
+#    Updated: 2022/06/24 15:26:06 by rel-fagr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ export TITLE
 
 # ---------------------------------------------------------------------------- #
 CC			:= gcc
-CC_FLAGS	:= -Wall -Wextra -Werror -lreadline
+CC_FLAGS	:= -Wall -Wextra -Werror -lreadline -fsanitize=address -static-libsan
 
 NAME		:= minishell
 MAIN		:= minishell.c
