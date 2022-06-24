@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_and_pipe.c                                   :+:      :+:    :+:   */
+/*   signal_handling.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnaimi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,32 +10,28 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../executor.h"
+#include "../executor.h"
 
-/* -------------------------------------------------------------------------- */
-
-/* -------------------------------------------------------------------------- */
-
-/* -------------------------------------------------------------------------- */
-
-/* -------------------------------------------------------------------------- */
-
-/* -------------------------------------------------------------------------- */
-
-t_node	*get_instruction(t_node *cmds_head)
+static void	handle_sig(int signum, siginfo_t *siginfo, void *sigcontext)
 {
-	static t_node	*head = cmds_head;
-	t_node			*node;
-	t_node			*tracer;
-
-	tracer = head;
-	if (tracer->token == APPEND || tracer->token == IN)
-	{
-		node = tracer;
-		while (tracer && (tracer->token == APPEND || tracer->token == IN))
-			tracer = tracer->next;
-		head = tracer;
-	}
+	(void)sigcontext;
+	(void)siginfo;
+	if (signum == SIGINT)
+		write(STDIN_FILENO, "\n", 1);
 }
 
 /* -------------------------------------------------------------------------- */
+
+void	handle_signals(void)
+{
+	struct sigaction	n_act[2];
+
+	n_act[0].sa_sigaction = handle_sig;
+	n_act[0].sa_flags = SA_SIGINFO | SA_RESTART | SA_RESETHAND;
+	sigaction(SIGINT, &n_act[0], NULL);
+
+	n_act[1].sa_handler = SIG_IGN;
+	n_act[1].sa_flags = 0;
+	sigaction(SIGQUIT, &n_act[1], NULL);
+}
+

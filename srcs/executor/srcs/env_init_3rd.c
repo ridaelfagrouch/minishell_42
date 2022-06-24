@@ -31,11 +31,11 @@ int	add_key_value(char *input, t_env_vars **head, char *sep)
 	key = ft_substr(input, 0, (sep - input) / sizeof(char));
 	if (key == NULL)
 		return (-1);
-	value = ft_strdup(sep + 1);
-	if (get_env_var(key, *head))
-		return (free(key), overwrite_key_value(input, head, sep));
+	value = ft_strdup(sep + sizeof(char));
 	if (value == NULL)
 		return (free(key), -1);
+	else if (get_env_var(key, *head))
+		return (free(key), overwrite_key_value(input, head, sep));
 	node = (t_env_vars *)ft_calloc(1, sizeof(t_env_vars));
 	if (node == NULL)
 		return (free(key), free(value), -1);
@@ -84,7 +84,7 @@ int	init_node(char *input, t_env_vars **head)
 	sep = ft_strchr(input, '=');
 	if (sep == input)
 		return (-1); // Print error
-	if (sep == NULL)
+	else if (sep == NULL)
 		return (add_key_only(input, head));
 	else if (sep && *(sep - 1) == '+' && *(sep + 1))
 		return (append_value(input, head, sep));

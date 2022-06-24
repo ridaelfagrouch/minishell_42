@@ -14,7 +14,7 @@
 
 /* -------------------------------------------------------------------------- */
 
-int	pwd_cmd(char **input, t_env_vars *env_head)
+int	pwd_cmd(char **input, t_env_vars **env_head)
 {
 	t_env_vars	*node;
 	char 		cwd[PATH_MAX];
@@ -22,7 +22,7 @@ int	pwd_cmd(char **input, t_env_vars *env_head)
 	input = NULL;
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		node = get_env_var("PWD", env_head);
+		node = get_env_var("PWD", *env_head);
 		if (node)
 		{
 			free(node->value);
@@ -31,7 +31,7 @@ int	pwd_cmd(char **input, t_env_vars *env_head)
 		printf("%s\n", cwd);
 		return (0);
 	}
-	node = get_env_var("PWD", env_head);
+	node = get_env_var("PWD", *env_head);
 	if (node == NULL)
 		return (-1);
 	printf("%s\n", node->value);

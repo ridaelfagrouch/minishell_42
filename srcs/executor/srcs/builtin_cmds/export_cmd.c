@@ -23,8 +23,11 @@ static char	**copy_envp_keys(t_env_vars *env_vars)
 
 	count = 0;
 	node = env_vars;
-	while (node->next && ++count)
+	while (node)
+	{
 		node = node->next;
+		count++;
+	}
 	output = (char **)ft_calloc(count + 1, sizeof(char *));
 	if (output == NULL)
 		return (NULL);
@@ -91,6 +94,7 @@ int	print_sorted_env(t_env_vars *env_head)
 			printf("%s=\"%s\"\n", env_node->key, env_node->value);
 		else if(env_node->key && !env_node->value)
 			printf("%s\n", env_node->key);
+		//free(sorted_env_keys[i++]);
 	}
 	free(sorted_env_keys);
 	return (0);
@@ -98,25 +102,21 @@ int	print_sorted_env(t_env_vars *env_head)
 
 /* -------------------------------------------------------------------------- */
 
-int	export_cmd(char **input, t_env_vars *env_head)
+int	export_cmd(char **env_var, t_env_vars **env_head)
 {
-	t_env_vars	**tracer;
-	t_env_vars	*node;
-	int			i;
+	int	i;
 
-	node = NULL;
-	if (input[1] == NULL)
-		return (print_sorted_env(env_head));
-	tracer = &env_head;
-	while ((*tracer)->next)
-		tracer = &(*tracer)->next;
+	if (env_var[1] == NULL)
+		return (print_sorted_env(*env_head));
 	i = 1;
-	while (input[i])
+	while (env_var[i])
 	{
-		node = (t_env_vars *)ft_calloc(1, sizeof(t_env_vars));
-		if (!node || init_node(input[i++], &env_head) != 0)
-			return (free(node), -1);
-		(*tracer)->next = node;
+		if (!env_var[i] || !*env_var[i] || \
+			(!ft_isalpha(env_var[i][0]) && env_var[i][0] != '_'))
+			return (print_err("export", env_var[i], "not a valid identifier"), \
+				-1);
+		if (process_env_var(env_head, env_var[i++]))
+			return (-1);
 	}
 	return (0);
 }

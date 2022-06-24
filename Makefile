@@ -12,7 +12,7 @@
 
 
 # --------------------------- Terminal Color Codes --------------------------- #
-NC := \033[0m
+NNN := \033[0m
 RED := \033[31;1;3m
 YEL := \033[33;1;3m
 GRA := \033[37;1;3m
@@ -43,8 +43,7 @@ export TITLE
 
 # ---------------------------------------------------------------------------- #
 CC			:= gcc
-CC_FLAGS	:= -Wall -Wextra -Werror -lreadline -fsanitize=address -static-libsan
-
+CC_FLAGS	:= -Wall -Wextra -Werror -lreadline -static-libsan -fsanitize=address
 NAME		:= minishell
 MAIN		:= minishell.c
 HEADER		:= minishell.h

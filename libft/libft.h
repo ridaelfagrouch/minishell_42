@@ -82,5 +82,6 @@ void	ft_clear_console(void);
 int		ft_isspace(int c);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strstr_tl(const char *haystack, const char *needle);
+int		ft_strcmp_tl(const char *s1, const char *s2);
 
 #endif

@@ -57,18 +57,20 @@ static int	prompt(t_info *info, char **envp)
 {
 	char				*rdln_output;
 	char				*str;
+	t_env_vars			*env_head;
 	//char	*prompt;
+	env_head = conv_env(envp);
 	while (1)
 	{
-
+		handle_signals();
 		rdln_output = readline(GRN"Minishell > "NNN);
-		info->input = ft_strtrim(rdln_output, WHITESPACE);
-		if (info->input == NULL)
+		if (rdln_output== NULL)
 		{
-			write(2, "Failed to read Command.\n\tEXITING ...\n", 37);
-			exit(1);
+			write(STDOUT_FILENO, "\b\bexit\n", 7);
+			exit(g_glob.exit);
 		}
-		else if (*(info->input) == '\0')
+		info->input = ft_strtrim(rdln_output, WHITESPACE);
+		if (*(info->input) == '\0')
 			continue ;
 		add_history(rdln_output);
 		str = ft_strdup(info->input);
@@ -81,7 +83,7 @@ static int	prompt(t_info *info, char **envp)
 		parcer(str, info);
 		free(info->input);
 		free(str);
-		handle_execution(info, envp);
+		handle_execution(info, &env_head);
 	}
 	return (0);
 }

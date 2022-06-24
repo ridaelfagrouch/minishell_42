@@ -34,6 +34,8 @@ void	here_doc_(char *delimiter)
 	while (1)
 	{
 		ptr = readline(">> ");	// Further testing needed
+		if (ptr == NULL)
+			break ;
 		if (ft_strcmp(ptr, delimiter) == 0)
 		{
 			free(ptr);
@@ -48,10 +50,9 @@ void	here_doc_(char *delimiter)
 
 /* -------------------------------------------------------------------------- */
 
-int handle_execution(t_info *usr_input, char **envp)
+int handle_execution(t_info *usr_input, t_env_vars **env_head)
 {
 	int				pipe_fd[2];
-	t_env_vars		*env_head;
 	t_node			*node;
 	int				in_fd;
 	int				out_fd;
@@ -61,7 +62,6 @@ int handle_execution(t_info *usr_input, char **envp)
 	
 	store_stds();
 	node = usr_input->head;
-	env_head = conv_env(envp);
 	in_fd = -1;
 	out_fd = -1;
 	while (node)
@@ -91,7 +91,7 @@ int handle_execution(t_info *usr_input, char **envp)
 				}
 				waitpid(pid, &status, 0);
 				close(pipe_fd[1]);
-				g_glob.exit_status = WEXITSTATUS(status);
+				g_glob.exit = WEXITSTATUS(status);
 				in_fd = pipe_fd[0];
 			}
 			else
@@ -105,7 +105,7 @@ int handle_execution(t_info *usr_input, char **envp)
 						redirect_output(out_fd);
 						out_fd = -1;
 					}
-					g_glob.exit_status = execute_command(node, env_head);
+					g_glob.exit = execute_command(node, env_head);
 					dup2(g_glob.d_stdout, STDOUT_FILENO);
 				}
 				else
@@ -126,7 +126,7 @@ int handle_execution(t_info *usr_input, char **envp)
 						exit(exit_status);
 					}
 					waitpid(pid, &status, 0); // Protect 'waitpid' output
-					g_glob.exit_status = WEXITSTATUS(status);
+					g_glob.exit = WEXITSTATUS(status);
 				}
 			}
 		}

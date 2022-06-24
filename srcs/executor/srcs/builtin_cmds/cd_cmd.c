@@ -20,7 +20,12 @@ static char	*parse_cd_input(char **input, t_env_vars *env_head)
 	t_env_vars	*node;
 
 	output = NULL;
-	if (ft_strlen(input[1]) == 1 && ft_strcmp(input[0], "-") == 0)
+	if (input[1] == NULL)
+	{
+		node = get_env_var("HOME", env_head);
+		output = ft_strdup(node->value);
+	}	
+	else if (ft_strcmp(input[1], "-") == 0)
 	{
 		node = get_env_var("OLDPWD", env_head);
 		output = ft_strdup(node->value);
@@ -32,7 +37,7 @@ static char	*parse_cd_input(char **input, t_env_vars *env_head)
 
 /* -------------------------------------------------------------------------- */
 
-static int	update_old_pwd(t_env_vars *env_head)
+static int	update_old_pwd(t_env_vars **env_head)
 {
 	char 		cwd[PATH_MAX];
 	char		*old_wd;
@@ -41,12 +46,12 @@ static int	update_old_pwd(t_env_vars *env_head)
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 		return (-1);
 	old_wd = ft_strdup(cwd);
-	env_node = get_env_var("OLDPWD", env_head);
+	env_node = get_env_var("OLDPWD", *env_head);
 	if (env_node == NULL)
 	{
-		if (init_node("OLDPWD", &env_head))
+		if (process_env_var(env_head, "OLDPWD"))
 			return (free(old_wd), -1);
-		env_node = get_env_var("OLDPWD", env_head);
+		env_node = get_env_var("OLDPWD", *env_head);
 	}
 	free(env_node->value);
 	env_node->value = old_wd;
@@ -65,23 +70,25 @@ static int	update_pwd(t_env_vars *env_head)
 	node = get_env_var("PWD", env_head);
 	if (node)
 	{
-		free(env_head->value);
-		env_head->value = ft_strdup(cwd);
+		free(node->value);
+		node->value = ft_strdup(cwd);
 	}
 	return (0);
 }
 
 /* -------------------------------------------------------------------------- */
 
-int	cd_cmd(char **input, t_env_vars *env_head)
+int	cd_cmd(char **input, t_env_vars **env_head)
 {
 	char	*path;
 	
-	path = parse_cd_input(input, env_head);
+	path = parse_cd_input(input, *env_head);
+	if (path == NULL)
+		return (-1);	// Print error
 	if (chdir(path) != 0)
-		return (-1);
+		return (print_err("cd", "no such file or directory", path), -1);
 	free(path);
-	if (update_old_pwd(env_head) != 0 || update_pwd(env_head))
+	if (update_old_pwd(env_head) || update_pwd(*env_head))
 		return (-1);
 	return (0);
 }

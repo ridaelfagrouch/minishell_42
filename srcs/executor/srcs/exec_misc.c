@@ -19,13 +19,9 @@ t_env_vars	*get_env_var(char *varname, t_env_vars *env_head)
 	t_env_vars	*node;
 
 	node = env_head;
-	while (node)
-	{
-		if (ft_strcmp(node->key, varname) == 0)
-			return (node);
+	while (node && ft_strcmp(node->key, varname))
 		node = node->next;
-	}
-	return (NULL);
+	return (node);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -92,6 +88,28 @@ char	**copy_envp(char **envp)
 			return (free_two_dim_arr(output), NULL);
 	}
 	return (output);
+}
+
+/* -------------------------------------------------------------------------- */
+
+void	print_err(char *cmd, char *input, char *msg)
+{
+	write(STDERR_FILENO, "minishell: ", 11 * sizeof(char));
+	if (cmd)
+	{
+		write(STDERR_FILENO, cmd, ft_strlen(cmd));
+		write(STDERR_FILENO, ": ", 2 * sizeof(char));
+	}
+	if (input)
+	{
+		write(STDERR_FILENO, input, ft_strlen(input));
+		write(STDERR_FILENO, ": ", 2 * sizeof(char));
+	}
+	if (msg)
+	{
+		write(STDERR_FILENO, msg, ft_strlen(msg));
+		write(STDERR_FILENO, "\n", 1 * sizeof(char));
+	}
 }
 
 /* -------------------------------------------------------------------------- */

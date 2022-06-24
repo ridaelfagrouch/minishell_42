@@ -36,7 +36,7 @@ SRCS_LST := ft_memcmp.c ft_memcpy.c ft_memmove.c ft_memset.c ft_putchar_fd.c \
 	ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c ft_lstdelone.c \
 	ft_strlcat.c ft_strlcpy.c ft_strlen.c ft_strmapi.c ft_strncmp.c \
 	ft_strrchr.c ft_strtrim.c ft_substr.c ft_tolower.c ft_toupper.c \
-	ft_strstr_tl.c
+	ft_strstr_tl.c ft_strcmp_tl.c
 SRCS := ${addprefix ${SRCS_DIR}, ${SRCS_LST}}
 
 OBJS_DIR := objs/

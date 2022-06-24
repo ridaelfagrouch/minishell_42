@@ -48,6 +48,8 @@ void	while_operator(t_info *info, char *str)
 			j++;
 		}
 	}
+	remove_dq_sq(str);
+	printf("|%s|\n", str);
 }
 
 /* -------------------------------------------------------------------------- */

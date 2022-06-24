@@ -46,23 +46,26 @@ u_int8_t	ascii_to_8bit_int(const char *str)
 
 /* -------------------------------------------------------------------------- */
 
-void	exit_cmd(char **input, t_env_vars *env_head)
+void	exit_cmd(char **input, t_env_vars **env_head)
 {
 	u_int8_t	exit_status;
 	int			i;
 
 	(void)env_head;
 	i = 0;
-	//exit_status = last_exit_status;
-	while (input[1] && input[1][i])
+	exit_status = g_glob.exit;
+	if (input[1])
 	{
-		if (!ft_isdigit(input[1][i++]))
+		while (input[1][i])
 		{
-			exit_error(input[1], "numeric argument required");
-			exit(-1);
+			if (!ft_isdigit(input[1][i++]))
+			{
+				exit_error(input[1], "numeric argument required");
+				exit(-1);
+			}
 		}
+		exit_status = ascii_to_8bit_int(input[1]);
 	}
-	exit_status = ascii_to_8bit_int(input[1]);
 	exit((int)exit_status);
 }
 

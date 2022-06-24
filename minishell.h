@@ -122,7 +122,7 @@ typedef struct d_data
 
 typedef struct s_glob_info
 {
-	u_int8_t	exit_status;
+	u_int8_t	exit;
 	int			pipe_fd[2];
 	int			d_stdout;
 	int			d_stdin;
@@ -133,6 +133,10 @@ t_glob_info	g_glob;
 /* --------------------------------- PROTOTYPES ----------------------------- */
 int		lexer_start(t_info *info);
 int		parcer(char *str, t_info *info);
-int		handle_execution(t_info *usr_input, char **envp);
+
+int		handle_execution(t_info *usr_input, t_env_vars **env_head);
+void	handle_signals(void);
+t_env_vars	*conv_env(char **envp);
+int			process_env_var(t_env_vars **head, char *env_var);
 
 #endif

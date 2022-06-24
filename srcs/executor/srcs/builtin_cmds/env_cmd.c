@@ -14,18 +14,19 @@
 
 /* -------------------------------------------------------------------------- */
 
-int	env_cmd(char **input, t_env_vars *env_head)
+int	env_cmd(char **input, t_env_vars **env_head)
 {
 	t_env_vars	*node;
 
 	input = NULL;
-	node = env_head;
+	node = *env_head;
 	while (node)
 	{
 		if (node->key && node->value)
 			printf("%s=%s\n", node->key, node->value);
 		node = node->next;
 	}
+	//printf("_=%s/env", );	// ! add the path to YOUR env
 	return (0);
 }
 

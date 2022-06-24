@@ -34,7 +34,7 @@ void	add_node_to_env(t_env_vars *node, t_env_vars **head)
 
 	tracer = get_last_env_node(*head);
 	if (tracer == NULL)
-		*head = node;
+		tracer = node;
 	else
 		tracer->next = node;
 }

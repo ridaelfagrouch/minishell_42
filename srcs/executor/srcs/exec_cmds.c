@@ -12,7 +12,7 @@
 
 #include "../executor.h"
 
-/* -------------------------------------------------------------------------- */
+/* --------------------------- NON BUILT IN --------------------------------- */
 
 static char	**init_new_envp(t_env_vars *head, char **new_envp)
 {
@@ -38,7 +38,7 @@ static char	**init_new_envp(t_env_vars *head, char **new_envp)
 	return (new_envp);
 }
 
-/* -------------------------------------------------------------------------- */
+/* --------------------------- NON BUILT IN --------------------------------- */
 
 static char	**lnkd_lst_env_to_char(t_env_vars *head)
 {
@@ -60,7 +60,7 @@ static char	**lnkd_lst_env_to_char(t_env_vars *head)
 	return (output);
 }
 
-/* -------------------------------------------------------------------------- */
+/* --------------------------- NON BUILT IN --------------------------------- */
 
 static int	execute_non_builtin(char *cmd, char **input, t_env_vars *head)
 {
@@ -72,9 +72,9 @@ static int	execute_non_builtin(char *cmd, char **input, t_env_vars *head)
 	return (0);
 }
 
-/* -------------------------------------------------------------------------- */
+/* ----------------------------- BUILT IN ----------------------------------- */
 
-int	execute_builtins(char **input, t_env_vars *env_vars)
+int	execute_builtins(char **input, t_env_vars **env_vars)
 {
 	if (ft_strcmp(input[0], "echo") == 0)
 		return (echo_cmd(input, env_vars));
@@ -93,13 +93,13 @@ int	execute_builtins(char **input, t_env_vars *env_vars)
 	return (-1); // Add to lower to strcmp, !exit, !unset, !export
 }
 
-/* -------------------------------------------------------------------------- */
+/* --------------------------------- MAIN ----------------------------------- */
 
-int	execute_command(t_node *node, t_env_vars *env_vars)
+int	execute_command(t_node *node, t_env_vars **env_vars)
 {
 	if (ft_strstr_tl(BUILT_INS, node->cmd_split[0])) // To lower strstr
 		return(execute_builtins(node->cmd_split, env_vars));
-	return(execute_non_builtin(node->path, node->cmd_split, env_vars));
+	return(execute_non_builtin(node->path, node->cmd_split, *env_vars));
 }
 
 /* -------------------------------------------------------------------------- */

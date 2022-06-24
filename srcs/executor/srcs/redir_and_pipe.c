@@ -37,7 +37,7 @@ int	redirect_input(int new_input_fd)
 {
 	if (dup2(new_input_fd, STDIN_FILENO) < 0)
 		return (-1);
-	// close(new_input_fd);
+	// close(new_input_fd); //??????????????????????
 	return (0);
 }
 
@@ -64,33 +64,5 @@ int	store_stds(void)
 	return (0);
 }
 
-/* -------------------------------------------------------------------------- */
-
-// int	apply_pipe(int *pipe_stat)
-// {
-// 	if (*pipe_stat == NO_PIPE)
-// 	{
-// 		if (redirect_input(g_glob.d_stdin) != 0)
-// 			return (-1);
-// 		if (pipe(g_glob.pipe_fd) != 0)
-// 			return (-1);
-// 		if (redirect_output(g_glob.pipe_fd[1]) != 0)
-// 		{
-// 			close(g_glob.pipe_fd[0]);
-// 			close(g_glob.pipe_fd[1]);
-// 			return (-1);
-// 		}
-// 		*pipe_stat == TO_PIPE;
-// 	}
-// 	else if (*pipe_stat == TO_PIPE)
-// 	{
-// 		if (redirect_output(g_glob.d_stdout) != 0)
-// 			return (-1);
-// 		if (redirect_input(g_glob.pipe_fd[0]) != 0)
-// 			return (-1);
-// 		*pipe_stat == TO_PIPE;
-// 	}
-// 	return (0);
-// }
 
 /* -------------------------------------------------------------------------- */

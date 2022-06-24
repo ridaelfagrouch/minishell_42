@@ -26,12 +26,13 @@ CC			:= gcc
 CC_FLAGS	:= -Wall -Wextra -Werror
 
 SRCS_DIR	:=	srcs/
-SRCS_LST	:=	env_init_1st.c env_init_2nd.c env_init_3rd.c \
+# env_init_2nd.c env_init_3rd.c
+SRCS_LST	:=	env_init.c  \
 				exec_cmds.c exec_misc.c builtin_cmds/cd_cmd.c \
 				builtin_cmds/echo_cmd.c builtin_cmds/env_cmd.c \
 				builtin_cmds/exit_cmd.c builtin_cmds/export_cmd.c \
 				builtin_cmds/pwd_cmd.c builtin_cmds/unset_cmd.c \
-				executor.c redir_and_pipe.c
+				executor.c redir_and_pipe.c signal_handling.c
 SRCS		:=	${addprefix ${SRCS_DIR}, ${SRCS_LST}}
 
 OBJS_DIR	:=	objs/
