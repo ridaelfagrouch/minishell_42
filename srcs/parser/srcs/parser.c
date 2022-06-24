@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 04:31:53 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/23 18:36:02 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/24 13:57:01 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	check_syntax1(char *str)
 
 int	parcer(char *str, t_info *info)
 {
+	str = remove_red_in(str, 1);
 	if (check_syntax1(str) || !ft_strcmp(str, "\0"))
 		return (1);
 	if (check_syntax2(str) || !ft_strcmp(str, "\0"))
