@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 15:49:53 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/06/24 13:56:54 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/24 15:51:14 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,6 @@ void	check_rev(t_reverse *rev, t_info *info);
 int		not_operator(t_info *info, int i);
 void	free_expand(t_expand *expd);
 char	*remove_red_in(char *str, int flag);
+void	free_reverse(t_reverse	*rev);
 
 #endif

@@ -6,25 +6,26 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:16:01 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/24 11:08:57 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/24 15:57:37 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parser.h"
 
-// void	if_wille_operator(int *j, t_info *info, char *str)
-// {
-// 	while (info->input[info->i] == '\"' || info->input[info->i] == '\'')
-// 		info->i++;
-// 	while (info->input[info->i] != '\"' && info->input[info->i] != '\'')
-// 	{
-// 		str[*j] = info->input[info->i];
-// 		info->i++;
-// 		*j += 1;
-// 	}
-// 	while (info->input[info->i] == '\"' || info->input[info->i] == '\'')
-// 		info->i++;
-// }
+/* -------------------------------------------------------------------------- */
+
+char	*check_str_cmd(char *str)
+{
+	char	**split;
+	char	*cmd;
+
+	split = ft_split(str, ' ');
+	cmd = ft_strdup(split[0]);
+	free_split(split);
+	return (cmd);
+}
+
+/* -------------------------------------------------------------------------- */
 
 void	while_operator(t_info *info, char *str)
 {
@@ -59,7 +60,7 @@ void	scape_space(t_info *info)
 int	check_builtins(char *str)
 {
 	int	i;
-	
+
 	i = 0;
 	while (str[i])
 	{

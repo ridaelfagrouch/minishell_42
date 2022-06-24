@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 09:02:51 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/24 13:56:24 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/24 15:51:31 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,63 +59,6 @@ void	init_rev(t_reverse *rev)
 
 /* -------------------------------------------------------------------------- */
 
-void	removechar2(char *str, char chartoremmove, int k)
-{
-	int	i;
-	int	j;
-	int	len;
-
-	i = 0;
-	len = strlen(str);
-	while (i < len)
-	{
-		if (str[i] == chartoremmove && i == k)
-		{
-			j = i;
-			while (j < len)
-			{
-				str[j] = str[j + 1];
-				j++;
-			}
-			len--;
-			i--;
-		}
-		i++;
-	}
-}
-
-/* -------------------------------------------------------------------------- */
-
-char	*remove_red_in(char *str , int flag)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (flag == 0)
-		{
-			if (str[i] == IN && str[i + 1] == OUT)
-			{
-				removechar2(str, str[i + 1], i + 1);
-				remove_red_in(str, flag);
-			}
-		}
-		if (flag == 1)
-		{
-			if (str[i] == '<' && str[i + 1] == '>')
-			{
-				removechar2(str, str[i + 1], i + 1);
-				remove_red_in(str, flag);
-			}
-		}
-		i++;
-	}
-	return (str);
-}
-
-/* -------------------------------------------------------------------------- */
-
 void	reverse_input(t_info *info)
 {
 	t_reverse	rev;
@@ -141,9 +84,7 @@ void	reverse_input(t_info *info)
 			continue ;
 		}
 	}
-	free(rev.word);
-	free(rev.bef_pipe);
-	free(rev.aft_pipe);
+	free_reverse(&rev);
 }
 
 /* -------------------------------------------------------------------------- */

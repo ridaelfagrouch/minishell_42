@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 04:31:53 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/24 13:57:01 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/24 15:58:52 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	check_beginning(char *str, int i, t_quote *quotes, int *dq)
 			return (printf ("minishell: parse error near! 9\n"), 1);
 		if (str[i + 1] == '\0')
 			return (printf ("minishell: parse error near! 10\n"), 1);
-		if (str[i] && check_special(SPECIAL_, str[i + 1]) != -1 && ft_strlen(str) == 1)
+		if (str[i] && check_special(SPECIAL_, str[i + 1]) != -1 && \
+			ft_strlen(str) == 1)
 			return (printf ("minishell: parse error near! 11\n"), 1);
 	}
 	if ((str[i] == '\"' || str[i] == '\''))
@@ -37,6 +38,8 @@ int	check_beginning(char *str, int i, t_quote *quotes, int *dq)
 	}
 	return (0);
 }
+
+/* -------------------------------------------------------------------------- */
 
 int	check_syntax1(char *str)
 {

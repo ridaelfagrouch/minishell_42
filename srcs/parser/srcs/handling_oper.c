@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 13:27:49 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/23 20:17:50 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/24 15:56:13 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,17 +99,6 @@ void	handel_out(t_info *info, t_cmds *cmds, char *str)
 }
 
 /* -------------------------------------------------------------------------- */
-
-char *check_str_cmd(char *str)
-{
-	char	**split;
-	char	*cmd;
-
-	split = ft_split(str, ' ');
-	cmd = ft_strdup(split[0]);
-	free_split(split);
-	return (cmd);
-}
 
 int	handel_command(t_info *info, t_cmds *cmds, char *str)
 {

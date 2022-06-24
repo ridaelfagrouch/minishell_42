@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 21:30:02 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/24 15:37:22 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/06/24 16:14:37 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,28 +35,10 @@ char	*get_env_vars_var_value(const char *var, char **env)
 
 /* -------------------------------------------------------------------------- */
 
-// char	*get_dynamic_prompt(char **env)
-// {
-// 	char	*user;
-// 	char	*current_dir;
-// 	char	*home;
-// 	char	*prompt;
-
-// 	user = get_env_vars_var_value("USER", env);
-// 	current_dir = get_env_vars_var_value("PWD", env);
-// 	home = get_env_vars_var_value("HOME", env);
-// 	if (ft_strncmp(home, current_dir, ft_strlen(home)) == 0)
-// 		current_dir += ft_strlen(home);
-	// "user@hostname [hh:mm:ss] [current_dir]"
-	// ">% "
-// }
-
-/* -------------------------------------------------------------------------- */
-
 static int	prompt(t_info *info, char **envp)
 {
-	char				*rdln_output;
-	char				*str;
+	char	*rdln_output;
+	char	*str;
 	while (1)
 	{
 
