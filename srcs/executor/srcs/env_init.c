@@ -30,25 +30,24 @@
 
 /* -------------------------------------------------------------------------- */
 
-/*
-** int	set_shell_lvl(t_env_vars **head)
-** {
-** 	t_env_vars	*node;
-** 	int			shlvl_int;
-** 	char		*shlvl_str;
-** 	char		*shlvl_env;
-** 
-** 	node = get_env_var("SHLVL", *head);
-** 	if (node == NULL)
-** 		return (init_node("SHLVL=1", head));
-** 	shlvl_int = ft_atoi(node->value);
-** 	shlvl_str = ft_itoa(++shlvl_int);
-** 	shlvl_env = ft_strjoin("SHLVL=", shlvl_str);
-** 	if (shlvl_env == NULL)
-** 		return (-1);
-** 	return (init_node(shlvl_env, head));
-** }
-*/
+// int	set_shell_lvl(t_env_vars **head)
+// {
+// 	t_env_vars	*node;
+// 	int			shlvl_int;
+// 	char		*shlvl_str;
+// 	char		*shlvl_env;
+
+// 	node = get_env_var("SHLVL", *head);
+// 	if (node == NULL)
+// 		return (init_node("SHLVL=1", head));
+// 	shlvl_int = ft_atoi(node->value);
+// 	shlvl_str = ft_itoa(++shlvl_int);
+// 	shlvl_env = ft_strjoin("SHLVL=", shlvl_str);
+// 	if (shlvl_env == NULL)
+// 		return (-1);
+// 	free(shlvl_str);
+// 	return (init_node(shlvl_env, head));
+// }
 
 /* -------------------------------------------------------------------------- */
 
@@ -115,7 +114,6 @@ static char	**parse_value(char **key_value, char *env_var, t_env_vars *head)
 	{
 		ptr = key_value[1];
 		key_value[1] = ft_strjoin(node->value, ptr);
-		printf("\nHello there\n");
 		free(ptr);
 	}
 	return (key_value);
