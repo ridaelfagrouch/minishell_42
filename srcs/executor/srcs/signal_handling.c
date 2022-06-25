@@ -12,12 +12,41 @@
 
 #include "../executor.h"
 
+/* -------------------------------------------------------------------------- */
+
+void	hide_ctrl(void)
+{
+	struct termios	attr;
+
+	tcgetattr(STDIN_FILENO, &attr);
+	attr.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &attr);
+}
+
+/* -------------------------------------------------------------------------- */
+
+void	restore_ctrl(void)
+{
+	struct termios	attr;
+
+	tcgetattr(STDIN_FILENO, &attr);
+	attr.c_lflag |= ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &attr);
+}
+
+/* -------------------------------------------------------------------------- */
+
 static void	handle_sig(int signum, siginfo_t *siginfo, void *sigcontext)
 {
 	(void)sigcontext;
-	(void)siginfo;
-	if (signum == SIGINT)
-		write(STDIN_FILENO, "\n", 1);
+
+	if (signum == SIGINT && siginfo->si_signo == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 
 /* -------------------------------------------------------------------------- */
@@ -35,3 +64,4 @@ void	handle_signals(void)
 	sigaction(SIGQUIT, &n_act[1], NULL);
 }
 
+/* -------------------------------------------------------------------------- */

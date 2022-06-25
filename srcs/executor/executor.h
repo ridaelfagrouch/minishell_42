@@ -49,6 +49,12 @@ typedef struct s_shell_metadata
 }	t_shell_metadata;
 
 /* --------------------------------- PROTOTYPES ----------------------------- */
+// env_init_2nd.c
+int		set_default_pwd(t_env_vars **head);
+int		set_shell_lvl(t_env_vars **head);
+void	free_env_linked_list(t_env_vars *head);
+void	free_env(t_env_vars *head);
+
 // env_init_1st.c
 t_env_vars	*conv_env(char **envp);
 int			process_env_var(t_env_vars **head, char *env_var);

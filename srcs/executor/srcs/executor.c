@@ -50,16 +50,30 @@ void	here_doc_(char *delimiter)
 
 /* -------------------------------------------------------------------------- */
 
+void	redirect_in_out(int *in_fd, int *out_fd)
+{
+	if (*in_fd != -1)
+		redirect_input(*in_fd);
+	if (*out_fd != -1)
+	{
+		redirect_output(*out_fd);
+		*out_fd = -1;
+	}
+}
+
 int handle_execution(t_info *usr_input, t_env_vars **env_head)
 {
 	int				pipe_fd[2];
 	t_node			*node;
 	int				in_fd;
 	int				out_fd;
+	//int				in_out[2];
 	int				pid;
 	int				exit_status;
 	int				status;
+	int				is_pipe;
 	
+	is_pipe = 0;
 	store_stds();
 	node = usr_input->head;
 	in_fd = -1;
@@ -74,17 +88,13 @@ int handle_execution(t_info *usr_input, t_env_vars **env_head)
 		{
 			if (node->next && node->next->token == PIPE)
 			{
+				is_pipe = 1;
 				pipe(pipe_fd);
 				pid = fork();
 				if (pid == 0)
 				{
-					if (in_fd != -1)
-						redirect_input(in_fd);
-					if (out_fd != -1)
-					{
-						redirect_output(out_fd);
-						out_fd = -1;
-					}
+					if (in_fd != -1 || out_fd != -1)
+						redirect_in_out(&in_fd, &out_fd);
 					else if (out_fd == -1)
 						redirect_output(pipe_fd[1]);
 					exit(execute_command(node, env_head));
@@ -98,13 +108,7 @@ int handle_execution(t_info *usr_input, t_env_vars **env_head)
 			{
 				if (ft_strstr_tl(BUILT_INS, node->cmd_split[0]))
 				{
-					if (in_fd != -1)
-						redirect_input(in_fd);
-					if (out_fd != -1)
-					{
-						redirect_output(out_fd);
-						out_fd = -1;
-					}
+					redirect_in_out(&in_fd, &out_fd);
 					g_glob.exit = execute_command(node, env_head);
 					dup2(g_glob.d_stdout, STDOUT_FILENO);
 				}
@@ -113,13 +117,8 @@ int handle_execution(t_info *usr_input, t_env_vars **env_head)
 					pid = fork();
 					if (pid == 0)
 					{
-						if (in_fd != -1)
-							redirect_input(in_fd);
-						if (out_fd != -1)
-						{
-							redirect_output(out_fd);
-							out_fd = -1;
-						}
+						if (in_fd != -1 || out_fd != -1)
+							redirect_in_out(&in_fd, &out_fd);
 						else
 							dup2(g_glob.d_stdout, STDOUT_FILENO);
 						exit_status = execute_command(node, env_head);

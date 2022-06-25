@@ -15,8 +15,6 @@
 
 /* ------------------------------- LIBRARIES -------------------------------- */
 // Libraries: Functions
-# include <readline/history.h>
-# include <readline/readline.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <stdio.h>
@@ -24,6 +22,10 @@
 # include <unistd.h>
 # include <signal.h>
 # include <fcntl.h>
+# include <termios.h>
+# include <dirent.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 
 // Libraries: Macros and Data-Types
 # include <stdbool.h>
@@ -138,5 +140,8 @@ int		handle_execution(t_info *usr_input, t_env_vars **env_head);
 void	handle_signals(void);
 t_env_vars	*conv_env(char **envp);
 int			process_env_var(t_env_vars **head, char *env_var);
+void	hide_ctrl(void);
+void	restore_ctrl(void);
+char	*get_wildcard_data(void);
 
 #endif

@@ -17,7 +17,7 @@
 int	echo_cmd(char **input, t_env_vars **env_head)
 {
 	int	n_flag;
-	int		i;
+	int	i;
 
 	(void)env_head;
 	n_flag = FALSE;

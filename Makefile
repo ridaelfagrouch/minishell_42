@@ -42,7 +42,11 @@ export TITLE
 
 # ---------------------------------------------------------------------------- #
 CC			:= gcc
-CC_FLAGS	:= -Wall -Wextra -Werror -lreadline -static-libsan -fsanitize=address
+CC_FLAGS	:= -Wall -Wextra -Werror \
+	-L $(shell brew --prefix readline)/lib -lreadline \
+	-L $(shell brew --prefix readline)/lib -lhistory \
+	-I $(shell brew --prefix readline)/include \
+	-static-libsan -fsanitize=address
 NAME		:= minishell
 MAIN		:= minishell.c
 HEADER		:= minishell.h

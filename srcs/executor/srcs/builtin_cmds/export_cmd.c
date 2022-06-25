@@ -92,9 +92,8 @@ int	print_sorted_env(t_env_vars *env_head)
 		printf("declare -x ");
 		if (env_node->key && env_node->value)
 			printf("%s=\"%s\"\n", env_node->key, env_node->value);
-		else if(env_node->key && !env_node->value)
+		else if (env_node->key && !env_node->value)
 			printf("%s\n", env_node->key);
-		//free(sorted_env_keys[i++]);
 	}
 	free(sorted_env_keys);
 	return (0);
@@ -119,7 +118,7 @@ int	export_cmd(char **env_var, t_env_vars **env_head)
 		j = 0;
 		while (env_var[i][++j] != '=')
 			if (env_var[i][j] == '+' || env_var[i][j] == '-')
-				return ( \
+				return (\
 					print_err("export", env_var[i], "not a valid identifier"), \
 					-1);
 		if (process_env_var(env_head, env_var[i++]))

@@ -40,15 +40,16 @@ static int	prompt(t_info *info, char **envp)
 	char				*rdln_output;
 	char				*str;
 	t_env_vars			*env_head;
-	//char	*prompt;
+
 	env_head = conv_env(envp);
 	while (1)
 	{
 		handle_signals();
-		rdln_output = readline(GRN"Minishell > "NNN);
-		if (rdln_output== NULL)
+		rdln_output = readline("\001\e[32m\002Minishell $\001\e[0m\002 ");
+		if (rdln_output == NULL)
 		{
-			write(STDOUT_FILENO, "\b\bexit\n", 7);
+			printf("exit\n");;
+			restore_ctrl();
 			exit(g_glob.exit);
 		}
 		info->input = ft_strtrim(rdln_output, WHITESPACE);
@@ -75,6 +76,7 @@ int	main(int ac, char **av, char **envp)
 {
 	t_info	info;
 
+	hide_ctrl();
 	if (ft_strcmp(av[0], "./minishell") == 0 && ac == 1)
 		if (prompt(&info, envp) == 1)
 			return (1);

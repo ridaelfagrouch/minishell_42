@@ -113,3 +113,40 @@ void	print_err(char *cmd, char *input, char *msg)
 }
 
 /* -------------------------------------------------------------------------- */
+
+char	*get_wildcard_data(void)
+{
+	DIR				*dirp;
+	struct dirent	*dp;
+	void			*ptr;
+	char			*output;
+
+	dirp = opendir(".");
+	if (dirp == NULL)
+		return (NULL);
+	output = ft_strdup("");
+	if (output == NULL)
+		return ((void)closedir(dirp), NULL);
+	dp = readdir(dirp);
+	while (dp != NULL)
+	{
+		if (strcmp(".", dp->d_name) && strcmp(".." , dp->d_name))
+		{
+			ptr = output;
+			output = ft_strjoin(ptr, " ");
+			free(ptr);
+			if (output == NULL)
+				return ((void)closedir(dirp), NULL);
+			ptr = output;
+			output = ft_strjoin(ptr, dp->d_name);
+			free(ptr);
+			if (output == NULL)
+				return ((void)closedir(dirp), NULL);
+		}
+		dp = readdir(dirp);
+	}
+	(void)closedir(dirp);
+	return (output);
+}
+
+/* -------------------------------------------------------------------------- */

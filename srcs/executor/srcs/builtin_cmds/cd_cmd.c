@@ -39,7 +39,7 @@ static char	*parse_cd_input(char **input, t_env_vars *env_head)
 
 static int	update_old_pwd(t_env_vars **env_head)
 {
-	char 		cwd[PATH_MAX];
+	char		cwd[PATH_MAX];
 	char		*old_wd;
 	t_env_vars	*env_node;
 
@@ -62,7 +62,7 @@ static int	update_old_pwd(t_env_vars **env_head)
 
 static int	update_pwd(t_env_vars *env_head)
 {
-	char 		cwd[PATH_MAX];
+	char		cwd[PATH_MAX];
 	t_env_vars	*node;
 
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
@@ -81,10 +81,8 @@ static int	update_pwd(t_env_vars *env_head)
 int	cd_cmd(char **input, t_env_vars **env_head)
 {
 	char	*path;
-	
+
 	path = parse_cd_input(input, *env_head);
-	if (path == NULL)
-		return (-1);	// Print error
 	if (chdir(path) != 0)
 		return (print_err("cd", "no such file or directory", path), -1);
 	free(path);

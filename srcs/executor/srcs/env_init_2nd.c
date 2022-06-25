@@ -12,31 +12,70 @@
 
 #include "../executor.h"
 
+
 /* -------------------------------------------------------------------------- */
 
-t_env_vars	*get_last_env_node(t_env_vars *head)
+int	set_default_pwd(t_env_vars **head)
 {
-	t_env_vars	*node;
+	char	*env_var;
+	char	cwd[PATH_MAX];
 
-	if (head == NULL)
-		return (NULL);
-	node = head;
-	while (node->next)
-		node = node->next;
-	return (node);
+	if (get_env_var("PWD", *head))
+		return (0);
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+		return (print_err("getcwd", "failed to get CWD", NULL), -1);
+	env_var = ft_strjoin("PWD=", cwd);
+	if (env_var == NULL)
+		return (-1);
+	if (process_env_var(head, env_var) != 0 || process_env_var(head, "OLDPWD"))
+		return (free(env_var), -1);
+	return (free(env_var), 0);
 }
 
 /* -------------------------------------------------------------------------- */
 
-void	add_node_to_env(t_env_vars *node, t_env_vars **head)
+int	set_shell_lvl(t_env_vars **head)
 {
+	t_env_vars	*node;
+	int			shlvl_int;
+	char		*shlvl_str;
+	char		*shlvl_env;
+
+	node = get_env_var("SHLVL", *head);
+	if (node == NULL)
+		return (process_env_var(head, "SHLVL=1"));
+	shlvl_int = ft_atoi(node->value);
+	shlvl_str = ft_itoa(++shlvl_int);
+	shlvl_env = ft_strjoin("SHLVL=", shlvl_str);
+	if (shlvl_env == NULL)
+		return (-1);
+	free(shlvl_str);
+	return (process_env_var(head, shlvl_env));
+}
+
+/* -------------------------------------------------------------------------- */
+
+// int	set_exec_path(t_env_vars *head)
+// {
+
+// }
+
+/* -------------------------------------------------------------------------- */
+
+void	free_env_linked_list(t_env_vars *head)
+{
+	t_env_vars	*node;
 	t_env_vars	*tracer;
 
-	tracer = get_last_env_node(*head);
-	if (tracer == NULL)
-		tracer = node;
-	else
-		tracer->next = node;
+	node = head;
+	while (node)
+	{
+		tracer = node->next;
+		free(node->key);
+		free(node->value);
+		free(node);
+		node = tracer;
+	}
 }
 
 /* -------------------------------------------------------------------------- */
@@ -55,42 +94,6 @@ void	free_env(t_env_vars *head)
 		free(node);
 		node = tracer;
 	}
-}
-
-/* -------------------------------------------------------------------------- */
-
-int	add_key_only(char *input, t_env_vars **head)
-{
-	t_env_vars	*node;
-
-	node = (t_env_vars *)ft_calloc(1, sizeof(t_env_vars));
-	if (node == NULL)
-		return (-1);
-	node->key = ft_strdup(input);
-	if (node->key == NULL)
-		return (free(node), -1);
-	add_node_to_env(node, head);
-	return (0);
-}
-
-/* -------------------------------------------------------------------------- */
-
-int	overwrite_key_value(char *input, t_env_vars **head, char *sep)
-{
-	char		*key;
-	char		*value;
-	t_env_vars	*node;
-
-	key = ft_substr(input, 0, (sep - input) / sizeof(char));
-	if (key == NULL)
-		return (-1);
-	node = get_env_var(key, *head);
-	value = ft_strdup(sep + 1);
-	if (value == NULL)
-		return (free(key), -1);	
-	free(node->value);
-	node->value = value;
-	return (0);
 }
 
 /* -------------------------------------------------------------------------- */

@@ -54,6 +54,7 @@ void	exit_cmd(char **input, t_env_vars **env_head)
 	(void)env_head;
 	i = 0;
 	exit_status = g_glob.exit;
+	restore_ctrl();
 	if (input[1])
 	{
 		while (input[1][i])

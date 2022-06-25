@@ -26,10 +26,8 @@ int	env_cmd(char **input, t_env_vars **env_head)
 			printf("%s=%s\n", node->key, node->value);
 		node = node->next;
 	}
-	//printf("_=%s/env", );	// ! add the path to YOUR env
 	return (0);
 }
 
-// still needs the "_=........"
-
+//printf("_=%s/env", );	// ! add the path to YOUR env
 /* -------------------------------------------------------------------------- */

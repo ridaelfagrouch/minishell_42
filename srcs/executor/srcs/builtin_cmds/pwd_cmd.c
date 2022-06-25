@@ -17,7 +17,7 @@
 int	pwd_cmd(char **input, t_env_vars **env_head)
 {
 	t_env_vars	*node;
-	char 		cwd[PATH_MAX];
+	char		cwd[PATH_MAX];
 
 	input = NULL;
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
