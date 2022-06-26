@@ -83,7 +83,15 @@ int handle_execution(t_info *usr_input, t_env_vars **env_head)
 		if (node->token == OUT || node->token == APPEND)
 			out_fd = node->file_fd;
 		else if (node->token == IN)
+		{
+			if (node->file_fd == -1)
+			{
+				while (node && node->token != PIPE)
+					node = node->next ;
+				continue ;
+			}
 			in_fd = node->file_fd;
+		}
 		else if (node->token == COMMAND)
 		{
 			if (node->next && node->next->token == PIPE)

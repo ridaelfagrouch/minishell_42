@@ -64,6 +64,10 @@ t_node	*new_node(t_cmds *cmds)
 		free(cmds->data);
 	if (cmds->path)
 		free(cmds->path);
+	// printf ("token:%d | data: %s | path: %s | file_fd = %d\n", \
+	// 	node->token, node->data, node->path, node->file_fd);
+	// if (node->token == COMMAND)
+	// 	print_split(node->cmd_split);
 	return (node);
 }
 
