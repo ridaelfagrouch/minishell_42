@@ -26,6 +26,18 @@ t_env_vars	*get_env_var(char *varname, t_env_vars *env_head)
 
 /* -------------------------------------------------------------------------- */
 
+// char	*get_env_var(char *varname, t_env_vars *env_head)
+// {
+// 	char	*output;
+
+// 	node = env_head;
+// 	while (node && ft_strcmp(node->key, varname))
+// 		node = node->next;
+// 	return (node);
+// }
+
+/* -------------------------------------------------------------------------- */
+
 char	**split_path_env_var(t_env_vars *env_head)
 {
 	t_env_vars	*paths;
@@ -114,7 +126,11 @@ void	print_err(char *cmd, char *input, char *msg)
 
 /* -------------------------------------------------------------------------- */
 
-char	*get_wildcard_data(void)
+
+
+/* -------------------------------------------------------------------------- */
+
+char	*get_wildcard_data(void) // should be (char *str)
 {
 	DIR				*dirp;
 	struct dirent	*dp;
@@ -130,7 +146,7 @@ char	*get_wildcard_data(void)
 	dp = readdir(dirp);
 	while (dp != NULL)
 	{
-		if (strcmp(".", dp->d_name) && strcmp(".." , dp->d_name))
+		if (ft_strcmp(".", dp->d_name) && ft_strcmp(".." , dp->d_name))
 		{
 			ptr = output;
 			output = ft_strjoin(ptr, " ");

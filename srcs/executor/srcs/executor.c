@@ -71,9 +71,7 @@ int handle_execution(t_info *usr_input, t_env_vars **env_head)
 	int				pid;
 	int				exit_status;
 	int				status;
-	int				is_pipe;
 	
-	is_pipe = 0;
 	store_stds();
 	node = usr_input->head;
 	in_fd = -1;
@@ -88,7 +86,6 @@ int handle_execution(t_info *usr_input, t_env_vars **env_head)
 		{
 			if (node->next && node->next->token == PIPE)
 			{
-				is_pipe = 1;
 				pipe(pipe_fd);
 				pid = fork();
 				if (pid == 0)

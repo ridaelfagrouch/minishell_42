@@ -50,7 +50,7 @@ static int	prompt(t_info *info, char **envp)
 		{
 			printf("exit\n");;
 			restore_ctrl();
-			exit(g_glob.exit);
+			return (g_glob.exit);
 		}
 		info->input = ft_strtrim(rdln_output, WHITESPACE);
 		if (*(info->input) == '\0')
