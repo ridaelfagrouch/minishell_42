@@ -130,7 +130,7 @@ char	*get_wildcard_data(void)
 	dp = readdir(dirp);
 	while (dp != NULL)
 	{
-		if (strcmp(".", dp->d_name) && strcmp(".." , dp->d_name))
+		if (ft_strcmp(".", dp->d_name) && ft_strcmp(".." , dp->d_name))
 		{
 			ptr = output;
 			output = ft_strjoin(ptr, " ");

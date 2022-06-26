@@ -29,6 +29,18 @@ void	print_split(char **str)
 
 /* -------------------------------------------------------------------------- */
 
+void	rm_dqsq_cmds(t_node *node)
+{
+	int i;
+
+	i = 0;
+	while (node->cmd_split[i])
+	{
+		node->cmd_split[i] = remove_dq_sq(node->cmd_split[i]);
+		i++;
+	}
+}
+
 t_node	*new_node(t_cmds *cmds)
 {
 	t_node	*node;
@@ -42,7 +54,10 @@ t_node	*new_node(t_cmds *cmds)
 	node->next = NULL;
 	node->file_fd = cmds->file_fd;
 	if (node->token == COMMAND)
+	{
 		node->cmd_split = ft_split_cmd(cmds->data);
+		rm_dqsq_cmds(node);
+	}
 	else
 		node->cmd_split = NULL;
 	if (cmds->data)
