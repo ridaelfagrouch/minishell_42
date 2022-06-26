@@ -44,7 +44,7 @@ static void	handle_sig(int signum, siginfo_t *siginfo, void *sigcontext)
 	{
 		printf("\n");
 		rl_on_new_line();
-		rl_replace_line("", 0);
+		// rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }

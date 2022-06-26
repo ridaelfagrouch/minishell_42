@@ -19,7 +19,7 @@ char	*check_str_cmd(char *str)
 	char	**split;
 	char	*cmd;
 
-	split = ft_split(str, ' ');
+	split = ft_split_cmd(str);
 	cmd = ft_strdup(split[0]);
 	free_split(split);
 	return (cmd);

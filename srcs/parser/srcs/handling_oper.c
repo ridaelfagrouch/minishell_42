@@ -12,6 +12,20 @@
 
 #include "../parser.h"
 
+// void	print_filetype(char *input)
+// {
+// 	struct stat	file_stat;
+
+// 	if (stat(input, &file_stat))
+// 		return ;
+// 	if (S_ISREG(file_stat.st_mode))
+// 		printf("Filetype:\tRegular File\n");
+// 	else if (S_ISDIR(file_stat.st_mode))
+// 		printf("Filetype:\tDirectory\n");
+// 	else
+// 		printf("Unknown Filetype\n");
+// }
+
 /* -------------------------------------------------------------------------- */
 
 void	handel_pipe(t_info *info, t_cmds *cmds)
@@ -35,10 +49,17 @@ void	handel_in(t_info *info, t_cmds *cmds, char *str)
 		printf("no such file or directory!\n");
 		exit(1);
 	}
-	if (access(str, R_OK | F_OK) == 0)
+	if (access(str, R_OK | F_OK) == 0 || \
+		(access(str, F_OK) == 0 && access(str, R_OK) != 0))
 	{
 		cmds->data = ft_strdup(str);
-		cmds->file_fd = open(cmds->data, O_RDONLY, 00500);
+		if (access(str, F_OK) == 0 && access(str, R_OK) != 0)
+		{
+			cmds->file_fd = -1;
+			printf("minishell : %s : Permission denied\n", str);
+		}
+		else
+			cmds->file_fd = open(cmds->data, O_RDONLY, 00500);
 	}
 	cmds->token = IN;
 	cmds->path = NULL;

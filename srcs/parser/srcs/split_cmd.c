@@ -115,7 +115,7 @@ char	**ft_split_cmd(char *str)
 	if (!str)
 		return (NULL);
 	tmp1 = ft_strtrim(str, " ");
-	tmp = remove_dq_sq(ft_space(tmp1));
+	tmp = ft_space(tmp1);
 	count = str_row(tmp);
 	if (*str)
 		count++;
