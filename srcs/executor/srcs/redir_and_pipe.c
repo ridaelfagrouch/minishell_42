@@ -37,7 +37,7 @@ int	redirect_input(int new_input_fd)
 {
 	if (dup2(new_input_fd, STDIN_FILENO) < 0)
 		return (-1);
-	// close(new_input_fd); //??????????????????????
+	close(new_input_fd); //??????????????????????
 	return (0);
 }
 
@@ -53,8 +53,10 @@ int	redirect_output(int new_output_fd)
 
 /* -------------------------------------------------------------------------- */
 
-int	store_stds(void)
+int	store_stds(t_execut *execut)
 {
+	execut->in_fd = -1;
+	execut->out_fd = -1;
 	g_glob.d_stdin = dup(STDIN_FILENO);
 	if (g_glob.d_stdin < 0)
 		return (-1);
@@ -63,6 +65,5 @@ int	store_stds(void)
 		return (-1);
 	return (0);
 }
-
 
 /* -------------------------------------------------------------------------- */

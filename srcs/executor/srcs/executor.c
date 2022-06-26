@@ -61,92 +61,113 @@ void	redirect_in_out(int *in_fd, int *out_fd)
 	}
 }
 
-int handle_execution(t_info *usr_input, t_env_vars **env_head)
+/* -------------------------------------------------------------------------- */
+
+void	redirect_in_out_plus(t_execut *execut, int flag)
 {
-	int				pipe_fd[2];
+	if (execut->in_fd != -1)
+		redirect_input(execut->in_fd);
+	if (execut->out_fd != -1)
+	{
+		redirect_output(execut->out_fd);
+		execut->out_fd = -1;
+	}
+	else if (execut->out_fd == -1 && flag == 0)
+		redirect_output(execut->pipe_fd[1]);
+	else if (flag == 1)
+		dup2(g_glob.d_stdout, STDOUT_FILENO);
+}
+
+/* -------------------------------------------------------------------------- */
+
+void	handel_pipe_exe(t_node	*node, t_env_vars **env_head, t_execut *execut)
+{
+	pipe(execut->pipe_fd);
+	execut->pid = fork();
+	if (execut->pid == 0)
+	{
+		redirect_in_out_plus(execut, 0);
+		exit(execute_command(node, env_head));
+	}
+	waitpid(execut->pid, &execut->status, 0);
+	close(execut->pipe_fd[1]);
+	g_glob.exit = WEXITSTATUS(execut->status);
+	execut->in_fd = execut->pipe_fd[0];
+}
+
+/* -------------------------------------------------------------------------- */
+
+void	handel_cmd_exec(t_node	*node, t_env_vars **env_head, t_execut *execut)
+{
+	if (ft_strstr_tl(BUILT_INS, node->cmd_split[0]))
+	{
+		redirect_in_out(&execut->in_fd, &execut->out_fd);
+		g_glob.exit = execute_command(node, env_head);
+		dup2(g_glob.d_stdout, STDOUT_FILENO);
+	}
+	else
+	{
+		execut->pid = fork();
+		if (execut->pid == 0)
+		{
+			redirect_in_out_plus(execut, 1);
+			execut->exit_status = execute_command(node, env_head);
+			exit(execut->exit_status);
+		}
+		execut->in_fd = -1;
+		waitpid(execut->pid, &execut->status, 0);
+		g_glob.exit = WEXITSTATUS(execut->status);
+	}
+}
+
+/* -------------------------------------------------------------------------- */
+
+void	handel_cmd_herdoc(t_node *node, t_execut *execut, t_env_vars **env_head)
+{
+	if (node->token == COMMAND)
+	{
+		if (node->next && node->next->token == PIPE)
+			handel_pipe_exe(node, env_head, execut);
+		else
+			handel_cmd_exec(node, env_head, execut);
+	}
+	else if (node->token == HAREDOC)
+	{
+		here_doc_(node->data);
+		execut->in_fd = open(".tmp", O_RDONLY, 00777);
+	}
+}
+
+/* -------------------------------------------------------------------------- */
+
+int	handle_execution(t_info *usr_input, t_env_vars **env_head)
+{
 	t_node			*node;
-	int				in_fd;
-	int				out_fd;
-	//int				in_out[2];
-	int				pid;
-	int				exit_status;
-	int				status;
-	int				is_pipe;
-	
-	is_pipe = 0;
-	store_stds();
+	t_execut		execut;
+	// int				is_pipe;
+	// is_pipe = 0;
+	store_stds(&execut);
 	node = usr_input->head;
-	in_fd = -1;
-	out_fd = -1;
 	while (node)
 	{
 		if (node->token == OUT || node->token == APPEND)
-			out_fd = node->file_fd;
+			execut.out_fd = node->file_fd;
 		else if (node->token == IN)
 		{
 			if (node->file_fd == -1)
 			{
-				out_fd = -1;
+				execut.out_fd = -1;
 				while (node && node->token != PIPE)
 					node = node->next ;
 				continue ;
 			}
-			in_fd = node->file_fd;
+			execut.in_fd = node->file_fd;
 		}
-		else if (node->token == COMMAND)
-		{
-			if (node->next && node->next->token == PIPE)
-			{
-				is_pipe = 1;
-				pipe(pipe_fd);
-				pid = fork();
-				if (pid == 0)
-				{
-					if (in_fd != -1 || out_fd != -1)
-						redirect_in_out(&in_fd, &out_fd);
-					else if (out_fd == -1)
-						redirect_output(pipe_fd[1]);
-					exit(execute_command(node, env_head));
-				}
-				waitpid(pid, &status, 0);
-				close(pipe_fd[1]);
-				g_glob.exit = WEXITSTATUS(status);
-				in_fd = pipe_fd[0];
-			}
-			else
-			{
-				if (ft_strstr_tl(BUILT_INS, node->cmd_split[0]))
-				{
-					redirect_in_out(&in_fd, &out_fd);
-					g_glob.exit = execute_command(node, env_head);
-					dup2(g_glob.d_stdout, STDOUT_FILENO);
-				}
-				else
-				{
-					pid = fork();
-					if (pid == 0)
-					{
-						if (in_fd != -1 || out_fd != -1)
-							redirect_in_out(&in_fd, &out_fd);
-						else
-							dup2(g_glob.d_stdout, STDOUT_FILENO);
-						exit_status = execute_command(node, env_head);
-						exit(exit_status);
-					}
-					waitpid(pid, &status, 0); // Protect 'waitpid' output
-					g_glob.exit = WEXITSTATUS(status);
-				}
-			}
-		}
-		else if (node->token == HAREDOC)
-		{
-			here_doc_(node->data);
-			in_fd = open(".tmp", O_RDWR, 00777);
-		}
+		if (node->token == COMMAND || node->token == HAREDOC)
+			handel_cmd_herdoc(node, &execut, env_head);
 		node = node->next;
 	}
-	reset_stds_fd();
-	return (0);
+	return (reset_stds_fd(), 0);
 }
 
 /* -------------------------------------------------------------------------- */

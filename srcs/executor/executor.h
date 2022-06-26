@@ -48,6 +48,16 @@ typedef struct s_shell_metadata
 	int			last_exit_status;
 }	t_shell_metadata;
 
+typedef struct s_execut
+{
+	int	in_fd;
+	int	out_fd;
+	int	pid;
+	int	exit_status;
+	int	status;
+	int	pipe_fd[2];
+}	t_execut;
+
 /* --------------------------------- PROTOTYPES ----------------------------- */
 // env_init_2nd.c
 int		set_default_pwd(t_env_vars **head);
@@ -79,7 +89,7 @@ void		print_err(char *cmd, char *input, char *msg);
 int			reset_stds_fd(void);
 int			redirect_input(int new_input_fd);
 int			redirect_output(int new_output_fd);
-int			store_stds(void);
+int			store_stds(t_execut *execut);
 
 void	free_two_dim_arr(char **sorted_env);
 

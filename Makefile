@@ -43,10 +43,10 @@ export TITLE
 # ---------------------------------------------------------------------------- #
 CC			:= gcc
 CC_FLAGS	:= -Wall -Wextra -Werror \
-	-L $(shell brew --prefix readline)/lib -lreadline \
-	-L $(shell brew --prefix readline)/lib -lhistory \
-	-I $(shell brew --prefix readline)/include \
-	-static-libsan -fsanitize=address
+	-static-libsan -fsanitize=address \
+	-L/goinfre/rel-fagr/.brew/opt/readline/lib \
+  	-I/goinfre/rel-fagr/.brew/opt/readline/include \
+	-lreadline
 NAME		:= minishell
 MAIN		:= minishell.c
 HEADER		:= minishell.h
