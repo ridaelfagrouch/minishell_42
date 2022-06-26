@@ -86,6 +86,7 @@ int handle_execution(t_info *usr_input, t_env_vars **env_head)
 		{
 			if (node->file_fd == -1)
 			{
+				out_fd = -1;
 				while (node && node->token != PIPE)
 					node = node->next ;
 				continue ;
