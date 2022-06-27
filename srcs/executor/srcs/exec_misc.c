@@ -52,22 +52,6 @@ char	**split_path_env_var(t_env_vars *env_head)
 
 /* -------------------------------------------------------------------------- */
 
-void	print_filetype(char *input)
-{
-	struct stat	file_stat;
-
-	if (stat(input, &file_stat))
-		return ;
-	if (S_ISREG(file_stat.st_mode))
-		printf("Filetype:\tRegular File\n");
-	else if (S_ISDIR(file_stat.st_mode))
-		printf("Filetype:\tDirectory\n");
-	else
-		printf("Unknown Filetype\n");
-}
-
-/* -------------------------------------------------------------------------- */
-
 void	free_two_dim_arr(char **sorted_env)
 {
 	int	i;

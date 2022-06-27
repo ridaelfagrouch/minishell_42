@@ -14,6 +14,22 @@
 
 /* -------------------------------------------------------------------------- */
 
+// int	print_filetype(char *input)
+// {
+// 	struct stat	file_stat;
+
+// 	if (stat(input, &file_stat))
+// 		return (0);
+// 	if (S_ISREG(file_stat.st_mode))
+// 		return(printf("Filetype:\tRegular File\n"), 1);
+// 	else if (S_ISDIR(file_stat.st_mode))
+// 		return(printf("Filetype:\tDirectory\n"), 1);
+// 	else
+// 		return(printf("Unknown Filetype\n"), 1);
+// }
+
+/* -------------------------------------------------------------------------- */
+
 int	check_operator(t_info *info, int flag)
 {
 	if (flag == 1)
@@ -86,6 +102,9 @@ int	store_data(t_info *info)
 			cmds->i = 0;
 			handel_pipe(info, cmds);
 		}
+		// if (info->head->data[0] == '.' || info->head->data[1] == '/')
+		// 	if (print_filetype(info->head->data))
+		// 		return (1);
 		info->i++;
 	}
 	return (0);
