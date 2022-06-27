@@ -92,11 +92,16 @@ int	check_cmd(t_data *data, char *av)
 char	*get_path(char *av)
 {
 	t_data	*data;
-
+	char	*tmp1;
+	
 	data = (t_data *) malloc(sizeof(t_data));
 	data->i = 0;
 	data->path = NULL;
 	data->cmd_split = NULL;
+	tmp1 = ft_strdup(av);
+	tmp1 = ft_space(tmp1);
+	if (ft_strchr(tmp1, SPACE_) || ft_strchr(tmp1, ' ') == NULL)
+		av = remove_dq_sq(av);
 	if (check_cmd(data, av))
 		return (NULL);
 	data->path = getenv("PATH");
