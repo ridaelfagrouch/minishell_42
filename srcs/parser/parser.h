@@ -55,4 +55,5 @@ void	free_split(char **ptr);
 char	*remove_dq_sq(char *str);
 char	*check_str_cmd(char *str);
 int		print_filetype(char *input);
+char	*ft_space(char *str);
 #endif
