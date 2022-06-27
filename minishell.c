@@ -14,7 +14,9 @@
 
 /* -------------------------------------------------------------------------- */
 
-t_env_vars	*get_env(const char *var, t_env_vars *env_head)
+//get_env(var, g_glob.env_head)
+
+char	*get_env(const char *var, t_env_vars *env_head)
 {
 	t_env_vars	*node;
 
@@ -25,7 +27,7 @@ t_env_vars	*get_env(const char *var, t_env_vars *env_head)
 			break ;
 		node = node->next;
 	}
-	return (node);
+	return (node->value);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -37,6 +39,7 @@ static int	prompt(t_info *info, char **envp)
 	t_env_vars			*env_head;
 
 	env_head = conv_env(envp);
+	g_glob.env_head = &env_head;
 	g_glob.heredoc_pid = -1;
 	while (1)
 	{

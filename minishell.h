@@ -130,6 +130,7 @@ typedef struct s_glob_info
 	int				d_stdin;
 	sig_atomic_t	sig_heredoc;
 	pid_t			heredoc_pid;
+	t_env_vars		**env_head;
 }	t_glob_info;
 
 t_glob_info	g_glob;
@@ -145,6 +146,7 @@ int			process_env_var(t_env_vars **head, char *env_var);
 void	hide_ctrl(void);
 void	restore_ctrl(void);
 char	*get_wildcard_data(void);
+char	*get_env(const char *var, t_env_vars *env_head);
 //void	handle_sig(int signum, siginfo_t *siginfo, void *sigcontext);
 
 #endif
