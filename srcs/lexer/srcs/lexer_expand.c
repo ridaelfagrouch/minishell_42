@@ -79,7 +79,7 @@ void	get_expand_env(t_info *info, t_expand *expd)
 	while (check_expand(info))
 		expd->str[expd->i++] = info->input[info->i++];
 	expd->ptr = info->input;
-	expd->result = getenv(ft_strtrim(expd->str, "$"));
+	expd->result = get_env(ft_strtrim(expd->str, "$"), *g_glob.env_head);
 }
 
 /* -------------------------------------------------------------------------- */

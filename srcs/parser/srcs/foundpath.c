@@ -104,7 +104,7 @@ char	*get_path(char *av)
 		av = remove_dq_sq(av);
 	if (check_cmd(data, av))
 		return (NULL);
-	data->path = getenv("PATH");
+	data->path = get_env("PATH", *g_glob.env_head);
 	if (data->path == NULL)
 	{
 		printf("command not found!\n");

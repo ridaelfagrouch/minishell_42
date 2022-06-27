@@ -53,12 +53,12 @@ void	handle_sig(int signum, siginfo_t *siginfo, void *sigcontext)
 			g_glob.heredoc_pid = -1;
 			printf("\n");
 			rl_on_new_line();
-			rl_replace_line("", 0);
+			// rl_replace_line("", 0);
 			return ;
 		}
 		printf("\n");
 		rl_on_new_line();
-		rl_replace_line("", 0);
+		// rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }
