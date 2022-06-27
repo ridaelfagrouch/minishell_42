@@ -16,12 +16,21 @@
 
 void	delete_node(t_env_vars *node, t_env_vars **env_head)
 {
-	t_env_vars	**tracer;
+	t_env_vars	*tracer;
 
-	tracer = env_head;
-	while ((*tracer) && (*tracer)->next != node)
-		(*tracer) = (*tracer)->next;
-	(*tracer)->next = (*tracer)->next->next;
+	if (*env_head == node)
+		*env_head = (*env_head)->next;
+	else
+	{
+		tracer = *env_head;
+		while (tracer->next)
+		{
+			if (tracer->next == node)
+				break ;
+			tracer = tracer->next;
+		}
+		tracer->next = tracer->next->next;
+	}
 	free(node->key);
 	free(node->value);
 	free(node);

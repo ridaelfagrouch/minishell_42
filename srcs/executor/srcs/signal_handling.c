@@ -36,15 +36,48 @@ void	restore_ctrl(void)
 
 /* -------------------------------------------------------------------------- */
 
-static void	handle_sig(int signum, siginfo_t *siginfo, void *sigcontext)
+// void	handle_exit(int signum)
+// {
+// 	(void)signum;
+
+// }
+
+/* -------------------------------------------------------------------------- */
+
+// void	ignore_signal(void)
+// {
+// 	struct sigaction	n_act;
+
+// 	n_act.sa_handler = handle_exit;
+// 	n_act.sa_flags = SA_SIGINFO;
+// 	sigaction(SIGINT, &n_act, NULL);
+// }
+
+/* -------------------------------------------------------------------------- */
+
+void	handle_sig(int signum, siginfo_t *siginfo, void *sigcontext)
 {
 	(void)sigcontext;
 
 	if (signum == SIGINT && siginfo->si_signo == SIGINT)
 	{
+		if (g_glob.heredoc_pid == 0)
+		{
+			reset_stds_fd();
+			exit(0);
+		}
+		else if (g_glob.heredoc_pid != -1)
+		{
+			kill(g_glob.heredoc_pid, SIGTERM);
+			g_glob.heredoc_pid = -1;
+			printf("\n");
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			return ;
+		}
 		printf("\n");
 		rl_on_new_line();
-		// rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }

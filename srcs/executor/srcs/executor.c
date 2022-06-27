@@ -33,7 +33,7 @@ void	here_doc_(char *delimiter)
 	}
 	while (1)
 	{
-		ptr = readline(">> ");	// Further testing needed
+		ptr = readline("> ");		// Further testing needed
 		if (ptr == NULL)
 			break ;
 		if (ft_strcmp(ptr, delimiter) == 0)
@@ -122,18 +122,31 @@ void	handel_cmd_exec(t_node	*node, t_env_vars **env_head, t_execut *execut)
 
 /* -------------------------------------------------------------------------- */
 
-void	handel_cmd_herdoc(t_node *node, t_execut *execut, t_env_vars **env_head)
+void	handel_cmd_herdoc(t_node **node, t_execut *execut, t_env_vars **env_head)
 {
-	if (node->token == COMMAND)
+	int	status;
+
+	if ((*node)->token == COMMAND)
 	{
-		if (node->next && node->next->token == PIPE)
-			handel_pipe_exe(node, env_head, execut);
+		if ((*node)->next && (*node)->next->token == PIPE)
+			handel_pipe_exe((*node), env_head, execut);
 		else
-			handel_cmd_exec(node, env_head, execut);
+			handel_cmd_exec((*node), env_head, execut);
 	}
-	else if (node->token == HAREDOC)
+	else if ((*node)->token == HAREDOC)
 	{
-		here_doc_(node->data);
+		g_glob.heredoc_pid = fork();
+		if (g_glob.heredoc_pid == 0)
+		{
+			here_doc_((*node)->data);
+			exit(0);
+		}
+		waitpid(g_glob.heredoc_pid, &status, 0);
+		if (!WIFEXITED(status))
+		{
+			while ((*node)->next)
+				*node = (*node)->next;
+		}
 		execut->in_fd = open(".tmp", O_RDONLY, 00777);
 	}
 }
@@ -142,10 +155,9 @@ void	handel_cmd_herdoc(t_node *node, t_execut *execut, t_env_vars **env_head)
 
 int	handle_execution(t_info *usr_input, t_env_vars **env_head)
 {
-	t_node			*node;
-	t_execut		execut;
-	// int				is_pipe;
-	// is_pipe = 0;
+	t_node		*node;
+	t_execut	execut;
+
 	store_stds(&execut);
 	node = usr_input->head;
 	while (node)
@@ -164,7 +176,7 @@ int	handle_execution(t_info *usr_input, t_env_vars **env_head)
 			execut.in_fd = node->file_fd;
 		}
 		if (node->token == COMMAND || node->token == HAREDOC)
-			handel_cmd_herdoc(node, &execut, env_head);
+			handel_cmd_herdoc(&node, &execut, env_head);
 		node = node->next;
 	}
 	return (reset_stds_fd(), 0);

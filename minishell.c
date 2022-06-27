@@ -14,23 +14,18 @@
 
 /* -------------------------------------------------------------------------- */
 
-char	*get_env_vars_var_value(const char *var, char **env)
+t_env_vars	*get_env(const char *var, t_env_vars *env_head)
 {
-	int	i;
-	int	j;
+	t_env_vars	*node;
 
-	i = -1;
-	while (env[++i] != NULL)
+	node = env_head;
+	while (node)
 	{
-		if (ft_strncmp(env[i], var, ft_strlen(var)) == 0)
-		{
-			j = -1;
-			while (env[i][++j])
-				if (env[i][j] == '=')
-					return (&(env[i][++j]));
-		}
+		if (ft_strcmp(node->key, var) == 0)
+			break ;
+		node = node->next;
 	}
-	return (NULL);
+	return (node);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -42,6 +37,7 @@ static int	prompt(t_info *info, char **envp)
 	t_env_vars			*env_head;
 
 	env_head = conv_env(envp);
+	g_glob.heredoc_pid = -1;
 	while (1)
 	{
 		handle_signals();

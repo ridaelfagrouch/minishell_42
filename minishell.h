@@ -124,10 +124,12 @@ typedef struct d_data
 
 typedef struct s_glob_info
 {
-	u_int8_t	exit;
-	int			pipe_fd[2];
-	int			d_stdout;
-	int			d_stdin;
+	u_int8_t		exit;
+	int				pipe_fd[2];
+	int				d_stdout;
+	int				d_stdin;
+	sig_atomic_t	sig_heredoc;
+	pid_t			heredoc_pid;
 }	t_glob_info;
 
 t_glob_info	g_glob;
@@ -143,5 +145,6 @@ int			process_env_var(t_env_vars **head, char *env_var);
 void	hide_ctrl(void);
 void	restore_ctrl(void);
 char	*get_wildcard_data(void);
+//void	handle_sig(int signum, siginfo_t *siginfo, void *sigcontext);
 
 #endif
