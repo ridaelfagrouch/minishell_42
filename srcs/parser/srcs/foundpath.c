@@ -52,6 +52,8 @@ void	check_path_cmd(t_data *data, char *av)
 	}
 }
 
+/* -------------------------------------------------------------------------- */
+
 char	*found_path(t_data *data, char *av)
 {
 	check_path_cmd(data, av);

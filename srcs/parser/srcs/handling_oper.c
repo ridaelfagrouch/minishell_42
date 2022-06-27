@@ -127,9 +127,6 @@ int	handel_command(t_info *info, t_cmds *cmds, char *str)
 	ft_bzero(str, 50);
 	add_back(&info->head, new_node(cmds));
 	ft_bzero(str, 50);
-	// if (info->head->data[0] == '.' && info->head->data[1] == '/')
-	// 	if (print_filetype(info->head->data))
-	// 		return (1);
 	return (0);
 }
 
