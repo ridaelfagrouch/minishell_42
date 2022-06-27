@@ -22,10 +22,10 @@ char	*get_env(const char *var, t_env_vars *env_head)
 	while (node)
 	{
 		if (ft_strcmp(node->key, var) == 0)
-			break ;
+			return (node->value);
 		node = node->next;
 	}
-	return (node->value);
+	return (NULL);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -59,6 +59,7 @@ static int	prompt(t_info *info, char **envp)
 	t_env_vars			*env_head;
 	char				*prompt;
 
+	g_glob.exit = 0;
 	env_head = conv_env(envp);
 	g_glob.env_head = &env_head;
 	g_glob.heredoc_pid = -1;

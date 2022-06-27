@@ -30,7 +30,7 @@ int	echo_cmd(char **input, t_env_vars **env_head)
 	while (input[i])
 	{
 		if (ft_strcmp(input[i], "$?") == 0)
-			printf("%d", g_glob.exit);
+			printf("%d", (int)g_glob.exit);
 		else
 			printf("%s", input[i]);
 		i++;
