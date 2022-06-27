@@ -110,7 +110,16 @@ void	print_err(char *cmd, char *input, char *msg)
 
 /* -------------------------------------------------------------------------- */
 
+// int	is_wildcard_name_valid(char **substrs, char *name)
+// {
+// 	int		i;
 
+// 	i = 0;
+// 	while (substrs[i])
+// 	{
+// 		if (ft_strstr(name, substrs[i]))
+// 	}
+// }
 
 /* -------------------------------------------------------------------------- */
 

@@ -128,7 +128,8 @@ void	handel_cmd_herdoc(t_node **node, t_execut *execut, t_env_vars **env_head)
 
 	if ((*node)->token == COMMAND)
 	{
-		if ((*node)->next && (*node)->next->token == PIPE)
+		if (((*node)->next && (*node)->next->token == PIPE) || \
+			(execut->in_fd != -1 && (*node)->next == NULL))
 			handel_pipe_exe((*node), env_head, execut);
 		else
 			handel_cmd_exec((*node), env_head, execut);
@@ -146,6 +147,7 @@ void	handel_cmd_herdoc(t_node **node, t_execut *execut, t_env_vars **env_head)
 		{
 			while ((*node)->next)
 				*node = (*node)->next;
+			g_glob.exit = 1;
 		}
 		execut->in_fd = open(".tmp", O_RDONLY, 00777);
 	}

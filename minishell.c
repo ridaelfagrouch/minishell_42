@@ -41,7 +41,7 @@ static int	prompt(t_info *info, char **envp)
 	while (1)
 	{
 		handle_signals();
-		rdln_output = readline("\001\e[32m\002Minishell $\001\e[0m\002 ");
+		rdln_output = readline("\001\e[1;4;34m\002minishell-6.9$\001\e[0m\002 ");
 		if (rdln_output == NULL)
 		{
 			printf("exit\n");;

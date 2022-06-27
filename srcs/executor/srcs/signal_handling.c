@@ -36,25 +36,6 @@ void	restore_ctrl(void)
 
 /* -------------------------------------------------------------------------- */
 
-// void	handle_exit(int signum)
-// {
-// 	(void)signum;
-
-// }
-
-/* -------------------------------------------------------------------------- */
-
-// void	ignore_signal(void)
-// {
-// 	struct sigaction	n_act;
-
-// 	n_act.sa_handler = handle_exit;
-// 	n_act.sa_flags = SA_SIGINFO;
-// 	sigaction(SIGINT, &n_act, NULL);
-// }
-
-/* -------------------------------------------------------------------------- */
-
 void	handle_sig(int signum, siginfo_t *siginfo, void *sigcontext)
 {
 	(void)sigcontext;
@@ -91,7 +72,6 @@ void	handle_signals(void)
 	n_act[0].sa_sigaction = handle_sig;
 	n_act[0].sa_flags = SA_SIGINFO | SA_RESTART | SA_RESETHAND;
 	sigaction(SIGINT, &n_act[0], NULL);
-
 	n_act[1].sa_handler = SIG_IGN;
 	n_act[1].sa_flags = 0;
 	sigaction(SIGQUIT, &n_act[1], NULL);
