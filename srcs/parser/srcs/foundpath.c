@@ -27,26 +27,39 @@ void	free_split(char **ptr)
 
 /* -------------------------------------------------------------------------- */
 
+void	check_path_cmd(t_data *data, char *av)
+{
+	if ((av[0] != '.' && av[0] != '/'))
+	{
+		while (data->path_split[data->i])
+		{
+			data->ptr = ft_strjoin(data->path_split[data->i], "/");
+			data->final_path = ft_strjoin(data->ptr, data->cmd);
+			free(data->ptr);
+			data->check_access = access(data->final_path, X_OK | F_OK);
+			if (data->check_access == 0)
+				break ;
+			else
+				free(data->final_path);
+			data->i++;
+		}
+		free_split(data->path_split);
+	}
+	else
+	{
+		data->final_path = ft_strdup(data->cmd);
+		data->check_access = access(data->cmd, X_OK | F_OK);
+	}
+}
+
 char	*found_path(t_data *data, char *av)
 {
-	while (data->path_split[data->i])
-	{
-		data->ptr = ft_strjoin(data->path_split[data->i], "/");
-		data->final_path = ft_strjoin(data->ptr, data->cmd);
-		free(data->ptr);
-		data->check_access = access(data->final_path, X_OK | F_OK);
-		if (data->check_access == 0)
-			break ;
-		else
-			free(data->final_path);
-		data->i++;
-	}
+	check_path_cmd(data, av);
 	if (data->check_access != 0)
 	{
 		printf("command not found\n");
 		return (NULL);
 	}
-	free_split(data->path_split);
 	if (ft_strchr(av, ' ') != 0)
 		free(data->cmd);
 	return (data->final_path);
@@ -56,8 +69,8 @@ char	*found_path(t_data *data, char *av)
 
 int	check_cmd(t_data *data, char *av)
 {
-	if (ft_strchr(av, ' ') != 0)
-	{
+	if (ft_strchr(av, ' ') != 0 && (av[0] != '.' || av[0] != '/'))
+	{ 
 		data->cmd_split = ft_split(av, ' ');
 		if (data->cmd_split[0] == NULL)
 		{

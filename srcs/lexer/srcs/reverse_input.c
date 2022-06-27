@@ -52,9 +52,9 @@ void	init_rev(t_reverse *rev)
 {
 	rev->i = -1;
 	rev->k = 0;
-	ft_bzero(rev->word, 20);
-	ft_bzero(rev->bef_pipe, 50);
-	ft_bzero(rev->aft_pipe, 50);
+	ft_bzero(rev->word, 50);
+	ft_bzero(rev->bef_pipe, 100);
+	ft_bzero(rev->aft_pipe, 100);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -64,9 +64,9 @@ void	reverse_input(t_info *info)
 	t_reverse	rev;
 
 	info->input = remove_red_in(info->input, 0);
-	rev.word = (char *)malloc(20);
-	rev.bef_pipe = (char *)malloc(50);
-	rev.aft_pipe = (char *)malloc(50);
+	rev.word = (char *)malloc(50);
+	rev.bef_pipe = (char *)malloc(100);
+	rev.aft_pipe = (char *)malloc(100);
 	init_rev(&rev);
 	while (info->input[++(rev.i)])
 	{
@@ -78,9 +78,9 @@ void	reverse_input(t_info *info)
 		{
 			set_rev(&rev, info);
 			check_rev(&rev, info);
-			ft_bzero(rev.word, 20);
-			ft_bzero(rev.bef_pipe, 50);
-			ft_bzero(rev.aft_pipe, 50);
+			ft_bzero(rev.word, 50);
+			ft_bzero(rev.bef_pipe, 100);
+			ft_bzero(rev.aft_pipe, 100);
 			continue ;
 		}
 	}

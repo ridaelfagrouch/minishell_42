@@ -12,22 +12,6 @@
 
 #include "../parser.h"
 
-// void	print_filetype(char *input)
-// {
-// 	struct stat	file_stat;
-
-// 	if (stat(input, &file_stat))
-// 		return ;
-// 	if (S_ISREG(file_stat.st_mode))
-// 		printf("Filetype:\tRegular File\n");
-// 	else if (S_ISDIR(file_stat.st_mode))
-// 		printf("Filetype:\tDirectory\n");
-// 	else
-// 		printf("Unknown Filetype\n");
-// }
-
-/* -------------------------------------------------------------------------- */
-
 void	handel_pipe(t_info *info, t_cmds *cmds)
 {
 	cmds->token = PIPE;
@@ -143,6 +127,9 @@ int	handel_command(t_info *info, t_cmds *cmds, char *str)
 	ft_bzero(str, 50);
 	add_back(&info->head, new_node(cmds));
 	ft_bzero(str, 50);
+	// if (info->head->data[0] == '.' && info->head->data[1] == '/')
+	// 	if (print_filetype(info->head->data))
+	// 		return (1);
 	return (0);
 }
 
