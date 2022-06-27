@@ -36,14 +36,18 @@
 
 /* --------------------------------- MACROS --------------------------------- */
 // COLOR CODES //
-# define NNN	"\033[0m"
-# define RED	"\033[31m"
-# define GRN	"\033[32m"
-# define YEL	"\033[33m"
-# define BLU	"\033[34m"
-# define MGN	"\033[35m"
-# define CYN	"\033[36m"
-# define GRA	"\033[37m"
+# define NNN		"\033[0m"
+# define RED		"\033[31m"
+# define GRN		"\033[32m"
+# define YEL		"\033[33m"
+# define BLU		"\033[34m"
+# define MGN		"\033[35m"
+# define CYN		"\033[36m"
+# define GRA		"\033[37m"
+# define RL_BLUE	"\001\e[1;34m\002"
+# define RL_GREN	"\001\e[1;32m\002"
+# define RL_CYAN	"\001\e[1;37m\002"
+# define RL_N		"\001\e[0m\002"
 
 # define SPECIAL_		"|&<>;"
 # define WHITESPACE		" \r\v\n\t\f"

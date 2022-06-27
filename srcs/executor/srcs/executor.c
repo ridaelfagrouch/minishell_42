@@ -99,7 +99,7 @@ void	handel_pipe_exe(t_node	*node, t_env_vars **env_head, t_execut *execut)
 
 void	handel_cmd_exec(t_node	*node, t_env_vars **env_head, t_execut *execut)
 {
-	if (ft_strstr_tl(BUILT_INS, node->cmd_split[0]))
+	if (execut->in_fd == -1 && ft_strstr_tl(BUILT_INS, node->cmd_split[0]))
 	{
 		redirect_in_out(&execut->in_fd, &execut->out_fd);
 		g_glob.exit = execute_command(node, env_head);
@@ -128,8 +128,7 @@ void	handel_cmd_herdoc(t_node **node, t_execut *execut, t_env_vars **env_head)
 
 	if ((*node)->token == COMMAND)
 	{
-		if (((*node)->next && (*node)->next->token == PIPE) || \
-			(execut->in_fd != -1 && (*node)->next == NULL))
+		if ((*node)->next && (*node)->next->token == PIPE)
 			handel_pipe_exe((*node), env_head, execut);
 		else
 			handel_cmd_exec((*node), env_head, execut);
