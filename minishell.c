@@ -14,8 +14,6 @@
 
 /* -------------------------------------------------------------------------- */
 
-//get_env(var, g_glob.env_head)
-
 char	*get_env(const char *var, t_env_vars *env_head)
 {
 	t_env_vars	*node;
