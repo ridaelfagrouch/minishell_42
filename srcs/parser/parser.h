@@ -37,7 +37,7 @@ int		check_syntax2(char *str);
 int		check_operator(t_info *info, int flag);
 int		store_data(t_info *info);
 int		handel_command(t_info *info, t_cmds *cmds, char *str);
-void	handel_out(t_info *info, t_cmds *cmds, char *str);
+int		handel_out(t_info *info, t_cmds *cmds, char *str);
 void	handel_herdoc(t_info *info, t_cmds *cmds, char *str);
 void	handel_in(t_info *info, t_cmds *cmds, char *str);
 void	handel_pipe(t_info *info, t_cmds *cmds);

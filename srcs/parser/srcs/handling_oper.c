@@ -42,7 +42,7 @@ void	handel_in(t_info *info, t_cmds *cmds, char *str)
 			cmds->file_fd = -1;
 			printf("minishell : %s : Permission denied\n", str);
 		}
-		else
+		else if(access(str, R_OK | F_OK) == 0)
 			cmds->file_fd = open(cmds->data, O_RDONLY, 00500);
 	}
 	cmds->token = IN;
@@ -77,7 +77,7 @@ void	handel_herdoc(t_info *info, t_cmds *cmds, char *str)
 
 /* -------------------------------------------------------------------------- */
 
-void	handel_out(t_info *info, t_cmds *cmds, char *str)
+int	handel_out(t_info *info, t_cmds *cmds, char *str)
 {
 	int	i;
 
@@ -92,6 +92,8 @@ void	handel_out(t_info *info, t_cmds *cmds, char *str)
 	scape_space(info);
 	while_operator(info, str);
 	out_check_str(str, i, cmds);
+	if (print_filetype(str))
+		return (1);
 	cmds->path = NULL;
 	if (cmds->j == 0)
 	{
@@ -101,6 +103,7 @@ void	handel_out(t_info *info, t_cmds *cmds, char *str)
 	else
 		free(cmds->data);
 	ft_bzero(str, 50);
+	return (0);
 }
 
 /* -------------------------------------------------------------------------- */
