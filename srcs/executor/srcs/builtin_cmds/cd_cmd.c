@@ -84,10 +84,10 @@ int	cd_cmd(char **input, t_env_vars **env_head)
 
 	path = parse_cd_input(input, *env_head);
 	if (chdir(path) != 0)
-		return (print_err("cd", "no such file or directory", path), -1);
+		return (print_err("cd", "no such file or directory", path), 1);
 	free(path);
 	if (update_old_pwd(env_head) || update_pwd(*env_head))
-		return (-1);
+		return (1);
 	return (0);
 }
 

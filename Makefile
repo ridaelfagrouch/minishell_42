@@ -13,13 +13,13 @@
 
 # --------------------------- Terminal Color Codes --------------------------- #
 NNN := \033[0m
-RED := \033[31;1;3m
-YEL := \033[33;1;3m
-GRA := \033[37;1;3m
-CYN := \033[36;1;3m
-GRN := \033[32;1;3m
-MGN := \033[35;1;3m
-BLU := \033[34;1;3m
+RED := \033[31m
+YEL := \033[33m
+GRA := \033[37m
+CYN := \033[36m
+GRN := \033[32m
+MGN := \033[35m
+BLU := \033[34m
 
 # ---------------------------------------------------------------------------- #
 
@@ -44,9 +44,9 @@ export TITLE
 CC			:= gcc
 CC_FLAGS	:= -Wall -Wextra -Werror \
 	-I $(shell brew --prefix readline)/include \
-	-L $(shell brew --prefix readline)/lib -lreadline 
-# -static-libsan -fsanitize=address \
-# -L $(shell brew --prefix readline)/lib -lhistory 
+	-L $(shell brew --prefix readline)/lib -lreadline \
+	-L $(shell brew --prefix readline)/lib -lhistory 
+# -static-libsan -fsanitize=address
 NAME		:= minishell
 MAIN		:= minishell.c
 HEADER		:= minishell.h
@@ -79,8 +79,8 @@ ${EXEC_ARCH}:
 
 ${NAME}: ${LIBFT_ARCH} ${LEXR_ARCH} ${PARS_ARCH} ${EXEC_ARCH} ${HEADER}
 	@${CC} ${CC_FLAGS} ${MAIN} -o ${NAME} ${ARCHIVES} -g
-	@echo "${GRN}Executable ${GRA}${NAME}${GRN} created \
-		successfully${NNN} :)\n"
+	@printf "\n${MGN}Executable ${GRA}${NAME}${MGN} created \
+		successfully${NNN} :)\n\n"
 
 clean:
 	@make -C libft/ clean

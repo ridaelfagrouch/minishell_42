@@ -44,10 +44,13 @@
 # define MGN		"\033[35m"
 # define CYN		"\033[36m"
 # define GRA		"\033[37m"
-# define RL_BLUE	"\001\e[1;34m\002"
-# define RL_GREN	"\001\e[1;32m\002"
-# define RL_CYAN	"\001\e[1;37m\002"
-# define RL_N		"\001\e[0m\002"
+# define RL_BLU		"\001\e[1;4;34m\002"
+# define RL_GRN		"\001\e[1;32m\002"
+# define RL_RED		"\001\e[1;31m\002"
+# define RL_BLD		"\001\e[37m\002"
+# define RL_NNN		"\001\e[0m\002"
+# define RL_SUCCESS	RL_BLU"minishell-6.9"RL_NNN RL_GRN" $> "RL_NNN
+# define RL_FAILURE	RL_BLU"minishell-6.9"RL_NNN RL_RED" $> "RL_NNN
 
 # define SPECIAL_		"|&<>;"
 # define WHITESPACE		" \r\v\n\t\f"
@@ -128,13 +131,12 @@ typedef struct d_data
 
 typedef struct s_glob_info
 {
-	u_int8_t		exit;
-	int				pipe_fd[2];
-	int				d_stdout;
-	int				d_stdin;
-	sig_atomic_t	sig_heredoc;
-	pid_t			heredoc_pid;
-	t_env_vars		**env_head;
+	int			exit;
+	int			d_stdout;
+	int			d_stdin;
+	pid_t		heredoc_pid;
+	int			heredoc_fd;
+	t_env_vars	**env_head;
 }	t_glob_info;
 
 t_glob_info	g_glob;

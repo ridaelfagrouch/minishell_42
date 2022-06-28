@@ -31,6 +31,7 @@ void	here_doc_(char *delimiter)
 		write(2, "error! opening the tmp\n", 24);
 		return ;
 	}
+	g_glob.heredoc_fd = file1;
 	while (1)
 	{
 		ptr = readline("> ");		// Further testing needed
@@ -46,6 +47,7 @@ void	here_doc_(char *delimiter)
 		free(ptr);
 	}
 	close(file1);
+	unlink(".tmp");
 }
 
 /* -------------------------------------------------------------------------- */

@@ -30,46 +30,24 @@ char	*get_env(const char *var, t_env_vars *env_head)
 
 /* -------------------------------------------------------------------------- */
 
-char	*get_custom_prompt(void)
-{
-	char	*output;
-	char	*ptr;
-	char		cwd[PATH_MAX];
-
-	output = NULL;
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-		return (NULL);
-	output = ft_strjoin("\n"RL_BLUE"minishell-6.9 "RL_N RL_GREN"(", cwd);
-	if (output == NULL)
-		return (NULL);
-	ptr = output;
-	output = ft_strjoin(ptr, ") \n"RL_N RL_CYAN"$> "RL_N);
-	free(ptr);
-	if (output == NULL)
-		return (NULL);
-	return (output);
-}
-
-/* -------------------------------------------------------------------------- */
-
 static int	prompt(t_info *info, char **envp)
 {
 	char				*rdln_output;
 	char				*str;
 	t_env_vars			*env_head;
-	char				*prompt;
 
 	g_glob.exit = 0;
 	env_head = conv_env(envp);
 	g_glob.env_head = &env_head;
 	g_glob.heredoc_pid = -1;
+	g_glob.heredoc_fd = -1;
 	while (1)
 	{
 		handle_signals();
-		prompt = get_custom_prompt();
-		if (prompt == NULL)
-			prompt = ft_strdup(RL_BLUE"minishell-6.9$ "RL_N);
-		rdln_output = readline(prompt);
+		if (g_glob.exit)
+			rdln_output = readline(RL_FAILURE);
+		else
+			rdln_output = readline(RL_SUCCESS);
 		if (rdln_output == NULL)
 		{
 			printf("exit\n");;

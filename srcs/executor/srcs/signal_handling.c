@@ -43,22 +43,19 @@ void	handle_sig(int signum, siginfo_t *siginfo, void *sigcontext)
 	if (signum == SIGINT && siginfo->si_signo == SIGINT)
 	{
 		if (g_glob.heredoc_pid == 0)
-		{
-			reset_stds_fd();
 			exit(0);
-		}
 		else if (g_glob.heredoc_pid != -1)
 		{
+			if (g_glob.heredoc_fd >= 0)
+				close (g_glob.heredoc_fd);
 			kill(g_glob.heredoc_pid, SIGTERM);
+			unlink(".tmp");
+			g_glob.heredoc_fd = -1;
 			g_glob.heredoc_pid = -1;
-			printf("\n");
-			rl_on_new_line();
-			// rl_replace_line("", 0);
-			return ;
 		}
 		printf("\n");
 		rl_on_new_line();
-		// rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }

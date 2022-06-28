@@ -33,7 +33,7 @@ int	pwd_cmd(char **input, t_env_vars **env_head)
 	}
 	node = get_env_var("PWD", *env_head);
 	if (node == NULL)
-		return (-1);
+		return (1);
 	printf("%s\n", node->value);
 	return (0);
 }

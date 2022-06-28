@@ -13,13 +13,13 @@
 
 # --------------------------- Terminal Color Codes --------------------------- #
 NC := \033[0m
-RED := \033[31;1;3m
-YEL := \033[33;1;3m
-GRA := \033[37;1;3m
-CYN := \033[36;1;3m
-GRN := \033[32;1;3m
-MGN := \033[35;1;3m
-BLU := \033[34;1;3m
+RED := \033[31m
+YEL := \033[33m
+GRA := \033[37m
+CYN := \033[36m
+GRN := \033[32m
+MGN := \033[35m
+BLU := \033[34m
 
 # ---------------------------------------------------------------------------- #
 CC			:= gcc
@@ -44,15 +44,15 @@ HEADER		:= lexer.h
 all: title ${NAME}
 
 title:
-	@echo "\n${YEL}\033[4mEntering ${GRA}${PROJECT}${YEL}'s makefile${NC}\n"
+	@printf "\n${YEL}\033[4mEntering ${GRA}${PROJECT}${YEL}'s makefile:${NC}\t"
 
 ${NAME}: ${OBJS_DIR} ${OBJS} ${HEADER}
 	@ar -rcs ${NAME} ${OBJS}
-	@echo "$(BLU)Archive file $(GRA)$(NAME)$(BLU) created successfully$(NC)\n"
+	@printf "\n$(CYN)Archive file $(GRA)$(NAME)$(CYN) created successfully$(NC)\n"
 
 ${OBJS_DIR}%.o: ${SRCS_DIR}%.c ${HEADER}
 	@${CC} ${CC_FLAGS} -c $< -o $@
-	@echo "${MGN}Object file ${GRA}$@${MGN} created from ${GRA}$<${MGN}${NC}"
+	@printf "${GRN}X${NC}"
 
 $(OBJS_DIR):
 	@mkdir $(OBJS_DIR)
