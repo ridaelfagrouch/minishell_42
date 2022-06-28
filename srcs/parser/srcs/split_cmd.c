@@ -21,7 +21,7 @@ char	*remove_dq_sq(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'' || str[i] == '\"')
+		if (str[i] == SQ || str[i] == DQ)
 		{
 			removechar(str, str[i]);
 			remove_dq_sq(str);
@@ -94,7 +94,7 @@ char	*ft_space(char *str)
 	i = -1;
 	while (str[++i])
 	{
-		if (str[i] == '\"' || str[i] == '\'')
+		if (str[i] == DQ || str[i] == SQ)
 			handle_quotes(&quotes, str, i, &check);
 		else if (str[i] == ' ' && !quoted(quotes, 0))
 			str[i] = SPACE_;

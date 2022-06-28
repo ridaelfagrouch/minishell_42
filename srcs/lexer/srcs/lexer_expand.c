@@ -63,7 +63,7 @@ char	*replaceword(char *s, char *old, char *new)
 int	check_expand(t_info *info)
 {
 	if (info->input[info->i] && info->input[info->i] != ' ' && \
-		info->input[info->i] != '\"' && info->input[info->i] != '\'' \
+		info->input[info->i] != DQ && info->input[info->i] != SQ \
 		&& info->input[info->i] != PIPE && info->input[info->i] != OUT \
 		&& info->input[info->i] != IN && info->input[info->i] != EXPAND \
 		&& info->input[info->i] != HAREDOC && \

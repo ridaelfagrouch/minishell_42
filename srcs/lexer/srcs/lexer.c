@@ -14,24 +14,26 @@
 
 /* -------------------------------------------------------------------------- */
 
-void	d_quotes(t_quote **quotes, int i, int *check)
+void	d_quotes(t_quote **quotes, int i, int *check , char *input)
 {
 	if (*check == 1)
 		*check = -1;
 	else if (*check == -1)
 		*check = 1;
 	new_quote(quotes, i, *check, 1);
+	input[i] = DQ;
 }
 
 /* -------------------------------------------------------------------------- */
 
-void	s_quotes(t_quote **quotes, int i, int *check)
+void	s_quotes(t_quote **quotes, int i, int *check, char *input)
 {
 	if (*check == 0)
 		*check = -1;
 	else if (*check == -1)
 		*check = 0;
 	new_quote(quotes, i, *check, 0);
+	input[i] = SQ;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -39,9 +41,9 @@ void	s_quotes(t_quote **quotes, int i, int *check)
 void	handle_quotes(t_quote **quotes, char *quote, int i, int *check)
 {
 	if (quote[i] == '\"' && (*check != 0))
-		d_quotes(quotes, i, check);
+		d_quotes(quotes, i, check, quote);
 	else if (quote[i] == '\'' && (*check != 1))
-		s_quotes(quotes, i, check);
+		s_quotes(quotes, i, check, quote);
 }
 
 /* -------------------------------------------------------------------------- */

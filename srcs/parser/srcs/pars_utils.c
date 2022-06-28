@@ -38,7 +38,7 @@ void	while_operator(t_info *info, char *str)
 	check = -1;
 	while (info->input[info->i] && check_operator(info, 1))
 	{
-		if (info->input[info->i] == '\"' || info->input[info->i] == '\'')
+		if (info->input[info->i] == DQ || info->input[info->i] == SQ)
 			handle_quotes(&quotes, info->input, info->i, &check);
 		if (info->input[info->i] == ' ' && !quoted(quotes, 0))
 			break ;

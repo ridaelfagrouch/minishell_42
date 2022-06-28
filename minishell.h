@@ -67,6 +67,8 @@ typedef enum e_flags {
 	COMMAND,
 	PIPE,
 	SPACE_,
+	DQ,
+	SQ,
 }	t_flags;
 
 typedef enum e_error {
