@@ -83,6 +83,14 @@ static int	str_row(char *tmp)
 
 /* -------------------------------------------------------------------------- */
 
+void	handle_quotes1(t_quote **quotes, char *quote, int i, int *check)
+{
+	if (quote[i] == DQ && (*check != 0))
+		d_quotes(quotes, i, check, quote);
+	else if (quote[i] == SQ && (*check != 1))
+		s_quotes(quotes, i, check, quote);
+}
+
 char	*ft_space(char *str)
 {
 	t_quote	*quotes;
@@ -95,7 +103,7 @@ char	*ft_space(char *str)
 	while (str[++i])
 	{
 		if (str[i] == DQ || str[i] == SQ)
-			handle_quotes(&quotes, str, i, &check);
+			handle_quotes1(&quotes, str, i, &check);
 		else if (str[i] == ' ' && !quoted(quotes, 0))
 			str[i] = SPACE_;
 	}

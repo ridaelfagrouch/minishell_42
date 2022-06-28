@@ -111,6 +111,7 @@ int	handel_out(t_info *info, t_cmds *cmds, char *str)
 int	handel_command(t_info *info, t_cmds *cmds, char *str)
 {
 	int		j;
+	char	**split_cmd;
 
 	j = 0;
 	scape_space(info);
@@ -119,14 +120,16 @@ int	handel_command(t_info *info, t_cmds *cmds, char *str)
 	cmds->token = COMMAND;
 	cmds->file_fd = -1;
 	cmds->data = ft_strdup(str);
-	if (check_builtins(check_str_cmd(str)) == 0)
+	split_cmd = ft_split_cmd(str);
+	if (check_builtins(split_cmd[0]) == 0)
 	{
-		cmds->path = get_path(str);
+		cmds->path = get_path(split_cmd[0]);
 		if (cmds->path == NULL)
 			return (1);
 	}
 	else
 		cmds->path = NULL;
+	free_split(split_cmd);
 	ft_bzero(str, 50);
 	add_back(&info->head, new_node(cmds));
 	ft_bzero(str, 50);
