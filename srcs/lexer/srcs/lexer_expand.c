@@ -76,8 +76,13 @@ int	check_expand(t_info *info)
 void	get_expand_env(t_info *info, t_expand *expd)
 {
 	info->input[info->i] = '$';
-	while (check_expand(info))
-		expd->str[expd->i++] = info->input[info->i++];
+	if (check_expand(info))
+	{
+		while (check_expand(info))
+			expd->str[expd->i++] = info->input[info->i++];
+	}
+	else
+		expd->str[expd->i] = '$';
 	expd->ptr = info->input;
 	expd->result = get_env(ft_strtrim(expd->str, "$"), *g_glob.env_head);
 }
@@ -99,6 +104,8 @@ char	*input_expand(t_info *info)
 			get_expand_env(info, &expd);
 			if (expd.result == NULL)
 			{
+				info->input = \
+				ft_strdup(replaceword(info->input, expd.str, " "));
 				expd.i = 0;
 				ft_bzero(expd.str, 50);
 				continue ;
