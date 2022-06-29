@@ -57,7 +57,7 @@ void	d_quotes(t_quote **quotes, int i, int *check, char *input);
 void	s_quotes(t_quote **quotes, int i, int *check, char *input);
 int		quoted(t_quote *quotes, int i);
 void	handle_quotes(t_quote **quotes, char *quote, int i, int *check);
-char	*input_expand(t_info *info);
+char	*input_expand(char *input);
 void	reverse_input(t_info *info);
 int		check_special(char *str, int c);
 void	set_rev(t_reverse *rev, t_info *info);

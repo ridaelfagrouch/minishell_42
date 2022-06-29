@@ -20,6 +20,20 @@
 
 /* -------------------------------------------------------------------------- */
 
+char	*put_expand(char *ptr)
+{
+	int i;
+
+	i = 0;
+	while (ptr[i])
+	{
+		if (ptr[i] == '$')
+			ptr[i] = EXPAND;
+		i++;
+	}
+	return (ptr);
+}
+
 void	here_doc_(char *delimiter)
 {
 	char	*ptr;
@@ -34,7 +48,7 @@ void	here_doc_(char *delimiter)
 	g_glob.heredoc_fd = file1;
 	while (1)
 	{
-		ptr = readline("> ");		// Further testing needed
+		ptr = readline("> ");	// Further testing needed
 		if (ptr == NULL)
 			break ;
 		if (ft_strcmp(ptr, delimiter) == 0)
@@ -42,12 +56,12 @@ void	here_doc_(char *delimiter)
 			free(ptr);
 			break ;
 		}
+		ptr = input_expand(put_expand(ptr));
 		write(file1, ptr, ft_strlen(ptr));
 		write(file1, "\n", 1);
 		free(ptr);
 	}
 	close(file1);
-	unlink(".tmp");
 }
 
 /* -------------------------------------------------------------------------- */
@@ -182,6 +196,7 @@ int	handle_execution(t_info *usr_input, t_env_vars **env_head)
 			handel_cmd_herdoc(&node, &execut, env_head);
 		node = node->next;
 	}
+	// unlink(".tmp");
 	return (reset_stds_fd(), 0);
 }
 

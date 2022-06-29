@@ -60,61 +60,62 @@ char	*replaceword(char *s, char *old, char *new)
 
 /* -------------------------------------------------------------------------- */
 
-int	check_expand(t_info *info)
+int	check_expand(char *input, int i)
 {
-	if (info->input[info->i] && info->input[info->i] != ' ' && \
-		info->input[info->i] != DQ && info->input[info->i] != SQ \
-		&& info->input[info->i] != PIPE && info->input[info->i] != OUT \
-		&& info->input[info->i] != IN && info->input[info->i] != EXPAND \
-		&& info->input[info->i] != HAREDOC && \
-		info->input[info->i] != APPEND)
+	if (input[i] && input[i] != ' ' && \
+		input[i] != DQ && input[i] != SQ \
+		&& input[i] != PIPE && input[i] != OUT \
+		&& input[i] != IN && input[i] != EXPAND \
+		&& input[i] != HAREDOC && \
+		input[i] != APPEND)
 		return (1);
 	else
 		return (0);
 }
 
-void	get_expand_env(t_info *info, t_expand *expd)
+void	get_expand_env(char *input, int *i, t_expand *expd)
 {
-	info->input[info->i] = '$';
-	if (check_expand(info))
-		while (check_expand(info))
-			expd->str[expd->i++] = info->input[info->i++];
+	input[*i] = '$';
+	if (check_expand(input, *i))
+		while (check_expand(input, *i))
+			expd->str[expd->i++] = input[(*i)++];
 	else
 		expd->str[expd->i] = '$';
-	expd->ptr = info->input;
+	expd->ptr = input;
 	expd->result = get_env(ft_strtrim(expd->str, "$"), *g_glob.env_head);
 }
 
 /* -------------------------------------------------------------------------- */
 
-char	*input_expand(t_info *info)
+char	*input_expand(char *input)
 {
 	t_expand	expd;
+	int			i;
 
-	info->i = -1;
+	i = -1;
 	expd.i = 0;
 	expd.str = (char *)malloc(100);
 	ft_bzero(expd.str, 100);
-	while (info->input[++(info->i)])
+	while (input[++i])
 	{
-		if (info->input[info->i] == EXPAND)
+		if (input[i] == EXPAND)
 		{
-			get_expand_env(info, &expd);
+			get_expand_env(input, &i, &expd);
 			if (expd.result == NULL)
 			{
-				info->input = \
-				ft_strdup(replaceword(info->input, expd.str, " "));
+				input = \
+				ft_strdup(replaceword(input, expd.str, " "));
 				expd.i = 0;
 				ft_bzero(expd.str, 100);
 				continue ;
 			}
-			info->input = \
-				ft_strdup(replaceword(info->input, expd.str, expd.result));
+			input = \
+				ft_strdup(replaceword(input, expd.str, expd.result));
 			free_expand(&expd);
-			input_expand(info);
+			input_expand(input);
 		}
 	}
-	return (info->input);
+	return (input);
 }
 
 /* -------------------------------------------------------------------------- */
