@@ -61,7 +61,7 @@ void	exit_cmd(char **input, t_env_vars **env_head)
 		{
 			if (!ft_isdigit(input[1][i++]))
 			{
-				exit_error(input[1], "numeric argument required");
+				print_err("exit", input[1], "numeric argument required");
 				exit(-1);
 			}
 		}

@@ -54,15 +54,14 @@ MAIN	:= test_main.c
 all: title ${NAME}
 
 title:
-	@printf "\n${YEL}\033[4mEntering ${GRA}${PROJECT}${YEL}'s makefile: ${NNN}\t"
+	@printf "\n${YEL}\033[4mEntering ${GRA}${PROJECT}${YEL}'s makefile:${NNN} "
 
 ${NAME}: ${OBJS_DIR} ${O_BLTN_DIR} ${OBJS} ${HEADER}
 	@ar -rcs ${NAME} ${OBJS}
-	@printf "\n$(CYN)Archive file $(GRA)$(NAME)$(CYN) created successfully$(NNN)\n"
+	@printf "$(CYN)Archive file $(GRA)$(NAME)$(CYN) created $(NNN)\n"
 
 ${OBJS_DIR}%.o: ${SRCS_DIR}%.c ${HEADER}
-	@${CC} ${CC_FLAGS} -c $< -o $@
-	@printf "${GRN}X${NC}"
+	@${CC} -I $(shell brew --prefix readline)/include ${CC_FLAGS} -c $< -o $@
 
 ${OBJS_DIR}:
 	@mkdir ${OBJS_DIR}

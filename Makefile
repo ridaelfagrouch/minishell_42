@@ -1,15 +1,15 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: Invalid date        by ███████╗██║       #+#    #+#              #
-#    Updated: 2022/06/24 16:15:19 by rel-fagr         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
+################################################################################
+################################################################################
+##                                                                            ##
+##       ███╗   ███╗ █████╗ ██╗  ██╗███████╗███████╗██╗██╗     ███████╗       ##
+##       ████╗ ████║██╔══██╗██║ ██╔╝██╔════╝██╔════╝██║██║     ██╔════╝       ##
+##       ██╔████╔██║███████║█████╔╝ █████╗  █████╗  ██║██║     █████╗         ##
+##       ██║╚██╔╝██║██╔══██║██╔═██╗ ██╔══╝  ██╔══╝  ██║██║     ██╔══╝         ##
+##       ██║ ╚═╝ ██║██║  ██║██║  ██╗███████╗██║     ██║███████╗███████╗       ##
+##       ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝╚══════╝╚══════╝       ##
+##                                                                            ##
+################################################################################
+################################################################################
 
 # --------------------------- Terminal Color Codes --------------------------- #
 NNN := \033[0m
@@ -42,11 +42,17 @@ export TITLE
 
 # ---------------------------------------------------------------------------- #
 CC			:= gcc
-CC_FLAGS	:= -Wall -Wextra -Werror \
+CC_FLAGS	:= -Wall -Wextra -Werror -lreadline \
 	-I $(shell brew --prefix readline)/include \
+<<<<<<< HEAD
 	-L $(shell brew --prefix readline)/lib -lreadline 
 # -static-libsan -fsanitize=address
 # -L $(shell brew --prefix readline)/lib -lhistory 
+=======
+	-L $(shell brew --prefix readline)/lib -lreadline \
+	-L $(shell brew --prefix readline)/lib -lhistory
+# -static-libsan -fsanitize=address
+>>>>>>> d687e64a41f3f9dbaf5b91491996a73737548f97
 NAME		:= minishell
 MAIN		:= minishell.c
 HEADER		:= minishell.h
@@ -79,8 +85,7 @@ ${EXEC_ARCH}:
 
 ${NAME}: ${LIBFT_ARCH} ${LEXR_ARCH} ${PARS_ARCH} ${EXEC_ARCH} ${HEADER}
 	@${CC} ${CC_FLAGS} ${MAIN} -o ${NAME} ${ARCHIVES} -g
-	@printf "\n${MGN}Executable ${GRA}${NAME}${MGN} created \
-		successfully${NNN} :)\n\n"
+	@printf "\n${MGN}Executable ${GRA}${NAME}${MGN} created${NNN} :)\n\n"
 
 clean:
 	@make -C libft/ clean
