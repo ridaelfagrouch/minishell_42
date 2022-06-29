@@ -14,10 +14,31 @@
 
 /* -------------------------------------------------------------------------- */
 
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
+
+char	*put_expand(char *ptr)
+{
+	int i;
+
+	i = 0;
+	while (ptr[i])
+	{
+		if (ptr[i] == '$')
+			ptr[i] = EXPAND;
+		i++;
+	}
+	return (ptr);
+}
+
 void	here_doc_(char *delimiter)
 {
 	char	*ptr;
 
+	ptr = NULL;
 	g_glob.heredoc_fd = open(".tmp", O_CREAT | O_RDWR | O_TRUNC, 00777);
 	if (g_glob.heredoc_fd < 0)
 	{
@@ -33,13 +54,12 @@ void	here_doc_(char *delimiter)
 			free(ptr);
 			break ;
 		}
-		write(g_glob.heredoc_fd, ptr, ft_strlen(ptr));
-		write(g_glob.heredoc_fd, "\n", 1);
+		ptr = input_expand(put_expand(ptr));
+		write(file1, ptr, ft_strlen(ptr));
+		write(file1, "\n", 1);
 		free(ptr);
 	}
-	close(g_glob.heredoc_fd);
-	unlink(".tmp");
-	g_glob.heredoc_fd = -1;
+	close(file1);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -181,7 +201,8 @@ int	handle_execution(t_info *usr_input, t_env_vars **env_head)
 			handel_cmd_herdoc(&node, &execut, env_head);
 		node = node->next;
 	}
-	return (!(close(g_glob.heredoc_fd) || unlink(".tmp") || reset_stds_fd()));
+	// unlink(".tmp");
+	return (reset_stds_fd(), 0);
 }
 
 /* -------------------------------------------------------------------------- */

@@ -14,19 +14,6 @@
 
 /* -------------------------------------------------------------------------- */
 
-char	*check_str_cmd(char *str)
-{
-	char	**split;
-	char	*cmd;
-
-	split = ft_split_cmd(str);
-	cmd = ft_strdup(split[0]);
-	free_split(split);
-	return (cmd);
-}
-
-/* -------------------------------------------------------------------------- */
-
 void	while_operator(t_info *info, char *str)
 {
 	t_quote	*quotes;
@@ -38,7 +25,7 @@ void	while_operator(t_info *info, char *str)
 	check = -1;
 	while (info->input[info->i] && check_operator(info, 1))
 	{
-		if (info->input[info->i] == '\"' || info->input[info->i] == '\'')
+		if (info->input[info->i] == DQ || info->input[info->i] == SQ)
 			handle_quotes(&quotes, info->input, info->i, &check);
 		if (info->input[info->i] == ' ' && !quoted(quotes, 0))
 			break ;
@@ -59,18 +46,25 @@ void	scape_space(t_info *info)
 
 int	check_builtins(char *str)
 {
-	int	i;
+	int		i;
+	char	*tmp1;
+	char	*ptr;
 
 	i = 0;
-	while (str[i])
+	tmp1 = ft_strdup(str);
+	tmp1 = ft_space(tmp1);
+	ptr = ft_strdup(str);
+	if (ft_strchr(tmp1, SPACE_) == NULL)
+		ptr = remove_dq_sq(ptr);
+	while (ptr[i])
 	{
-		str[i] = ft_tolower(str[i]);
+		ptr[i] = ft_tolower(ptr[i]);
 		i++ ;
 	}
-	if (ft_strcmp(str, "echo") == 0 || ft_strcmp(str, "cd") == 0 || \
-		ft_strcmp(str, "pwd") == 0 || ft_strcmp(str, "export") == 0 || \
-		ft_strcmp(str, "unset") == 0 || ft_strcmp(str, "env") == 0 || \
-		ft_strcmp(str, "exit") == 0)
+	if (ft_strcmp(ptr, "echo") == 0 || ft_strcmp(ptr, "cd") == 0 || \
+		ft_strcmp(ptr, "pwd") == 0 || ft_strcmp(ptr, "export") == 0 || \
+		ft_strcmp(ptr, "unset") == 0 || ft_strcmp(ptr, "env") == 0 || \
+		ft_strcmp(ptr, "exit") == 0)
 		return (1);
 	return (0);
 }
