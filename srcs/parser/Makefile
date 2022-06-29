@@ -45,15 +45,14 @@ NAME		:= libparser.a
 
 all: title ${NAME}
 title:
-	@printf "\n${YEL}\033[4mEntering ${GRA}${PROJECT}${YEL}'s makefile:${NC}\t"
+	@printf "\n${YEL}\033[4mEntering ${GRA}${PROJECT}${YEL}'s makefile:${NC} "
 
 ${NAME}: ${OBJS_DIR} ${OBJS} ${HEADER}
 	@ar -rcs ${NAME} ${OBJS}
-	@printf "\n$(CYN)Archive file $(GRA)$(NAME)$(CYN) created successfully$(NC)\n"
+	@printf "$(CYN)Archive file $(GRA)$(NAME)$(CYN) created $(NC)\n"
 
 ${OBJS_DIR}%.o: ${SRCS_DIR}%.c ${HEADER}
 	@${CC} ${CC_FLAGS} -c $< -o $@
-	@printf "${GRN}X${NC}"
 
 $(OBJS_DIR):
 	@mkdir $(OBJS_DIR)

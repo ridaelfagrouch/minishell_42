@@ -60,10 +60,10 @@ typedef struct s_execut
 
 /* --------------------------------- PROTOTYPES ----------------------------- */
 // env_init_2nd.c
-int		set_default_pwd(t_env_vars **head);
-int		set_shell_lvl(t_env_vars **head);
-void	free_env_linked_list(t_env_vars *head);
-void	free_env(t_env_vars *head);
+int			set_default_pwd(t_env_vars **head);
+int			set_shell_lvl(t_env_vars **head);
+void		free_env_linked_list(t_env_vars *head);
+void		free_env(t_env_vars *head);
 
 // env_init_1st.c
 t_env_vars	*conv_env(char **envp);
@@ -91,8 +91,8 @@ int			redirect_input(int new_input_fd);
 int			redirect_output(int new_output_fd);
 int			store_stds(t_execut *execut);
 
-void	free_two_dim_arr(char **sorted_env);
+void		free_two_dim_arr(char **sorted_env);
 
-void	ignore_signal(void);
+void		ignore_signal(void);
 
 #endif

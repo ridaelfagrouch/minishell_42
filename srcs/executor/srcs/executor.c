@@ -14,40 +14,32 @@
 
 /* -------------------------------------------------------------------------- */
 
-/* -------------------------------------------------------------------------- */
-
-/* -------------------------------------------------------------------------- */
-
-/* -------------------------------------------------------------------------- */
-
 void	here_doc_(char *delimiter)
 {
 	char	*ptr;
-	int		file1;
 
-	file1 = open(".tmp", O_CREAT | O_RDWR | O_TRUNC, 00777);
-	if (file1 < 0)
+	g_glob.heredoc_fd = open(".tmp", O_CREAT | O_RDWR | O_TRUNC, 00777);
+	if (g_glob.heredoc_fd < 0)
 	{
-		write(2, "error! opening the tmp\n", 24);
+		print_err("heredoc", "internal error detected", NULL);
 		return ;
 	}
-	g_glob.heredoc_fd = file1;
+	g_glob.heredoc_fd = g_glob.heredoc_fd;
 	while (1)
 	{
-		ptr = readline("> ");		// Further testing needed
-		if (ptr == NULL)
-			break ;
-		if (ft_strcmp(ptr, delimiter) == 0)
+		ptr = readline("> ");
+		if (ptr == NULL || ft_strcmp(ptr, delimiter) == 0)
 		{
 			free(ptr);
 			break ;
 		}
-		write(file1, ptr, ft_strlen(ptr));
-		write(file1, "\n", 1);
+		write(g_glob.heredoc_fd, ptr, ft_strlen(ptr));
+		write(g_glob.heredoc_fd, "\n", 1);
 		free(ptr);
 	}
-	close(file1);
+	close(g_glob.heredoc_fd);
 	unlink(".tmp");
+	g_glob.heredoc_fd = -1;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -124,34 +116,41 @@ void	handel_cmd_exec(t_node	*node, t_env_vars **env_head, t_execut *execut)
 
 /* -------------------------------------------------------------------------- */
 
-void	handel_cmd_herdoc(t_node **node, t_execut *execut, t_env_vars **env_head)
+void	handle_heredoc(t_node **node, t_execut *execut)
 {
 	int	status;
 
+	g_glob.heredoc_pid = fork();
+	if (g_glob.heredoc_pid == 0)
+	{
+		here_doc_((*node)->data);
+		exit(0);
+	}
+	waitpid(g_glob.heredoc_pid, &status, 0);
+	g_glob.exit = WEXITSTATUS(status);
+	if (!WIFEXITED(status))
+	{
+		while ((*node)->next)
+			*node = (*node)->next;
+		g_glob.exit = 1;
+	}
+	execut->in_fd = open(".tmp", O_RDONLY, 00777);
+	g_glob.heredoc_fd = execut->in_fd;
+}
+
+/* -------------------------------------------------------------------------- */
+
+void	handel_cmd_herdoc(t_node **node, t_execut *execut, t_env_vars **head)
+{
 	if ((*node)->token == COMMAND)
 	{
 		if ((*node)->next && (*node)->next->token == PIPE)
-			handel_pipe_exe((*node), env_head, execut);
+			handel_pipe_exe((*node), head, execut);
 		else
-			handel_cmd_exec((*node), env_head, execut);
+			handel_cmd_exec((*node), head, execut);
 	}
 	else if ((*node)->token == HAREDOC)
-	{
-		g_glob.heredoc_pid = fork();
-		if (g_glob.heredoc_pid == 0)
-		{
-			here_doc_((*node)->data);
-			exit(0);
-		}
-		waitpid(g_glob.heredoc_pid, &status, 0);
-		if (!WIFEXITED(status))
-		{
-			while ((*node)->next)
-				*node = (*node)->next;
-			g_glob.exit = 1;
-		}
-		execut->in_fd = open(".tmp", O_RDONLY, 00777);
-	}
+		handle_heredoc(node, execut);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -182,7 +181,7 @@ int	handle_execution(t_info *usr_input, t_env_vars **env_head)
 			handel_cmd_herdoc(&node, &execut, env_head);
 		node = node->next;
 	}
-	return (reset_stds_fd(), 0);
+	return (!(close(g_glob.heredoc_fd) || unlink(".tmp") || reset_stds_fd()));
 }
 
 /* -------------------------------------------------------------------------- */

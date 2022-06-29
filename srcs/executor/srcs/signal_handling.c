@@ -39,7 +39,6 @@ void	restore_ctrl(void)
 void	handle_sig(int signum, siginfo_t *siginfo, void *sigcontext)
 {
 	(void)sigcontext;
-
 	if (signum == SIGINT && siginfo->si_signo == SIGINT)
 	{
 		if (g_glob.heredoc_pid == 0)
@@ -55,7 +54,7 @@ void	handle_sig(int signum, siginfo_t *siginfo, void *sigcontext)
 		}
 		printf("\n");
 		rl_on_new_line();
-		rl_replace_line("", 0);
+		//rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }
