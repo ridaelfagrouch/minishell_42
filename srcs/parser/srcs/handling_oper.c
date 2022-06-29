@@ -54,7 +54,7 @@ void	handel_in(t_info *info, t_cmds *cmds, char *str)
 	}
 	else
 		free(cmds->data);
-	ft_bzero(str, 50);
+	ft_bzero(str, 500);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -72,7 +72,7 @@ void	handel_herdoc(t_info *info, t_cmds *cmds, char *str)
 	cmds->path = NULL;
 	cmds->file_fd = -1;
 	add_back(&info->head, new_node(cmds));
-	ft_bzero(str, 50);
+	ft_bzero(str, 500);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -92,7 +92,7 @@ int	handel_out(t_info *info, t_cmds *cmds, char *str)
 	scape_space(info);
 	while_operator(info, str);
 	out_check_str(str, i, cmds);
-	if (print_filetype(str))
+	if (print_filetype(str, 0))
 		return (1);
 	cmds->path = NULL;
 	if (cmds->j == 0)
@@ -102,7 +102,7 @@ int	handel_out(t_info *info, t_cmds *cmds, char *str)
 	}
 	else
 		free(cmds->data);
-	ft_bzero(str, 50);
+	ft_bzero(str, 500);
 	return (0);
 }
 
@@ -130,9 +130,9 @@ int	handel_command(t_info *info, t_cmds *cmds, char *str)
 	else
 		cmds->path = NULL;
 	free_split(split_cmd);
-	ft_bzero(str, 50);
+	ft_bzero(str, 500);
 	add_back(&info->head, new_node(cmds));
-	ft_bzero(str, 50);
+	ft_bzero(str, 500);
 	return (0);
 }
 

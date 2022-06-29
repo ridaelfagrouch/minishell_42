@@ -57,6 +57,7 @@ t_node	*new_node(t_cmds *cmds)
 	{
 		node->cmd_split = ft_split_cmd(cmds->data);
 		rm_dqsq_cmds(node);
+		// printf("%s | %s \n", node->cmd_split[0], node->cmd_split[1]);
 	}
 	else
 		node->cmd_split = NULL;
@@ -64,10 +65,7 @@ t_node	*new_node(t_cmds *cmds)
 		free(cmds->data);
 	if (cmds->path)
 		free(cmds->path);
-	// printf ("token:%d | data: %s | path: %s | file_fd = %d\n", \
-	// 	node->token, node->data, node->path, node->file_fd);
-	// if (node->token == COMMAND)
-	// 	print_split(node->cmd_split);
+	// printf("token: %d | data: %s | fd: %d\n", node->token, node->data, node->file_fd);
 	return (node);
 }
 

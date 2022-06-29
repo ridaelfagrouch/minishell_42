@@ -100,7 +100,7 @@ char	*get_path(char *av)
 	data->cmd_split = NULL;
 	tmp1 = ft_strdup(av);
 	tmp1 = ft_space(tmp1);
-	if (ft_strchr(tmp1, SPACE_))
+	if (ft_strchr(tmp1, SPACE_) || ft_strchr(tmp1, ' ') == NULL)
 		av = remove_dq_sq(av);
 	if (check_cmd(data, av))
 		return (NULL);

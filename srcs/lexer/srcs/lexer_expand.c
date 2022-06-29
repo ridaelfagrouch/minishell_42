@@ -77,10 +77,8 @@ void	get_expand_env(t_info *info, t_expand *expd)
 {
 	info->input[info->i] = '$';
 	if (check_expand(info))
-	{
 		while (check_expand(info))
 			expd->str[expd->i++] = info->input[info->i++];
-	}
 	else
 		expd->str[expd->i] = '$';
 	expd->ptr = info->input;
@@ -95,8 +93,8 @@ char	*input_expand(t_info *info)
 
 	info->i = -1;
 	expd.i = 0;
-	expd.str = (char *)malloc(50);
-	ft_bzero(expd.str, 50);
+	expd.str = (char *)malloc(100);
+	ft_bzero(expd.str, 100);
 	while (info->input[++(info->i)])
 	{
 		if (info->input[info->i] == EXPAND)
@@ -107,7 +105,7 @@ char	*input_expand(t_info *info)
 				info->input = \
 				ft_strdup(replaceword(info->input, expd.str, " "));
 				expd.i = 0;
-				ft_bzero(expd.str, 50);
+				ft_bzero(expd.str, 100);
 				continue ;
 			}
 			info->input = \
