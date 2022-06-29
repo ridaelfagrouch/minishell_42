@@ -42,17 +42,14 @@ export TITLE
 
 # ---------------------------------------------------------------------------- #
 CC			:= gcc
-CC_FLAGS	:= -Wall -Wextra -Werror -lreadline \
-	-I $(shell brew --prefix readline)/include \
-<<<<<<< HEAD
-	-L $(shell brew --prefix readline)/lib -lreadline 
-# -static-libsan -fsanitize=address
+CC_FLAGS	:= -Wall -Wextra -Werror \
+		-I $(shell brew --prefix readline)/include \
+		-L $(shell brew --prefix readline)/lib -lreadline \
+	# -static-libsan -fsanitize=address
 # -L $(shell brew --prefix readline)/lib -lhistory 
-=======
-	-L $(shell brew --prefix readline)/lib -lreadline \
-	-L $(shell brew --prefix readline)/lib -lhistory
+# -L $(shell brew --prefix readline)/lib -lreadline 
+# -L $(shell brew --prefix readline)/lib -lhistory
 # -static-libsan -fsanitize=address
->>>>>>> d687e64a41f3f9dbaf5b91491996a73737548f97
 NAME		:= minishell
 MAIN		:= minishell.c
 HEADER		:= minishell.h

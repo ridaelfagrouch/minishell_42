@@ -39,13 +39,8 @@ void	here_doc_(char *delimiter)
 	char	*ptr;
 
 	ptr = NULL;
-<<<<<<< HEAD
-	file1 = open(".tmp", O_CREAT | O_RDWR | O_TRUNC, 00777);
-	if (file1 < 0)
-=======
 	g_glob.heredoc_fd = open(".tmp", O_CREAT | O_RDWR | O_TRUNC, 00777);
 	if (g_glob.heredoc_fd < 0)
->>>>>>> d687e64a41f3f9dbaf5b91491996a73737548f97
 	{
 		print_err("heredoc", "internal error detected", NULL);
 		return ;
@@ -53,22 +48,18 @@ void	here_doc_(char *delimiter)
 	g_glob.heredoc_fd = g_glob.heredoc_fd;
 	while (1)
 	{
-<<<<<<< HEAD
-		ptr = readline("> ");	// Further testing needed
-=======
 		ptr = readline("> ");
->>>>>>> d687e64a41f3f9dbaf5b91491996a73737548f97
 		if (ptr == NULL || ft_strcmp(ptr, delimiter) == 0)
 		{
 			free(ptr);
 			break ;
 		}
 		ptr = input_expand(put_expand(ptr));
-		write(file1, ptr, ft_strlen(ptr));
-		write(file1, "\n", 1);
+		write(g_glob.heredoc_fd, ptr, ft_strlen(ptr));
+		write(g_glob.heredoc_fd, "\n", 1);
 		free(ptr);
 	}
-	close(file1);
+	close(g_glob.heredoc_fd);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -91,12 +82,12 @@ void	redirect_in_out_plus(t_execut *execut, int flag)
 	if (execut->in_fd != -1)
 		redirect_input(execut->in_fd);
 	if (execut->out_fd != -1)
-	{
 		redirect_output(execut->out_fd);
+	if (execut->out_fd != -1 && flag == 0)
+	{
+		execut->pipe_fd[1] = execut->out_fd;
 		execut->out_fd = -1;
 	}
-	else if (execut->out_fd == -1 && flag == 0)
-		redirect_output(execut->pipe_fd[1]);
 	else if (flag == 1)
 		dup2(g_glob.d_stdout, STDOUT_FILENO);
 }
