@@ -88,6 +88,8 @@ void	redirect_in_out_plus(t_execut *execut, int flag)
 		execut->pipe_fd[1] = execut->out_fd;
 		execut->out_fd = -1;
 	}
+	if (execut->out_fd == -1 && flag == 0)
+		redirect_output(execut->pipe_fd[1]);
 	else if (flag == 1)
 		dup2(g_glob.d_stdout, STDOUT_FILENO);
 }
