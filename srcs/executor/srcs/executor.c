@@ -39,6 +39,7 @@ void	here_doc_(char *delimiter)
 	char	*ptr;
 	int		file1;
 
+	ptr = NULL;
 	file1 = open(".tmp", O_CREAT | O_RDWR | O_TRUNC, 00777);
 	if (file1 < 0)
 	{
@@ -49,9 +50,7 @@ void	here_doc_(char *delimiter)
 	while (1)
 	{
 		ptr = readline("> ");	// Further testing needed
-		if (ptr == NULL)
-			break ;
-		if (ft_strcmp(ptr, delimiter) == 0)
+		if (ptr == NULL || ft_strcmp(ptr, delimiter) == 0)
 		{
 			free(ptr);
 			break ;
@@ -196,7 +195,7 @@ int	handle_execution(t_info *usr_input, t_env_vars **env_head)
 			handel_cmd_herdoc(&node, &execut, env_head);
 		node = node->next;
 	}
-	// unlink(".tmp");
+	unlink(".tmp");
 	return (reset_stds_fd(), 0);
 }
 

@@ -44,8 +44,8 @@ export TITLE
 CC			:= gcc
 CC_FLAGS	:= -Wall -Wextra -Werror \
 	-I $(shell brew --prefix readline)/include \
-	-L $(shell brew --prefix readline)/lib -lreadline \
-	-static-libsan -fsanitize=address
+	-L $(shell brew --prefix readline)/lib -lreadline 
+# -static-libsan -fsanitize=address
 # -L $(shell brew --prefix readline)/lib -lhistory 
 NAME		:= minishell
 MAIN		:= minishell.c

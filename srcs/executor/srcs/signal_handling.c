@@ -49,7 +49,7 @@ void	handle_sig(int signum, siginfo_t *siginfo, void *sigcontext)
 			if (g_glob.heredoc_fd >= 0)
 				close (g_glob.heredoc_fd);
 			kill(g_glob.heredoc_pid, SIGTERM);
-			// unlink(".tmp");
+			unlink(".tmp");
 			g_glob.heredoc_fd = -1;
 			g_glob.heredoc_pid = -1;
 		}
