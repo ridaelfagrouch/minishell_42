@@ -90,14 +90,14 @@ int	store_data(t_info *info)
 	char	*str;
 	t_cmds	*cmds;
 
-	info->i = -1;
+	info->i = 0;
 	info->head = NULL;
 	str = (char *)malloc(sizeof(char) * 500);
 	cmds = (t_cmds *)malloc(sizeof(t_cmds));
 	ft_bzero(str, 500);
 	cmds->i = 0;
 	cmds->j = 0;
-	while (info->input[info->i++])
+	while (info->input[info->i])
 	{
 		if (operator_statements(info))
 		{
@@ -111,6 +111,7 @@ int	store_data(t_info *info)
 			cmds->i = 0;
 			handel_pipe(info, cmds);
 		}
+		info->i++;
 	}
 	return (0);
 }
