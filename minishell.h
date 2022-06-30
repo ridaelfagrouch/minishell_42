@@ -52,7 +52,6 @@
 # define RL_SUCCESS		RL_GRN"minishell-6.9 $> "RL_NNN
 # define RL_FAILURE		RL_RED"minishell-6.9 $> "RL_NNN
 
-# define SPECIAL_		"|&<>;"
 # define WHITESPACE		" \r\v\n\t\f"
 
 /* --------------------------------- TYPEDEFs ------------------------------- */
@@ -145,7 +144,7 @@ t_glob_info	g_glob;
 
 /* --------------------------------- PROTOTYPES ----------------------------- */
 int		lexer_start(t_info *info);
-int		parcer(char *str, t_info *info);
+int		parcer(t_info *info);
 
 int		handle_execution(t_info *usr_input, t_env_vars **env_head);
 void	handle_signals(void);

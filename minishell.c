@@ -32,9 +32,8 @@ char	*get_env(const char *var, t_env_vars *env_head)
 
 static int	prompt(t_info *info, char **envp)
 {
-	char		*rdln_output;
-	char		*str;
-	t_env_vars	*env_head;
+	char				*rdln_output;
+	t_env_vars			*env_head;
 
 	g_glob.exit = 0;
 	env_head = conv_env(envp);
@@ -62,11 +61,9 @@ static int	prompt(t_info *info, char **envp)
 		if (!lexer_start(info) || parcer(str, info))
 		{
 			free(info->input);
-			free(str);
 			continue ;
 		}
 		free(info->input);
-		free(str);
 		handle_execution(info, &env_head);
 	}
 	return (0);

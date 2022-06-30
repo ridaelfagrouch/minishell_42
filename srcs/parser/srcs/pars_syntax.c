@@ -43,23 +43,18 @@ void	removechar(char *str, char chartoremmove)
 
 int	check_syntax3(char c, char check, int *count)
 {
-	if (check_special(SPECIAL_, c) != -1)
+	if (c == PIPE || c == IN || c == OUT || c == APPEND || c == HAREDOC)
 	{
 		if (check != c)
 			return (printf ("minishell: parse error near! 3\n"), 1);
 		if (check == c)
 		{
-			if (check == '|' || check == '&' || check == ';')
+			if (check == PIPE)
 				return (printf ("minishell: parse error near! 4\n"), 1);
 			(*count)++;
 			if (*count == 2)
 				return (printf ("minishell: parse error near! 5\n"), 1);
 		}
-	}
-	if (check == '&' && *count == 0)
-	{
-		printf ("error: syntax!\n");
-		return (1);
 	}
 	return (0);
 }
@@ -76,21 +71,30 @@ void	init_syntax_data(t_syntax *synta)
 int	check_syntax2(char *str)
 {
 	t_syntax	synta;
-	t_quote		*quotes;
 
-	quotes = NULL;
 	init_syntax_data(&synta);
 	while (str[synta.i])
 	{
-		if (str[synta.i] == '\"' || str[synta.i] == '\'')
-			handle_quotes(&quotes, str, synta.i, &synta.dq);
-		if (check_special(SPECIAL_, str[synta.i]) != -1 && !quoted(quotes, 0))
+		if (check_oper(str, synta.i) == 1)
 		{
-			if ((unsigned long)synta.i == (ft_strlen(str) - 1))
-				return (printf ("minishell: parse error near! 6\n"), 1);
-			synta.check = str[synta.i++];
-			if (check_syntax3(str[synta.i], synta.check, &synta.cout))
-				return (1);
+			if (str[synta.i] == HAREDOC || str[synta.i] == APPEND)
+			{
+				if ((unsigned long)synta.i == (ft_strlen(str) - 2))
+					return (printf ("minishell: parse error near! 6\n"), 1);
+				synta.check = str[synta.i];
+				synta.i += 2;
+				if (check_syntax3(str[synta.i], synta.check, &synta.cout))
+					return (1);
+
+			}
+			else
+			{
+				if ((unsigned long)synta.i == (ft_strlen(str) - 1))
+					return (printf ("minishell: parse error near! 6\n"), 1);
+				synta.check = str[synta.i++];
+				if (check_syntax3(str[synta.i], synta.check, &synta.cout))
+					return (1);
+			}
 		}
 		else
 		{

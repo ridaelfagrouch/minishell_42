@@ -14,26 +14,26 @@
 
 /* -------------------------------------------------------------------------- */
 
-int	check_special(char *str, int c)
-{
-	int		i;
+// int	check_special(char *str, int c)
+// {
+// 	int		i;
 
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == (char)c)
-		{
-			if (str[i + 1] == (char)c)
-			{
-				i += 2;
-				continue ;
-			}
-			return (i);
-		}
-		i++;
-	}
-	return (-1);
-}
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		if (str[i] == (char)c)
+// 		{
+// 			if (str[i + 1] == (char)c)
+// 			{
+// 				i += 2;
+// 				continue ;
+// 			}
+// 			return (i);
+// 		}
+// 		i++;
+// 	}
+// 	return (-1);
+// }
 
 /* -------------------------------------------------------------------------- */
 

@@ -69,9 +69,11 @@ int	all_operator(t_info *info, char *str, t_cmds *cmds)
 		}
 	}
 	else if (info->input[info->i] == IN)
-		handel_in(info, cmds, str);
-	else if (info->input[info->i] == OUT || \
-		info->input[info->i] == APPEND)
+	{
+		if (handel_in(info, cmds, str))
+			return (1);
+	}
+	else if (info->input[info->i] == OUT || info->input[info->i] == APPEND)
 	{
 		if (handel_out(info, cmds, str))
 			return (1);
