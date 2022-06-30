@@ -94,6 +94,6 @@ int			store_stds(t_execut *execut);
 
 void		free_two_dim_arr(char **sorted_env);
 
-void		ignore_signal(void);
+void		ignore_signals(void);
 
 #endif

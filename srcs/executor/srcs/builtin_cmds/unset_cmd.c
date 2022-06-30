@@ -42,17 +42,22 @@ int	unset_cmd(char **input, t_env_vars **env_head)
 {
 	t_env_vars	*node;
 	int			i;
+	int			exit_status;
 
 	i = 0;
+	exit_status = 0;
 	while (input[++i])
 	{
 		node = get_env_var(input[i], *env_head);
 		if (node == NULL)
+		{
+			exit_status = 1;
 			print_err("unset", "not a valid identifier", input[i]);
+		}
 		else
 			delete_node(node, env_head);
 	}
-	return (0);
+	return (exit_status);
 }
 
 /* -------------------------------------------------------------------------- */

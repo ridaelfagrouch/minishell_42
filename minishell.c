@@ -58,7 +58,7 @@ static int	prompt(t_info *info, char **envp)
 		if (*(info->input) == '\0')
 			continue ;
 		add_history(rdln_output);
-		str = ft_strdup(info->input);
+		free(rdln_output);
 		if (!lexer_start(info) || parcer(str, info))
 		{
 			free(info->input);

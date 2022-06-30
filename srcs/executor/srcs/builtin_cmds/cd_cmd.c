@@ -44,7 +44,8 @@ static int	update_old_pwd(t_env_vars **env_head)
 	t_env_vars	*env_node;
 
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
-		return (-1);
+		return (print_err("cd", "error retrieving current directory: getcwd:", \
+			"cannot access parent directories: No such file or directory"), -1);
 	old_wd = ft_strdup(cwd);
 	env_node = get_env_var("OLDPWD", *env_head);
 	if (env_node == NULL)

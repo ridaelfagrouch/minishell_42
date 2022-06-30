@@ -101,26 +101,35 @@ int	print_sorted_env(t_env_vars *env_head)
 
 /* -------------------------------------------------------------------------- */
 
+int	check_env_key(char *key)
+{
+	int	i;
+
+	i = 0;
+	while (key[i] && !(key[i] == '+' && key[i + 1] == '=') && key[i] != '=')
+	{
+		if (i == 0 && !ft_isalpha(key[i]) && key[i] != '_')
+			return (1);
+		else if (!ft_isalnum(key[i]) && key[i] != '_')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+/* -------------------------------------------------------------------------- */
+
 int	export_cmd(char **env_var, t_env_vars **env_head)
 {
 	int	i;
-	int	j;
 
 	if (env_var[1] == NULL)
 		return (print_sorted_env(*env_head));
 	i = 1;
 	while (env_var[i])
 	{
-		if (!env_var[i] || !env_var[i][0] || \
-			(!ft_isalpha(env_var[i][0]) && env_var[i][0] != '_'))
+		if (check_env_key(env_var[i]))
 			return (print_err("export", env_var[i], "not a valid identifier"), \
 				1);
-		j = 0;
-		while (env_var[i][++j] && env_var[i][j] != '=')
-			if (env_var[i][j] == '+' || env_var[i][j] == '-')
-				return (\
-					print_err("export", env_var[i], "not a valid identifier"), \
-					-1);
 		if (process_env_var(env_head, env_var[i++]))
 			return (1);
 	}

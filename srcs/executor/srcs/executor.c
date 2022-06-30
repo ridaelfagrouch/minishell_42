@@ -81,11 +81,13 @@ void	redirect_in_out_plus(t_execut *execut, int flag)
 		execut->in_fd = -1;
 	}
 	if (execut->out_fd != -1)
-	{
 		redirect_output(execut->out_fd);
+	if (execut->out_fd != -1 && flag == 0)
+	{
+		execut->pipe_fd[1] = execut->out_fd;
 		execut->out_fd = -1;
 	}
-	else if (execut->out_fd == -1 && flag == 0)
+	if (execut->out_fd == -1 && flag == 0)
 		redirect_output(execut->pipe_fd[1]);
 	else if (flag == 1)
 		dup2(g_glob.d_stdout, STDOUT_FILENO);
@@ -99,6 +101,7 @@ void	handel_pipe_exe(t_node *node, t_env_vars **env_head, t_execut *execut)
 	execut->pid = fork();
 	if (execut->pid == 0)
 	{
+		// ignore_signals();
 		redirect_in_out_plus(execut, 0);
 		exit(execute_command(node, env_head));
 	}
@@ -123,6 +126,7 @@ void	handel_cmd_exec(t_node *node, t_env_vars **env_head, t_execut *execut)
 		execut->pid = fork();
 		if (execut->pid == 0)
 		{
+			// ignore_signals();
 			redirect_in_out_plus(execut, 1);
 			execut->exit_status = execute_command(node, env_head);
 			exit(execut->exit_status);
@@ -142,6 +146,7 @@ void	handle_heredoc(t_node **node, t_execut *execut)
 	g_glob.heredoc_pid = fork();
 	if (g_glob.heredoc_pid == 0)
 	{
+		// ignore_signals();
 		here_doc_((*node)->data);
 		exit(0);
 	}
@@ -183,6 +188,7 @@ int	handle_execution(t_info *usr_input, t_env_vars **env_head)
 	node = usr_input->head;
 	while (node)
 	{
+		printf("touken: %d | fd: %d \n", node->token, node->file_fd);
 		if (node->token == OUT || node->token == APPEND)
 			execut.out_fd = node->file_fd;
 		else if (node->token == IN)
@@ -200,6 +206,7 @@ int	handle_execution(t_info *usr_input, t_env_vars **env_head)
 			handel_cmd_herdoc(&node, &execut, env_head);
 		node = node->next;
 	}
+	unlink(".tmp");
 	return (reset_stds_fd(), 0);
 }
 

@@ -39,13 +39,3 @@ int	pwd_cmd(char **input, t_env_vars **env_head)
 }
 
 /* -------------------------------------------------------------------------- */
-
-/*
-	CMD RULES:
-
-	Print the absolute pathname of the current working directory. The return
-	status is zero unless an error is encountered while determining the name
-	of the current directory or an invalid option is supplied.
-*/
-
-/* -------------------------------------------------------------------------- */
