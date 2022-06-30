@@ -39,26 +39,16 @@ int	set_shell_lvl(t_env_vars **head)
 	t_env_vars	*node;
 	int			shlvl_int;
 	char		*shlvl_str;
-	char		*shlvl_env;
 
 	node = get_env_var("SHLVL", *head);
 	if (node == NULL)
 		return (process_env_var(head, "SHLVL=1"));
 	shlvl_int = ft_atoi(node->value);
 	shlvl_str = ft_itoa(++shlvl_int);
-	shlvl_env = ft_strjoin("SHLVL=", shlvl_str);
-	if (shlvl_env == NULL)
-		return (-1);
-	free(shlvl_str);
-	return (process_env_var(head, shlvl_env));
+	free(node->value);
+	node->value = shlvl_str;
+	return (0);
 }
-
-/* -------------------------------------------------------------------------- */
-
-// int	set_exec_path(t_env_vars *head)
-// {
-
-// }
 
 /* -------------------------------------------------------------------------- */
 

@@ -14,17 +14,34 @@
 
 /* -------------------------------------------------------------------------- */
 
+static int	echo_flag_is_valid(char *flag)
+{
+	int	i;
+
+	i = 1;
+	if (flag[0] != '-')
+		return (1);
+	while (flag[i])
+		if (flag[i++] != 'n')
+			return (0);
+	return (1);
+}
+
+/* -------------------------------------------------------------------------- */
+
 int	echo_cmd(char **input, t_env_vars **env_head)
 {
 	int	n_flag;
 	int	i;
 
 	(void)env_head;
-	n_flag = FALSE;
+	n_flag = 0;
 	i = 1;
-	while (input[i] && ft_strstr(input[i], "-n"))
+	while (input[i] && ft_strstr(input[i], "-n") && \
+		ft_strchr(input[i], '-') == ft_strrchr(input[i], '-') && \
+		echo_flag_is_valid(input[i]))
 	{
-		n_flag = TRUE;
+		n_flag = 1;
 		i++;
 	}
 	while (input[i])
@@ -37,7 +54,7 @@ int	echo_cmd(char **input, t_env_vars **env_head)
 		if (input[i])
 			printf(" ");
 	}
-	if (n_flag == FALSE)
+	if (n_flag == 0)
 		printf("\n");
 	return (0);
 }

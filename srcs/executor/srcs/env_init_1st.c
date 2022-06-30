@@ -14,19 +14,21 @@
 
 /* -------------------------------------------------------------------------- */
 
-static int	append_node(t_env_vars **head, char *key, char *value)
+static int	append_node(t_env_vars **head, char **key_value)
 {
 	t_env_vars	**tracer;
 
 	tracer = head;
-	while (*tracer)
+	while ((*tracer))
 		tracer = &(*tracer)->next;
 	(*tracer) = (t_env_vars *)ft_calloc(1, sizeof(t_env_vars));
 	if ((*tracer) == NULL)
 		return (print_err("malloc", NULL, "allocation failure"), \
 			free_env_linked_list(*head), -1);
-	(*tracer)->key = key;
-	(*tracer)->value = value;
+	(*tracer)->key = key_value[0];
+	(*tracer)->value = key_value[1];
+	(*tracer)->next = NULL;
+	free(key_value);
 	return (0);
 }
 
@@ -87,11 +89,12 @@ int	process_env_var(t_env_vars **head, char *env_var)
 	key_value = parse_env_var(*head, env_var);
 	node = get_env_var(key_value[0], *head);
 	if (node == NULL)
-		return (append_node(head, key_value[0], key_value[1]));
+		return (append_node(head, key_value));
 	free(node->key);
 	free(node->value);
 	node->key = key_value[0];
 	node->value = key_value[1];
+	free(key_value);
 	return (0);
 }
 

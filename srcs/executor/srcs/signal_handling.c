@@ -59,9 +59,7 @@ void	handle_sig(int signum, siginfo_t *siginfo, void *sigcontext)
 	(void)sigcontext;
 	if (signum == SIGINT && siginfo->si_signo == SIGINT)
 	{
-		if (g_glob.heredoc_pid == 0)
-			exit(0);
-		else if (g_glob.heredoc_pid != -1)
+		if (g_glob.heredoc_pid > 0)
 		{
 			if (g_glob.heredoc_fd >= 0)
 				close (g_glob.heredoc_fd);
@@ -77,7 +75,6 @@ void	handle_sig(int signum, siginfo_t *siginfo, void *sigcontext)
 	}
 }
 // ! Child process also gets SIGINT signal.
-// ! We need to handle SIGINT signal in child process.
 
 /* -------------------------------------------------------------------------- */
 

@@ -23,7 +23,7 @@ char	*get_env(const char *var, t_env_vars *env_head)
 	{
 		if (ft_strcmp(node->key, var) == 0)
 			return (node->value);
-		node = node->next;
+		node = node->next; 
 	}
 	return (NULL);
 }
@@ -34,12 +34,13 @@ static int	prompt(t_info *info, char **envp)
 {
 	char				*rdln_output;
 	t_env_vars			*env_head;
-
+	(void)envp;
 	g_glob.exit = 0;
 	env_head = conv_env(envp);
 	g_glob.env_head = &env_head;
 	g_glob.heredoc_pid = -1;
 	g_glob.heredoc_fd = -1;
+	(void)info;
 	handle_signals();
 	while (1)
 	{
@@ -57,17 +58,16 @@ static int	prompt(t_info *info, char **envp)
 		if (*(info->input) == '\0')
 			continue ;
 		add_history(rdln_output);
-		free(rdln_output);
-		if (!lexer_start(info) || parcer(str, info))
+		if (!lexer_start(info) || parcer(info))
 		{
 			free(info->input);
 			continue ;
 		}
-		free(info->input);
 		handle_execution(info, &env_head);
 	}
 	return (0);
 }
+// We have a problem with the readline library.
 
 /* -------------------------------------------------------------------------- */
 
