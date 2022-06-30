@@ -81,26 +81,8 @@ int	check_syntax1(char *str)
 	return (0);
 }
 
-/* -------------------------------------------------------------------------- */
-
-int	check_special_char(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == SEMICOLON)
-			return (printf ("minishell: parse error near3!\n"), 1);
-		i++;
-	}
-	return (0);
-}
-
 int	parcer(t_info *info)
 {
-	if (check_special_char(info->input1) || !ft_strcmp(info->input1, "\0"))
-		return (1);
 	if (check_syntax1(info->input1) || !ft_strcmp(info->input1, "\0"))
 		return (1);
 	if (check_syntax2(info->input1) || !ft_strcmp(info->input1, "\0"))

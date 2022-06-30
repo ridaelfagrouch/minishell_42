@@ -63,8 +63,6 @@ t_quote	*check_input(t_info *info)
 			handle_quotes(&quotes, info->input, i, &check);
 		else if (info->input[i] == '|' && !quoted(quotes, 0))
 			info->input[i] = PIPE;
-		else if (info->input[i] == ';' && !quoted(quotes, 0))
-			info->input[i] = SEMICOLON;
 		else if (check_dollar(info, i, quotes))
 			info->input[i] = EXPAND;
 		else if (!quoted(quotes, 0))

@@ -88,7 +88,7 @@ void	reverse_input(t_info *info)
 		}
 	}
 	free_reverse(&rev);
-	reverse_herdoc(info);
+	// reverse_herdoc(info);
 }
 
 /* -------------------------------------------------------------------------- */
