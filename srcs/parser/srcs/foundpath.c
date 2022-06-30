@@ -72,7 +72,7 @@ char	*found_path(t_data *data, char *av)
 int	check_cmd(t_data *data, char *av)
 {
 	if (ft_strchr(av, ' ') != 0 && (av[0] != '.' || av[0] != '/'))
-	{ 
+	{
 		data->cmd_split = ft_split(av, ' ');
 		if (data->cmd_split[0] == NULL)
 		{
@@ -93,7 +93,7 @@ char	*get_path(char *av)
 {
 	t_data	*data;
 	char	*tmp1;
-	
+
 	data = (t_data *) malloc(sizeof(t_data));
 	data->i = 0;
 	data->path = NULL;

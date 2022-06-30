@@ -72,7 +72,6 @@ t_quote	*check_input(t_info *info)
 	}
 	reverse_input(info);
 	info->input = ft_strdup(input_expand(info->input));
-	// printf("%s\n", info->input);
 	unclosed_quotes(quotes, info);
 	return (quotes);
 }

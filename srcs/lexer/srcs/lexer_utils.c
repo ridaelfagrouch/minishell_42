@@ -83,7 +83,7 @@ int	check_dollar(t_info *info, int i, t_quote *quotes)
 		return (0);
 	return (info->input[i] == '$' && info->input[i + 1]
 		&& (ft_isalnum(info->input[i + 1]) || info->input[i + 1] == '?' \
-			|| info->input[i + 1] == '_'|| info->input[i + 1] == '\'' || \
+			|| info->input[i + 1] == '_' || info->input[i + 1] == '\'' || \
 			info->input[i + 1] == '\"') && !quoted(quotes, 1));
 }
 

@@ -44,10 +44,8 @@ static int	prompt(t_info *info, char **envp)
 	handle_signals();
 	while (1)
 	{
-		if (g_glob.exit)
-			rdln_output = readline(RL_FAILURE);
-		else
-			rdln_output = readline(RL_SUCCESS);
+		handle_signals();
+		rdln_output = readline(RL_SUCCESS);
 		if (rdln_output == NULL)
 		{
 			printf("exit\n");
@@ -79,7 +77,6 @@ int	main(int ac, char **av, char **envp)
 	if (ft_strcmp(av[0], "./minishell") == 0 && ac == 1)
 		if (prompt(&info, envp) == 1)
 			return (1);
-	return (0);
 }
 
 /* -------------------------------------------------------------------------- */

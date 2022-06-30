@@ -28,20 +28,8 @@ int	handel_in(t_info *info, t_cmds *cmds, char *str)
 	info->i++;
 	scape_space(info);
 	while_operator(info, str);
-	if (access(str, F_OK) != 0)
-		return(printf("no such file or directory!\n"), 1);
-	if (access(str, R_OK | F_OK) == 0 || \
-		(access(str, F_OK) == 0 && access(str, R_OK) != 0))
-	{
-		cmds->data = ft_strdup(str);
-		if (access(str, F_OK) == 0 && access(str, R_OK) != 0)
-		{
-			cmds->file_fd = -1;
-			return(printf("minishell : %s : Permission denied\n", str), 1);
-		}
-		else if(access(str, R_OK | F_OK) == 0)
-			cmds->file_fd = open(cmds->data, O_RDONLY, 00500);
-	}
+	if (check_file_in_access(cmds, str))
+		return (1);
 	cmds->token = IN;
 	cmds->path = NULL;
 	if (cmds->i == 0)

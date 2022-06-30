@@ -58,4 +58,5 @@ int		print_filetype(char *input, int flag);
 char	*ft_space(char *str);
 void	handle_quotes1(t_quote **quotes, char *quote, int i, int *check);
 int		check_oper(char *str, int i);
+int		check_file_in_access( t_cmds *cmds, char *str);
 #endif
