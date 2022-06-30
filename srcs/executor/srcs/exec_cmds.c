@@ -90,16 +90,16 @@ int	execute_builtins(char **input, t_env_vars **env_vars)
 		return (env_cmd(input, env_vars));
 	else if (ft_strcmp_tl(input[0], "exit") == 0)
 		return (exit_cmd(input, env_vars), 0);
-	return (-1); // Add to lower to strcmp, !exit, !unset, !export
+	return (-1);
 }
 
 /* --------------------------------- MAIN ----------------------------------- */
 
 int	execute_command(t_node *node, t_env_vars **env_vars)
 {
-	if (ft_strstr_tl(BUILT_INS, node->cmd_split[0])) // To lower strstr
-		return(execute_builtins(node->cmd_split, env_vars));
-	return(execute_non_builtin(node->path, node->cmd_split, *env_vars));
+	if (ft_strstr_tl(BUILT_INS, node->cmd_split[0]))
+		return (execute_builtins(node->cmd_split, env_vars));
+	return (execute_non_builtin(node->path, node->cmd_split, *env_vars));
 }
 
 /* -------------------------------------------------------------------------- */

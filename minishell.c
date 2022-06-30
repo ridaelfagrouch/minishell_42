@@ -32,25 +32,25 @@ char	*get_env(const char *var, t_env_vars *env_head)
 
 static int	prompt(t_info *info, char **envp)
 {
-	char				*rdln_output;
-	char				*str;
-	t_env_vars			*env_head;
+	char		*rdln_output;
+	char		*str;
+	t_env_vars	*env_head;
 
 	g_glob.exit = 0;
 	env_head = conv_env(envp);
 	g_glob.env_head = &env_head;
 	g_glob.heredoc_pid = -1;
 	g_glob.heredoc_fd = -1;
+	handle_signals();
 	while (1)
 	{
-		handle_signals();
 		if (g_glob.exit)
 			rdln_output = readline(RL_FAILURE);
 		else
 			rdln_output = readline(RL_SUCCESS);
 		if (rdln_output == NULL)
 		{
-			printf("exit\n");;
+			printf("exit\n");
 			restore_ctrl();
 			return (g_glob.exit);
 		}

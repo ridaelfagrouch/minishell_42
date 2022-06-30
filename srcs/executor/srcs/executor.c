@@ -14,15 +14,9 @@
 
 /* -------------------------------------------------------------------------- */
 
-/* -------------------------------------------------------------------------- */
-
-/* -------------------------------------------------------------------------- */
-
-/* -------------------------------------------------------------------------- */
-
 char	*put_expand(char *ptr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (ptr[i])
@@ -33,6 +27,8 @@ char	*put_expand(char *ptr)
 	}
 	return (ptr);
 }
+
+/* -------------------------------------------------------------------------- */
 
 void	here_doc_(char *delimiter)
 {
@@ -55,11 +51,11 @@ void	here_doc_(char *delimiter)
 			break ;
 		}
 		ptr = input_expand(put_expand(ptr));
-		write(file1, ptr, ft_strlen(ptr));
-		write(file1, "\n", 1);
+		write(g_glob.heredoc_fd, ptr, ft_strlen(ptr));
+		write(g_glob.heredoc_fd, "\n", 1);
 		free(ptr);
 	}
-	close(file1);
+	close(g_glob.heredoc_fd);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -80,7 +76,10 @@ void	redirect_in_out(int *in_fd, int *out_fd)
 void	redirect_in_out_plus(t_execut *execut, int flag)
 {
 	if (execut->in_fd != -1)
+	{
 		redirect_input(execut->in_fd);
+		execut->in_fd = -1;
+	}
 	if (execut->out_fd != -1)
 	{
 		redirect_output(execut->out_fd);
@@ -94,7 +93,7 @@ void	redirect_in_out_plus(t_execut *execut, int flag)
 
 /* -------------------------------------------------------------------------- */
 
-void	handel_pipe_exe(t_node	*node, t_env_vars **env_head, t_execut *execut)
+void	handel_pipe_exe(t_node *node, t_env_vars **env_head, t_execut *execut)
 {
 	pipe(execut->pipe_fd);
 	execut->pid = fork();
@@ -111,7 +110,7 @@ void	handel_pipe_exe(t_node	*node, t_env_vars **env_head, t_execut *execut)
 
 /* -------------------------------------------------------------------------- */
 
-void	handel_cmd_exec(t_node	*node, t_env_vars **env_head, t_execut *execut)
+void	handel_cmd_exec(t_node *node, t_env_vars **env_head, t_execut *execut)
 {
 	if (execut->in_fd == -1 && ft_strstr_tl(BUILT_INS, node->cmd_split[0]))
 	{
@@ -197,11 +196,10 @@ int	handle_execution(t_info *usr_input, t_env_vars **env_head)
 			}
 			execut.in_fd = node->file_fd;
 		}
-		if (node->token == COMMAND || node->token == HAREDOC)
+		else if (node->token == COMMAND || node->token == HAREDOC)
 			handel_cmd_herdoc(&node, &execut, env_head);
 		node = node->next;
 	}
-	// unlink(".tmp");
 	return (reset_stds_fd(), 0);
 }
 
