@@ -43,13 +43,10 @@ static int	prompt(t_info *info, char **envp)
 	while (1)
 	{
 		handle_signals();
-		if (g_glob.exit)
-			rdln_output = readline(RL_FAILURE);
-		else
-			rdln_output = readline(RL_SUCCESS);
+		rdln_output = readline(RL_SUCCESS);
 		if (rdln_output == NULL)
 		{
-			printf("exit\n");;
+			printf("exit\n");
 			restore_ctrl();
 			return (g_glob.exit);
 		}
@@ -62,8 +59,8 @@ static int	prompt(t_info *info, char **envp)
 			free(info->input);
 			continue ;
 		}
-		free(info->input);
 		handle_execution(info, &env_head);
+		free(info->input);
 	}
 	return (0);
 }
@@ -78,7 +75,6 @@ int	main(int ac, char **av, char **envp)
 	if (ft_strcmp(av[0], "./minishell") == 0 && ac == 1)
 		if (prompt(&info, envp) == 1)
 			return (1);
-	return (0);
 }
 
 /* -------------------------------------------------------------------------- */

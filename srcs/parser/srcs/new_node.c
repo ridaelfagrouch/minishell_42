@@ -31,7 +31,7 @@ void	print_split(char **str)
 
 void	rm_dqsq_cmds(t_node *node)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (node->cmd_split[i])
@@ -57,7 +57,7 @@ t_node	*new_node(t_cmds *cmds)
 	{
 		node->cmd_split = ft_split_cmd(cmds->data);
 		rm_dqsq_cmds(node);
-		// printf("%s | %s \n", node->cmd_split[0], node->cmd_split[1]);
+		// print_split(node->cmd_split);
 	}
 	else
 		node->cmd_split = NULL;
@@ -65,7 +65,7 @@ t_node	*new_node(t_cmds *cmds)
 		free(cmds->data);
 	if (cmds->path)
 		free(cmds->path);
-	// printf("token: %d | data: %s | fd: %d\n", node->token, node->data, node->file_fd);
+	// printf("touken: %d\n", node->token );
 	return (node);
 }
 
