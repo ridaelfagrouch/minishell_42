@@ -105,6 +105,7 @@ typedef struct s_cmds
 typedef struct s_info
 {
 	char			*input;
+	char			*input1;
 	int				uncqu;
 	int				i;
 	t_node			*head;

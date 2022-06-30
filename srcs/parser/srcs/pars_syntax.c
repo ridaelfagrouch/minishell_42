@@ -46,7 +46,12 @@ int	check_syntax3(char c, char check, int *count)
 	if (c == PIPE || c == IN || c == OUT || c == APPEND || c == HAREDOC)
 	{
 		if (check != c && check != PIPE)
-			return (printf ("minishell: parse error near13!\n"), 1);
+		{
+			if (check == IN && c == OUT)
+				return (0);
+			else
+				return (printf ("minishell: parse error near13!\n"), 1);
+		}
 		if (check == c)
 		{
 			if (check == PIPE)

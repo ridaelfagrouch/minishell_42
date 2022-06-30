@@ -99,11 +99,11 @@ int	check_special_char(char *str)
 
 int	parcer(t_info *info)
 {
-	if (check_special_char(info->input) || !ft_strcmp(info->input, "\0"))
+	if (check_special_char(info->input1) || !ft_strcmp(info->input1, "\0"))
 		return (1);
-	if (check_syntax1(info->input) || !ft_strcmp(info->input, "\0"))
+	if (check_syntax1(info->input1) || !ft_strcmp(info->input1, "\0"))
 		return (1);
-	if (check_syntax2(info->input) || !ft_strcmp(info->input, "\0"))
+	if (check_syntax2(info->input1) || !ft_strcmp(info->input1, "\0"))
 		return (1);
 	if (store_data(info))
 		return (1);
