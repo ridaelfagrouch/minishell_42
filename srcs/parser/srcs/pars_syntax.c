@@ -45,15 +45,15 @@ int	check_syntax3(char c, char check, int *count)
 {
 	if (c == PIPE || c == IN || c == OUT || c == APPEND || c == HAREDOC)
 	{
-		if (check != c)
-			return (printf ("minishell: parse error near!\n"), 1);
+		if (check != c && check != PIPE)
+			return (printf ("minishell: parse error near13!\n"), 1);
 		if (check == c)
 		{
 			if (check == PIPE)
-				return (printf ("minishell: parse error near!\n"), 1);
+				return (printf ("minishell: parse error near14!\n"), 1);
 			(*count)++;
 			if (*count == 2)
-				return (printf ("minishell: parse error near!\n"), 1);
+				return (printf ("minishell: parse error near15!\n"), 1);
 		}
 	}
 	return (0);
@@ -68,6 +68,32 @@ void	init_syntax_data(t_syntax *synta)
 	synta->cout = 0;
 }
 
+int	detect_error(t_syntax *synta, char *str)
+{
+	if (str[synta->i] == HAREDOC || str[synta->i] == APPEND)
+	{
+		if ((unsigned long)synta->i == (ft_strlen(str) - 2))
+			return (printf ("minishell: parse error near11!\n"), 1);
+		synta->check = str[synta->i];
+		synta->i += 2;
+		if (str[synta->i] && \
+			check_syntax3(str[synta->i], synta->check, &synta->cout))
+			return (1);
+	}
+	else
+	{
+		if ((unsigned long)synta->i == (ft_strlen(str) - 1))
+			return (printf ("minishell: parse error near12!\n"), 1);
+		synta->check = str[synta->i++];
+		if (str[synta->i] && \
+			check_syntax3(str[synta->i], synta->check, &synta->cout))
+			return (1);
+	}
+	return (0);
+}
+
+/* -------------------------------------------------------------------------- */
+
 int	check_syntax2(char *str)
 {
 	t_syntax	synta;
@@ -77,25 +103,8 @@ int	check_syntax2(char *str)
 	{
 		if (check_oper(str, synta.i) == 1)
 		{
-			if (str[synta.i] == HAREDOC || str[synta.i] == APPEND)
-			{
-				if ((unsigned long)synta.i == (ft_strlen(str) - 2))
-					return (printf ("minishell: parse error near!\n"), 1);
-				synta.check = str[synta.i];
-				synta.i += 2;
-				if (str[synta.i] && \
-					check_syntax3(str[synta.i], synta.check, &synta.cout))
-					return (1);
-			}
-			else
-			{
-				if ((unsigned long)synta.i == (ft_strlen(str) - 1))
-					return (printf ("minishell: parse error near!\n"), 1);
-				synta.check = str[synta.i++];
-				if (str[synta.i] && \
-					check_syntax3(str[synta.i], synta.check, &synta.cout))
-					return (1);
-			}
+			if (detect_error(&synta, str))
+				return (1);
 		}
 		else
 		{

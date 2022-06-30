@@ -103,14 +103,12 @@ char	*input_expand(char *input)
 			get_expand_env(input, &i, &expd);
 			if (expd.result == NULL)
 			{
-				input = \
-				ft_strdup(replaceword(input, expd.str, " "));
+				input = ft_strdup(replaceword(input, expd.str, " "));
 				expd.i = 0;
 				ft_bzero(expd.str, 100);
 				continue ;
 			}
-			input = \
-				ft_strdup(replaceword(input, expd.str, expd.result));
+			input = ft_strdup(replaceword(input, expd.str, expd.result));
 			free_expand(&expd);
 			input_expand(input);
 		}

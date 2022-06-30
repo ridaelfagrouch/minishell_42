@@ -12,31 +12,6 @@
 
 #include "../lexer.h"
 
-/* -------------------------------------------------------------------------- */
-
-// int	check_special(char *str, int c)
-// {
-// 	int		i;
-
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] == (char)c)
-// 		{
-// 			if (str[i + 1] == (char)c)
-// 			{
-// 				i += 2;
-// 				continue ;
-// 			}
-// 			return (i);
-// 		}
-// 		i++;
-// 	}
-// 	return (-1);
-// }
-
-/* -------------------------------------------------------------------------- */
-
 int	not_operator(t_info *info, int i)
 {
 	if (info->input[i] != PIPE && info->input[i] != IN && \
@@ -52,9 +27,9 @@ void	init_rev(t_reverse *rev)
 {
 	rev->i = -1;
 	rev->k = 0;
-	ft_bzero(rev->word, 50);
-	ft_bzero(rev->bef_pipe, 100);
-	ft_bzero(rev->aft_pipe, 100);
+	ft_bzero(rev->word, 100);
+	ft_bzero(rev->bef_pipe, 500);
+	ft_bzero(rev->aft_pipe, 500);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -64,9 +39,9 @@ void	reverse_herdoc(t_info *info)
 	t_reverse	rev;
 
 	info->input = remove_red_in(info->input, 0);
-	rev.word = (char *)malloc(50);
-	rev.bef_pipe = (char *)malloc(100);
-	rev.aft_pipe = (char *)malloc(100);
+	rev.word = (char *)malloc(100);
+	rev.bef_pipe = (char *)malloc(500);
+	rev.aft_pipe = (char *)malloc(500);
 	init_rev(&rev);
 	while (info->input[++(rev.i)])
 	{
@@ -76,9 +51,9 @@ void	reverse_herdoc(t_info *info)
 		{
 			set_rev(&rev, info);
 			check_rev(&rev, info);
-			ft_bzero(rev.word, 50);
-			ft_bzero(rev.bef_pipe, 100);
-			ft_bzero(rev.aft_pipe, 100);
+			ft_bzero(rev.word, 100);
+			ft_bzero(rev.bef_pipe, 500);
+			ft_bzero(rev.aft_pipe, 500);
 			continue ;
 		}
 	}
@@ -92,9 +67,9 @@ void	reverse_input(t_info *info)
 	t_reverse	rev;
 
 	info->input = remove_red_in(info->input, 0);
-	rev.word = (char *)malloc(50);
-	rev.bef_pipe = (char *)malloc(100);
-	rev.aft_pipe = (char *)malloc(100);
+	rev.word = (char *)malloc(100);
+	rev.bef_pipe = (char *)malloc(500);
+	rev.aft_pipe = (char *)malloc(500);
 	init_rev(&rev);
 	while (info->input[++(rev.i)])
 	{
@@ -106,9 +81,9 @@ void	reverse_input(t_info *info)
 		{
 			set_rev(&rev, info);
 			check_rev(&rev, info);
-			ft_bzero(rev.word, 50);
-			ft_bzero(rev.bef_pipe, 100);
-			ft_bzero(rev.aft_pipe, 100);
+			ft_bzero(rev.word, 100);
+			ft_bzero(rev.bef_pipe, 500);
+			ft_bzero(rev.aft_pipe, 500);
 			continue ;
 		}
 	}

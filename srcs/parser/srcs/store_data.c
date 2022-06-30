@@ -21,11 +21,11 @@ int	print_filetype(char *input, int flag)
 	if (stat(input, &file_stat))
 		return (0);
 	if (S_ISREG(file_stat.st_mode) == 0 && S_ISDIR(file_stat.st_mode))
-		return(printf("%s:\tIs a directory\n", input), 1);
-	else if(S_ISREG(file_stat.st_mode) == 0 && S_ISDIR(file_stat.st_mode) == 0 \
+		return (printf("%s:\tIs a directory\n", input), 1);
+	else if (S_ISREG(file_stat.st_mode) == 0 && S_ISDIR(file_stat.st_mode) == 0 \
 		&& flag == 1)
-		return(printf("no such file or directory:\t%s\n", input), 1);
-	return (0); 
+		return (printf("no such file or directory:\t%s\n", input), 1);
+	return (0);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -90,16 +90,14 @@ int	store_data(t_info *info)
 	char	*str;
 	t_cmds	*cmds;
 
-	info->i = 0;
+	info->i = -1;
 	info->head = NULL;
 	str = (char *)malloc(sizeof(char) * 500);
 	cmds = (t_cmds *)malloc(sizeof(t_cmds));
-	if (!str || !cmds)
-		exit(1);
 	ft_bzero(str, 500);
 	cmds->i = 0;
 	cmds->j = 0;
-	while (info->input[info->i])
+	while (info->input[info->i++])
 	{
 		if (operator_statements(info))
 		{
@@ -113,7 +111,6 @@ int	store_data(t_info *info)
 			cmds->i = 0;
 			handel_pipe(info, cmds);
 		}
-		info->i++;
 	}
 	return (0);
 }

@@ -14,25 +14,6 @@
 
 /* -------------------------------------------------------------------------- */
 
-char	*remove_dq_sq(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == SQ || str[i] == DQ)
-		{
-			removechar(str, str[i]);
-			remove_dq_sq(str);
-		}
-		i++;
-	}
-	return (str);
-}
-
-/* -------------------------------------------------------------------------- */
-
 static char	**ft_creat(char *s, char **result, int row)
 {
 	int				j;
