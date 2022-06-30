@@ -33,7 +33,6 @@ char	*get_env(const char *var, t_env_vars *env_head)
 static int	prompt(t_info *info, char **envp)
 {
 	char				*rdln_output;
-	char				*str;
 	t_env_vars			*env_head;
 
 	g_glob.exit = 0;
@@ -58,15 +57,12 @@ static int	prompt(t_info *info, char **envp)
 		if (*(info->input) == '\0')
 			continue ;
 		add_history(rdln_output);
-		str = ft_strdup(info->input);
-		if (!lexer_start(info) || parcer(str, info))
+		if (!lexer_start(info) || parcer(info))
 		{
 			free(info->input);
-			free(str);
 			continue ;
 		}
 		free(info->input);
-		free(str);
 		handle_execution(info, &env_head);
 	}
 	return (0);

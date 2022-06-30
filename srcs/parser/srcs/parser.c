@@ -14,26 +14,33 @@
 
 /* -------------------------------------------------------------------------- */
 
-int	check_beginning(char *str, int i, t_quote *quotes, int *dq)
+int	check_oper(char *str, int i)
 {
-	if (check_special(SPECIAL_, str[i]) != -1 && i == 0)
+	if (str[i] == PIPE || str[i] == HAREDOC || str[i] == IN || \
+		str[i] == OUT || str[i] == APPEND)
+		return (1);
+	return (0);
+}
+
+int	check_beginning(char *str, int i)
+{
+	if (check_oper(str, i) == 1 && i == 0)
 	{
-		if (str[i] == '|')
+		if (str[i] == PIPE)
 			return (printf ("minishell: parse error near! 9\n"), 1);
-		if (str[i + 1] == '\0')
+		else if (str[i + 1] == '\0' && str[i] != APPEND && str[i] != HAREDOC)
 			return (printf ("minishell: parse error near! 10\n"), 1);
-		if (str[i] && check_special(SPECIAL_, str[i + 1]) != -1 && \
-			ft_strlen(str) == 1)
+		else if ((str[i] == APPEND || str[i] == HAREDOC) && str[i + 2] == '\0')
+			return (printf ("minishell: parse error near! 10\n"), 1);
+		else if (str[i] && ft_strlen(str) == 1)
 			return (printf ("minishell: parse error near! 11\n"), 1);
 	}
-	if ((str[i] == '\"' || str[i] == '\''))
-		handle_quotes(&quotes, str, i, dq);
-	if (str[i] && str[i] == '|' && str[i + 1] == ' ' && !quoted(quotes, 0))
+	if (str[i] && str[i] == PIPE && str[i + 1] == ' ')
 	{
 		i++;
 		while (str[i] && str[i] == ' ')
 			i++;
-		if (str[i] == '|')
+		if (str[i] == PIPE)
 			return (printf ("minishell: parse error near! 12\n"), 1);
 	}
 	return (0);
@@ -44,23 +51,28 @@ int	check_beginning(char *str, int i, t_quote *quotes, int *dq)
 int	check_syntax1(char *str)
 {
 	unsigned long	i;
-	t_quote			*quotes;
-	int				dq;
-
-	quotes = NULL;
-	dq = -1;
+	
 	i = 0;
 	while (str[i])
 	{
-		if (check_beginning(str, i, quotes, &dq))
+		if (check_beginning(str, i))
 			return (1);
-		if (check_special(SPECIAL_, str[i]) != -1 && str[i] != '|' && \
-			str[i + 1] == ' ' && !quoted(quotes, 0))
+		if (check_oper(str, i) == 1 && str[i] != PIPE && \
+			str[i + 1] == ' ')
 		{
 			i++;
 			while (str[i] && str[i] == ' ')
 				i++;
-			if (check_special(SPECIAL_, str[i]) != -1)
+			if (check_oper(str, i) == 1)
+				return (printf ("minishell: parse error near! 1\n"), 1);
+		}
+		if ((str[i] == HAREDOC || str[i] == APPEND) && \
+			str[i + 2] == ' ')
+		{
+			i += 2;
+			while (str[i] && str[i] == ' ')
+				i++;
+			if (check_oper(str, i) == 1)
 				return (printf ("minishell: parse error near! 1\n"), 1);
 		}
 		else
@@ -71,12 +83,11 @@ int	check_syntax1(char *str)
 
 /* -------------------------------------------------------------------------- */
 
-int	parcer(char *str, t_info *info)
+int	parcer(t_info *info)
 {
-	str = remove_red_in(str, 1);
-	if (check_syntax1(str) || !ft_strcmp(str, "\0"))
+	if (check_syntax1(info->input) || !ft_strcmp(info->input, "\0"))
 		return (1);
-	if (check_syntax2(str) || !ft_strcmp(str, "\0"))
+	if (check_syntax2(info->input) || !ft_strcmp(info->input, "\0"))
 		return (1);
 	if (store_data(info))
 		return (1);

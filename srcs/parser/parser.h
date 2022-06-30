@@ -39,7 +39,7 @@ int		store_data(t_info *info);
 int		handel_command(t_info *info, t_cmds *cmds, char *str);
 int		handel_out(t_info *info, t_cmds *cmds, char *str);
 void	handel_herdoc(t_info *info, t_cmds *cmds, char *str);
-void	handel_in(t_info *info, t_cmds *cmds, char *str);
+int		handel_in(t_info *info, t_cmds *cmds, char *str);
 void	handel_pipe(t_info *info, t_cmds *cmds);
 void	while_operator(t_info *info, char *str);
 void	scape_space(t_info *info);
@@ -56,4 +56,6 @@ char	*remove_dq_sq(char *str);
 char	*check_str_cmd(char *str);
 int		print_filetype(char *input, int flag);
 char	*ft_space(char *str);
+void	handle_quotes1(t_quote **quotes, char *quote, int i, int *check);
+int		check_oper(char *str, int i);
 #endif
