@@ -52,46 +52,51 @@ void	check_rev(t_reverse *rev, t_info *info)
 
 /* -------------------------------------------------------------------------- */
 
-int	condition_valid(t_reverse rev, t_info *info, char *word)
+char	*replaceword2(char *text, char *old, char *new, int start) 
 {
-	if (rev.j == ft_strlen(word) && (info->input[rev.i + 1] == ' ' || \
-		info->input[rev.i + 1] == PIPE || info->input[rev.i + 1] == IN || \
-		info->input[rev.i + 1] == OUT || \
-		info->input[rev.i + 1] == HEREDOC || \
-		info->input[rev.i + 1] == APPEND || info->input[rev.i + 1] == '\0'))
-		return (1);
-	return (0);
-}
+	int		i;
+	int		cnt;
+	int		len1;
+	int		len2;
+	int		k;
+	char	*newstring;
 
-/* -------------------------------------------------------------------------- */
-
-void	delete_word(t_info *info, char *word)
-{
-	t_reverse	rev;
-
-	rev.i = -1;
-	rev.j = 0;
-	while (++(rev.i) < ft_strlen(info->input))
+	len1 = strlen(new);
+	len2 = strlen(old);
+	k = 0;
+	i = 0;
+	cnt = 0;
+	while (text[i])
 	{
-		if (info->input[rev.i] == word[rev.j])
-			rev.j++;
-		else
-			rev.j = 0;
-		if (condition_valid(rev, info, word))
+		if (ft_strstr(&text[i], old) == &text[i]) 
 		{
-			rev.t = -1;
-			while (++(rev.t) <= ft_strlen(word))
-			{
-				rev.k = 0;
-				while (rev.k < ft_strlen(info->input))
-				{
-					info->input[rev.i - rev.j + rev.k] = \
-						info->input[rev.i - rev.j + rev.k + 1];
-					rev.k++;
-				}
-			}
+			cnt++;
+			i += len2 - 1;
 		}
+		i++;
 	}
+	newstring = (char *)malloc(i + cnt * (len1 - len2) + 1);
+	i = 0;
+	while (text[i] && (i < start))
+	{
+		newstring[i] = text[i];
+		i++;
+	}
+	i = 0;
+	while (*text)
+	{
+		if (ft_strstr(text, old) == text && (k == 0))
+		{
+			ft_strcpy(&newstring[i], new);
+			i += len1;
+			text += len2;
+			k = 1;
+		}
+		else
+			newstring[i++] = *text++;
+	}
+	newstring[i] = '\0';
+	return (newstring);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -99,6 +104,7 @@ void	delete_word(t_info *info, char *word)
 void	set_rev(t_reverse *rev, t_info *info)
 {
 	rev->j = 0;
+	rev->start = rev->i;
 	if (info->input[rev->i] == IN || info->input[rev->i] == OUT)
 		rev->word[rev->j++] = info->input[rev->i++];
 	else if (info->input[rev->i] == APPEND || info->input[rev->i] == HEREDOC)
@@ -110,8 +116,6 @@ void	set_rev(t_reverse *rev, t_info *info)
 		rev->word[rev->j++] = info->input[rev->i++];
 	while (info->input[rev->i] && not_operator(info, rev->i))
 		rev->word[rev->j++] = info->input[rev->i++];
-	delete_word(info, rev->word);
+	info->input = replaceword2(info->input, rev->word, "", rev->start);
 	rev->word[rev->j] = ' ';
 }
-
-/* -------------------------------------------------------------------------- */

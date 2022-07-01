@@ -62,7 +62,6 @@ typedef enum e_flags {
 	IN,
 	APPEND,
 	HEREDOC,
-	SEMICOLON,
 	COMMAND,
 	PIPE,
 	SPACE_,
@@ -89,6 +88,7 @@ typedef struct s_node
 	char			*data;
 	char			*path;
 	int				file_fd;
+	int				infile_flag;
 	char			**cmd_split;
 }	t_node;
 
@@ -100,11 +100,13 @@ typedef struct s_cmds
 	int		i;
 	int		j;
 	int		file_fd;
+	int		infile_flag;
 }	t_cmds;
 
 typedef struct s_info
 {
 	char			*input;
+	char			*input1;
 	int				uncqu;
 	int				i;
 	t_node			*head;

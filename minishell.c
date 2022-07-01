@@ -54,12 +54,13 @@ static int	prompt(t_info *info, char **envp)
 		if (*(info->input) == '\0')
 			continue ;
 		add_history(rdln_output);
-		if (!lexer_start(info) || parcer(info))
+		if (lexer_start(info) || parcer(info))
 		{
 			free(info->input);
 			continue ;
 		}
 		handle_execution(info, &env_head);
+		free(info->input);
 	}
 	return (0);
 }

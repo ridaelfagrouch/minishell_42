@@ -17,7 +17,10 @@
 int	check_file_in_access( t_cmds *cmds, char *str)
 {
 	if (access(str, F_OK) != 0)
-		return (printf("no such file or directory!\n"), 1);
+	{
+		cmds->infile_flag = -1;
+		cmds->data = NULL;
+	}
 	if (access(str, R_OK | F_OK) == 0 || \
 		(access(str, F_OK) == 0 && access(str, R_OK) != 0))
 	{
@@ -25,10 +28,13 @@ int	check_file_in_access( t_cmds *cmds, char *str)
 		if (access(str, F_OK) == 0 && access(str, R_OK) != 0)
 		{
 			cmds->file_fd = -1;
-			return (printf("minishell : %s : Permission denied\n", str), 1);
+			cmds->infile_flag = -2;
 		}
 		else if (access(str, R_OK | F_OK) == 0)
+		{
+			cmds->infile_flag = 0;
 			cmds->file_fd = open(cmds->data, O_RDONLY, 00500);
+		}
 	}
 	return (0);
 }
@@ -76,11 +82,12 @@ t_node	*new_node(t_cmds *cmds)
 	node->path = ft_strdup(cmds->path);
 	node->next = NULL;
 	node->file_fd = cmds->file_fd;
+	node->infile_flag = cmds->infile_flag;
 	if (node->token == COMMAND)
 	{
 		node->cmd_split = ft_split_cmd(cmds->data);
 		rm_dqsq_cmds(node);
-		print_split(node->cmd_split);
+		// print_split(node->cmd_split);
 	}
 	else
 		node->cmd_split = NULL;
@@ -88,7 +95,7 @@ t_node	*new_node(t_cmds *cmds)
 		free(cmds->data);
 	if (cmds->path)
 		free(cmds->path);
-	//printf("touken: %d | path: %s | data: %s\n", node->token, node->path, node->data);
+	// printf("touken: %d | path: %s | data: %s\n", node->token, node->path, node->data);
 	return (node);
 }
 

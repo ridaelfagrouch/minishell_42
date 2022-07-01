@@ -501,13 +501,13 @@ int	convert_heredoc_to_file(t_node *head)
 	if (count == 0)
 		return (0);
 	file_names = name_heredoc_files(count);
-	if (!file_names || !file_names[0])
-		return (free_two_dim_arr(file_names), -1);
+	// if (!file_names || !file_names[0])
+		// return (free_two_dim_arr(file_names), -1);
 	while (count--)
 	{
 		node = get_first_heredoc_node(head);
 		if (!node)
-			return (free_two_dim_arr(file_names), -1);
+			// return (free_two_dim_arr(file_names), -1);
 		heredoc_handler(node->data, file_names[count]);
 		node->file_fd = open(file_names[count], O_RDONLY);
 		if (node->file_fd < 0)
@@ -517,6 +517,7 @@ int	convert_heredoc_to_file(t_node *head)
 		node->token = IN;
 	}
 	free(file_names);
+	printf("hello\n");
 	return (0);
 }
 
@@ -529,7 +530,7 @@ void	unlink_heredoc_files(char **file_names)
 	i = 0;
 	while (file_names[i])
 		unlink(file_names[i++]);
-	free_two_dim_arr(file_names);
+	// free_two_dim_arr(file_names);
 }
 
 // * ====================================================================== * //
@@ -546,7 +547,7 @@ void	free_linked_list(t_node *head)
 		free(node->data);
 		close(node->file_fd);
 		free(node->path);
-		free_two_dim_arr(node->cmd_split);
+		// free_two_dim_arr(node->cmd_split);
 		free(node);
 		node = next;
 	}

@@ -25,8 +25,9 @@ int	not_operator(t_info *info, int i)
 
 void	init_rev(t_reverse *rev)
 {
-	rev->i = -1;
+	rev->i = 0;
 	rev->k = 0;
+	rev->start = 0;
 	ft_bzero(rev->word, 100);
 	ft_bzero(rev->bef_pipe, 500);
 	ft_bzero(rev->aft_pipe, 500);
@@ -34,47 +35,21 @@ void	init_rev(t_reverse *rev)
 
 /* -------------------------------------------------------------------------- */
 
-void	reverse_herdoc(t_info *info)
+void	reverse_input_plus(t_info *info)
 {
 	t_reverse	rev;
 
-	info->input = remove_red_in(info->input, 0);
 	rev.word = (char *)malloc(100);
 	rev.bef_pipe = (char *)malloc(500);
 	rev.aft_pipe = (char *)malloc(500);
 	init_rev(&rev);
-	while (info->input[++(rev.i)])
+	while (info->input[rev.i])
 	{
 		if (info->input[rev.i] == PIPE)
-			rev.k = rev.i;
-		if (info->input[rev.i] == HEREDOC && rev.i != 0)
 		{
-			set_rev(&rev, info);
-			check_rev(&rev, info);
-			ft_bzero(rev.word, 100);
-			ft_bzero(rev.bef_pipe, 500);
-			ft_bzero(rev.aft_pipe, 500);
-			continue ;
-		}
-	}
-	free_reverse(&rev);
-}
-
-/* -------------------------------------------------------------------------- */
-
-void	reverse_input(t_info *info)
-{
-	t_reverse	rev;
-
-	info->input = remove_red_in(info->input, 0);
-	rev.word = (char *)malloc(100);
-	rev.bef_pipe = (char *)malloc(500);
-	rev.aft_pipe = (char *)malloc(500);
-	init_rev(&rev);
-	while (info->input[++(rev.i)])
-	{
-		if (info->input[rev.i] == PIPE)
 			rev.k = rev.i;
+			rev.start = rev.i + 1;
+		}
 		if ((info->input[rev.i] == IN || info->input[rev.i] == OUT || \
 			info->input[rev.i] == APPEND || info->input[rev.i] == HEREDOC) && \
 			rev.i != 0)
@@ -86,9 +61,44 @@ void	reverse_input(t_info *info)
 			ft_bzero(rev.aft_pipe, 500);
 			continue ;
 		}
+		rev.i++;
 	}
 	free_reverse(&rev);
-	reverse_herdoc(info);
+}
+
+/* -------------------------------------------------------------------------- */
+
+void	reverse_input(t_info *info)
+{
+	t_reverse	rev;
+
+	rev.word = (char *)malloc(100);
+	rev.bef_pipe = (char *)malloc(500);
+	rev.aft_pipe = (char *)malloc(500);
+	init_rev(&rev);
+	while (info->input[rev.i])
+	{
+		if (info->input[rev.i] == PIPE)
+		{
+			rev.k = rev.i;
+			rev.start = rev.i + 1;
+		}
+		if ((info->input[rev.i] == IN || info->input[rev.i] == OUT || \
+			info->input[rev.i] == APPEND || info->input[rev.i] == HEREDOC) && \
+			rev.i != 0)
+		{
+			set_rev(&rev, info);
+			check_rev(&rev, info);
+			ft_bzero(rev.word, 100);
+			ft_bzero(rev.bef_pipe, 500);
+			ft_bzero(rev.aft_pipe, 500);
+			continue ;
+		}
+		rev.i++;
+	}
+	free_reverse(&rev);
+	reverse_input_plus(info);
+	// printf("%s\n", info->input);
 }
 
 /* -------------------------------------------------------------------------- */

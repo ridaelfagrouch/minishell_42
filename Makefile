@@ -46,7 +46,7 @@ CC_FLAGS	:= -Wall -Wextra -Werror  \
 		-I $(shell brew --prefix readline)/include \
 		-L $(shell brew --prefix readline)/lib -lreadline \
 		-L $(shell brew --prefix readline)/lib -lhistory \
-		-static-libsan -fsanitize=address
+		 -static-libsan -fsanitize=address
 
 NAME		:= minishell
 MAIN		:= minishell.c
