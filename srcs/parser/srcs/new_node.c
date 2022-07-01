@@ -17,10 +17,7 @@
 int	check_file_in_access( t_cmds *cmds, char *str)
 {
 	if (access(str, F_OK) != 0)
-	{
 		cmds->infile_flag = -1;
-		return (printf("no such file or directory!\n"), 1);
-	}
 	if (access(str, R_OK | F_OK) == 0 || \
 		(access(str, F_OK) == 0 && access(str, R_OK) != 0))
 	{
@@ -29,7 +26,6 @@ int	check_file_in_access( t_cmds *cmds, char *str)
 		{
 			cmds->file_fd = -1;
 			cmds->infile_flag = -2;
-			return (printf("minishell : %s : Permission denied\n", str), 1);
 		}
 		else if (access(str, R_OK | F_OK) == 0)
 			cmds->file_fd = open(cmds->data, O_RDONLY, 00500);
