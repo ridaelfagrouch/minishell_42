@@ -65,32 +65,39 @@ int	condition_valid(t_reverse rev, t_info *info, char *word)
 
 /* -------------------------------------------------------------------------- */
 
-void	delete_word(t_info *info, char *word)
+void	delete_word(t_info *info, char *word, size_t start)
 {
 	t_reverse	rev;
 
-	rev.i = -1;
+	rev.ls = ft_strlen(info->input);
+	rev.lw = ft_strlen(word);
+	rev.i = start;
 	rev.j = 0;
-	while (++(rev.i) < ft_strlen(info->input))
+	printf("hello\n");
+	while (rev.i < rev.ls)
 	{
-		if (info->input[rev.i] == word[rev.j])
-			rev.j++;
-		else
-			rev.j = 0;
-		if (condition_valid(rev, info, word))
+		rev.t = rev.i;
+		while (rev.j < rev.lw)
 		{
-			rev.t = -1;
-			while (++(rev.t) <= ft_strlen(word))
-			{
-				rev.k = 0;
-				while (rev.k < ft_strlen(info->input))
-				{
-					info->input[rev.i - rev.j + rev.k] = \
-						info->input[rev.i - rev.j + rev.k + 1];
-					rev.k++;
-				}
-			}
+			if (info->input[rev.i] == word[rev.j])
+				rev.i++;
+			rev.j++;
 		}
+		rev.k = rev.i - rev.t;
+		if (rev.k == rev.lw)
+		{
+			rev.i = rev.t;
+			rev.j = rev.i;
+			while (info->input[rev.j] && rev.j < (rev.ls - rev.lw))
+			{
+				info->input[rev.j] = info->input[rev.j + rev.lw];
+				rev.j++;
+			}
+			rev.ls = rev.ls - rev.lw;
+			info->input[rev.j] = '\0';
+			break ;
+		}
+		rev.i++;
 	}
 }
 
@@ -110,7 +117,7 @@ void	set_rev(t_reverse *rev, t_info *info)
 		rev->word[rev->j++] = info->input[rev->i++];
 	while (info->input[rev->i] && not_operator(info, rev->i))
 		rev->word[rev->j++] = info->input[rev->i++];
-	delete_word(info, rev->word);
+	delete_word(info, rev->word, rev->start);
 	rev->word[rev->j] = ' ';
 }
 

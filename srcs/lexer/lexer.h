@@ -29,6 +29,9 @@ typedef struct reverse
 	size_t	j;
 	size_t	t;
 	size_t	k;
+	size_t	ls;
+	size_t	lw;
+	size_t	start;
 	char	*word;
 	char	*ptr;
 	char	*bef_pipe;
@@ -59,6 +62,7 @@ int		quoted(t_quote *quotes, int i);
 void	handle_quotes(t_quote **quotes, char *quote, int i, int *check);
 char	*input_expand(char *input);
 void	reverse_input(t_info *info);
+void	reverse_input_plus(t_info *info);
 int		check_special(char *str, int c);
 void	set_rev(t_reverse *rev, t_info *info);
 void	check_rev(t_reverse *rev, t_info *info);
