@@ -100,6 +100,7 @@ typedef struct s_cmds
 	int		i;
 	int		j;
 	int		file_fd;
+	int		infile_flag;
 }	t_cmds;
 
 typedef struct s_info
