@@ -42,10 +42,10 @@ void	print_split(char **str)
 	i = 0;
 	while (str[i])
 	{
-		printf("%s | ", str[i]);
+		//printf("%s | ", str[i]);
 		i++;
 	}
-	printf("\n");
+	//printf("\n");
 }
 
 /* -------------------------------------------------------------------------- */
@@ -88,7 +88,7 @@ t_node	*new_node(t_cmds *cmds)
 		free(cmds->data);
 	if (cmds->path)
 		free(cmds->path);
-	printf("touken: %d | path: %s | data: %s\n", node->token, node->path, node->data);
+	//printf("touken: %d | path: %s | data: %s\n", node->token, node->path, node->data);
 	return (node);
 }
 

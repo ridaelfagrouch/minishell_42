@@ -42,14 +42,12 @@ export TITLE
 
 # ---------------------------------------------------------------------------- #
 CC			:= gcc
-CC_FLAGS	:= -Wall -Wextra -Werror -lreadline \
+CC_FLAGS	:= -Wall -Wextra -Werror  \
 		-I $(shell brew --prefix readline)/include \
 		-L $(shell brew --prefix readline)/lib -lreadline \
 		-L $(shell brew --prefix readline)/lib -lhistory \
 		-static-libsan -fsanitize=address
-# -L $(shell brew --prefix readline)/lib -lreadline 
-# -L $(shell brew --prefix readline)/lib -lhistory
-# -static-libsan -fsanitize=address
+
 NAME		:= minishell
 MAIN		:= minishell.c
 HEADER		:= minishell.h
@@ -66,7 +64,7 @@ ARCHIVES	:= -Llibft -lft \
 # ---------------------------------------------------------------------------- #
 .PHONY: all clean fclean re title
 
-all: title ${NAME}
+all: ${NAME}
 
 ${LIBFT_ARCH}:
 	@make -C libft/
@@ -101,7 +99,6 @@ fclean: clean
 re: fclean all
 
 title:
-	@clear
 	@echo "$$TITLE"
 
 # ---------------------------------------------------------------------------- # 

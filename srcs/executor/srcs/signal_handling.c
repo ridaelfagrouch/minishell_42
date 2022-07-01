@@ -34,23 +34,15 @@ void	restore_ctrl(void)
 	tcsetattr(STDIN_FILENO, TCSANOW, &attr);
 }
 
-
-// void	*exit_child_proc(void)
-// {
-// 	exit(0);
-// 	return (NULL);
-// }
-
 /* -------------------------------------------------------------------------- */
 
-// void	ignore_signals(void)
-// {
-// 	struct sigaction	n_act;
+void	ignore_signal(void)
+{
+	struct sigaction	n_act;
 
-// 	n_act.sa_handler = exit_child_proc();
-// 	n_act.sa_flags = SA_SIGINFO | SA_RESTART | SA_RESETHAND;
-// 	sigaction(SIGINT, &n_act, NULL);
-// }
+	n_act.sa_handler = SIG_IGN;
+	sigaction(SIGINT, &n_act, NULL);
+}
 
 /* -------------------------------------------------------------------------- */
 
@@ -59,18 +51,10 @@ void	handle_sig(int signum, siginfo_t *siginfo, void *sigcontext)
 	(void)sigcontext;
 	if (signum == SIGINT && siginfo->si_signo == SIGINT)
 	{
-		if (g_glob.heredoc_pid > 0)
-		{
-			if (g_glob.heredoc_fd >= 0)
-				close (g_glob.heredoc_fd);
-			kill(g_glob.heredoc_pid, SIGTERM);
-			unlink(".tmp");
-			g_glob.heredoc_fd = -1;
-			g_glob.heredoc_pid = -1;
-		}
+		// do not display prompt if signal is used in child process
 		write(STDOUT_FILENO, "\n", 1);
 		rl_on_new_line();
-		// rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }

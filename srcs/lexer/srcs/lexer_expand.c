@@ -66,7 +66,7 @@ int	check_expand(char *input, int i)
 		input[i] != DQ && input[i] != SQ \
 		&& input[i] != PIPE && input[i] != OUT \
 		&& input[i] != IN && input[i] != EXPAND \
-		&& input[i] != HAREDOC && \
+		&& input[i] != HEREDOC && \
 		input[i] != APPEND)
 		return (1);
 	else

@@ -77,9 +77,9 @@ int	check_dollar(t_info *info, int i, t_quote *quotes)
 	j = i;
 	while (j >= 0 && info->input[j] != PIPE && info->input[j] != IN && \
 		info->input[j] != OUT && info->input[j] != APPEND && \
-		info->input[j] != HAREDOC)
+		info->input[j] != HEREDOC)
 		j--;
-	if (info->input[j] == HAREDOC)
+	if (info->input[j] == HEREDOC)
 		return (0);
 	return (info->input[i] == '$' && info->input[i + 1]
 		&& (ft_isalnum(info->input[i + 1]) || info->input[i + 1] == '?' \
@@ -95,7 +95,7 @@ void	in_out(char *input, int *i, t_quote	*quotes)
 	{
 		if (input[*i + 1] == '<')
 		{
-			input[*i] = HAREDOC;
+			input[*i] = HEREDOC;
 			(*i) += 2;
 		}
 		else

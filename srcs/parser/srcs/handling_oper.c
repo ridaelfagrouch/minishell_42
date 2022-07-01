@@ -54,7 +54,7 @@ void	handel_herdoc(t_info *info, t_cmds *cmds, char *str)
 		cmds->data = ft_strdup(str);
 	else
 		cmds->data = NULL;
-	cmds->token = HAREDOC;
+	cmds->token = HEREDOC;
 	cmds->path = NULL;
 	cmds->file_fd = -1;
 	add_back(&info->head, new_node(cmds));

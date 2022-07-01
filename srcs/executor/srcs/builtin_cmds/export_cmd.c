@@ -117,7 +117,7 @@ int	check_env_key(char *key)
 	return (0);
 }
 /* -------------------------------------------------------------------------- */
-
+// TODO OLDPWD not set empty
 int	export_cmd(char **env_var, t_env_vars **env_head)
 {
 	int	i;

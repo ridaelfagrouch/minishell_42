@@ -43,7 +43,7 @@ void	removechar(char *str, char chartoremmove)
 
 int	check_syntax3(char c, char check, int *count)
 {
-	if (c == PIPE || c == IN || c == OUT || c == APPEND || c == HAREDOC)
+	if (c == PIPE || c == IN || c == OUT || c == APPEND || c == HEREDOC)
 	{
 		if (check != c && check != PIPE)
 			return (printf ("minishell: parse error near13!\n"), 1);
@@ -70,7 +70,7 @@ void	init_syntax_data(t_syntax *synta)
 
 int	detect_error(t_syntax *synta, char *str)
 {
-	if (str[synta->i] == HAREDOC || str[synta->i] == APPEND)
+	if (str[synta->i] == HEREDOC || str[synta->i] == APPEND)
 	{
 		if ((unsigned long)synta->i == (ft_strlen(str) - 2))
 			return (printf ("minishell: parse error near11!\n"), 1);

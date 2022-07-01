@@ -72,8 +72,9 @@ static int	execute_non_builtin(char *cmd, char **input, t_env_vars *head)
 	return (0);
 }
 
-/* ----------------------------- BUILT IN ----------------------------------- */
-
+/* ----------------------------- BUILT IN ----------------------------------- *\
+TODO	Adjust the exit status of the Shell Built-Ins
+\* -------------------------------------------------------------------------- */
 int	execute_builtins(char **input, t_env_vars **env_vars)
 {
 	if (ft_strcmp_tl(input[0], "echo") == 0)
@@ -97,9 +98,22 @@ int	execute_builtins(char **input, t_env_vars **env_vars)
 
 int	execute_command(t_node *node, t_env_vars **env_vars)
 {
-	if (ft_strstr_tl(BUILT_INS, node->cmd_split[0]))
-		return (execute_builtins(node->cmd_split, env_vars));
-	return (execute_non_builtin(node->path, node->cmd_split, *env_vars));
+	pid_t	pid;
+	int		status;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		if (ft_strstr_tl(BUILT_INS, node->cmd_split[0]))
+			exit(execute_builtins(node->cmd_split, env_vars));
+		exit(execute_non_builtin(node->path, node->cmd_split, *env_vars));
+	}
+	ignore_signal();
+	waitpid(pid, &status, 0);
+	handle_signals();
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (-1);
 }
 
 /* -------------------------------------------------------------------------- */

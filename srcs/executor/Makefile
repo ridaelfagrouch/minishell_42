@@ -32,7 +32,7 @@ SRCS_LST	:=	env_init_1st.c env_init_2nd.c \
 				builtin_cmds/echo_cmd.c builtin_cmds/env_cmd.c \
 				builtin_cmds/exit_cmd.c builtin_cmds/export_cmd.c \
 				builtin_cmds/pwd_cmd.c builtin_cmds/unset_cmd.c \
-				executor.c redir_and_pipe.c signal_handling.c
+				exec_main.c redir_and_pipe.c signal_handling.c
 SRCS		:=	${addprefix ${SRCS_DIR}, ${SRCS_LST}}
 
 OBJS_DIR	:=	objs/

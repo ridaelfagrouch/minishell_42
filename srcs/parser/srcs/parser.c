@@ -16,7 +16,7 @@
 
 int	check_oper(char *str, int i)
 {
-	if (str[i] == PIPE || str[i] == HAREDOC || str[i] == IN || \
+	if (str[i] == PIPE || str[i] == HEREDOC || str[i] == IN || \
 		str[i] == OUT || str[i] == APPEND)
 		return (1);
 	return (0);
@@ -28,9 +28,9 @@ int	check_beginning(char *str, int i)
 	{
 		if (str[i] == PIPE)
 			return (printf ("minishell: parse error near4!\n"), 1);
-		else if (str[i + 1] == '\0' && str[i] != APPEND && str[i] != HAREDOC)
+		else if (str[i + 1] == '\0' && str[i] != APPEND && str[i] != HEREDOC)
 			return (printf ("minishell: parse error near5!\n"), 1);
-		else if ((str[i] == APPEND || str[i] == HAREDOC) && str[i + 2] == '\0')
+		else if ((str[i] == APPEND || str[i] == HEREDOC) && str[i + 2] == '\0')
 			return (printf ("minishell: parse error near6!\n"), 1);
 		else if (str[i] && ft_strlen(str) == 1)
 			return (printf ("minishell: parse error near7!\n"), 1);
@@ -66,7 +66,7 @@ int	check_syntax1(char *str)
 			if (check_oper(str, i) == 1)
 				return (printf ("minishell: parse error near1!\n"), 1);
 		}
-		else if ((str[i] == HAREDOC || str[i] == APPEND) && \
+		else if ((str[i] == HEREDOC || str[i] == APPEND) && \
 			str[i + 2] && str[i + 2] == ' ')
 		{
 			i += 2;

@@ -38,8 +38,6 @@ static int	prompt(t_info *info, char **envp)
 	g_glob.exit = 0;
 	env_head = conv_env(envp);
 	g_glob.env_head = &env_head;
-	g_glob.heredoc_pid = -1;
-	g_glob.heredoc_fd = -1;
 	(void)info;
 	handle_signals();
 	while (1)

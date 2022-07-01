@@ -37,17 +37,19 @@
 # include "../lexer/lexer.h"
 
 /* --------------------------------- MACROS --------------------------------- */
-# define BUILT_INS	"echo cd pwd export unset env exit"
+# define BUILT_INS		"echo cd pwd export unset env exit"
+# define HEREDOC_PATH	"/tmp/mshell_heredoc_"
 
 /* --------------------------------- TYPEDEFs ------------------------------- */
 // ------------ ENUMs ----------- //
 // !------------------------------------------------------------------------! //
+// !vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv! //
 // typedef enum e_flags {
 // 	EXPAND = -38,
 // 	OUT,
 // 	IN,
 // 	APPEND,
-// 	HAREDOC,
+// 	HEREDOC,
 // 	SEMICOLON,
 // 	COMMAND,
 // 	PIPE,
@@ -55,28 +57,32 @@
 // 	DQ,
 // 	SQ,
 // }	t_flags;
+// !^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^! //
 // !------------------------------------------------------------------------! //
-
-typedef enum e_pipe_stat
-{
-	NO_PIPE,
-	TO_PIPE,
-	FROM_PIPE,
-}	t_pipe_stat;
 
 // ----------- STRUCTs ---------- //
 
-typedef struct s_execut
-{
-	int	in_fd;
-	int	out_fd;
-	int	pid;
-	int	exit_status;
-	int	status;
-	int	pipe_fd[2];
-}	t_execut;
+// typedef struct s_execut
+// {
+// 	int	in_fd;
+// 	int	out_fd;
+// 	int	pid;
+// 	int	exit_status;
+// 	int	status;
+// 	int	pipe_fd[2];
+// }	t_execut;
 
+typedef struct s_exec
+{
+	int	def_std_in;
+	int	def_std_out;
+	int	input;
+	int	output;
+	int	pipe[2];
+	int	file_err;
+}	t_exec;
 // !------------------------------------------------------------------------! //
+// !vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv! //
 // typedef struct s_node
 // {
 // 	struct s_node	*next;
@@ -109,6 +115,7 @@ typedef struct s_execut
 // }	t_info;
 
 // t_glob_info	g_glob;
+// !^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^! //
 // !------------------------------------------------------------------------! //
 
 /* --------------------------------- PROTOTYPES ----------------------------- */
@@ -132,6 +139,7 @@ int			pwd_cmd(char **input, t_env_vars **env_head);
 void		exit_cmd(char **input, t_env_vars **env_head);
 
 // exec_cmds.c
+int			execute_builtins(char **input, t_env_vars **env_vars);
 int			execute_command(t_node *node, t_env_vars **env_vars);
 
 // exec_misc.c
@@ -139,13 +147,12 @@ t_env_vars	*get_env_var(char *varname, t_env_vars *env_head);
 void		print_err(char *cmd, char *input, char *msg);
 
 // redirect_exec.c
-int			reset_stds_fd(void);
-int			redirect_input(int new_input_fd);
-int			redirect_output(int new_output_fd);
-int			store_stds(t_execut *execut);
+void		redirect_input(int new_input_fd);
+void		redirect_output(int new_output_fd);
 
 void		free_two_dim_arr(char **sorted_env);
 
+void		ignore_signal(void);
 
 
 

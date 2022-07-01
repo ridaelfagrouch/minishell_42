@@ -61,7 +61,7 @@ typedef enum e_flags {
 	OUT,
 	IN,
 	APPEND,
-	HAREDOC,
+	HEREDOC,
 	SEMICOLON,
 	COMMAND,
 	PIPE,
@@ -133,10 +133,6 @@ typedef struct d_data
 typedef struct s_glob_info
 {
 	int			exit;
-	int			d_stdout;
-	int			d_stdin;
-	pid_t		heredoc_pid;
-	int			heredoc_fd;
 	t_env_vars	**env_head;
 }	t_glob_info;
 

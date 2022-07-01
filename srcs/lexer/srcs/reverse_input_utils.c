@@ -57,7 +57,7 @@ int	condition_valid(t_reverse rev, t_info *info, char *word)
 	if (rev.j == ft_strlen(word) && (info->input[rev.i + 1] == ' ' || \
 		info->input[rev.i + 1] == PIPE || info->input[rev.i + 1] == IN || \
 		info->input[rev.i + 1] == OUT || \
-		info->input[rev.i + 1] == HAREDOC || \
+		info->input[rev.i + 1] == HEREDOC || \
 		info->input[rev.i + 1] == APPEND || info->input[rev.i + 1] == '\0'))
 		return (1);
 	return (0);
@@ -101,7 +101,7 @@ void	set_rev(t_reverse *rev, t_info *info)
 	rev->j = 0;
 	if (info->input[rev->i] == IN || info->input[rev->i] == OUT)
 		rev->word[rev->j++] = info->input[rev->i++];
-	else if (info->input[rev->i] == APPEND || info->input[rev->i] == HAREDOC)
+	else if (info->input[rev->i] == APPEND || info->input[rev->i] == HEREDOC)
 	{
 		rev->word[rev->j++] = info->input[rev->i++];
 		rev->word[rev->j++] = info->input[rev->i++];

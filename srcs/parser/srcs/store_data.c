@@ -36,7 +36,7 @@ int	check_operator(t_info *info, int flag)
 	{
 		if (info->input[info->i] && info->input[info->i] != PIPE && \
 		info->input[info->i] != OUT && info->input[info->i] != IN && \
-		info->input[info->i] != HAREDOC && info->input[info->i] != APPEND)
+		info->input[info->i] != HEREDOC && info->input[info->i] != APPEND)
 			return (1);
 	}
 	return (0);
@@ -48,7 +48,7 @@ int	operator_statements(t_info *info)
 {
 	if ((check_operator(info, 1) && info->input[info->i] != ' ') || \
 		info->input[info->i] == IN || info->input[info->i] == OUT || \
-		info->input[info->i] == APPEND || info->input[info->i] == HAREDOC)
+		info->input[info->i] == APPEND || info->input[info->i] == HEREDOC)
 		return (1);
 	return (0);
 }
@@ -78,7 +78,7 @@ int	all_operator(t_info *info, char *str, t_cmds *cmds)
 		if (handel_out(info, cmds, str))
 			return (1);
 	}
-	else if (info->input[info->i] == HAREDOC)
+	else if (info->input[info->i] == HEREDOC)
 		handel_herdoc(info, cmds, str);
 	return (0);
 }

@@ -16,7 +16,7 @@ int	not_operator(t_info *info, int i)
 {
 	if (info->input[i] != PIPE && info->input[i] != IN && \
 		info->input[i] != OUT && info->input[i] != APPEND && \
-		info->input[i] != HAREDOC && info->input[i] != ' ')
+		info->input[i] != HEREDOC && info->input[i] != ' ')
 		return (1);
 	return (0);
 }
@@ -47,7 +47,7 @@ void	reverse_herdoc(t_info *info)
 	{
 		if (info->input[rev.i] == PIPE)
 			rev.k = rev.i;
-		if (info->input[rev.i] == HAREDOC && rev.i != 0)
+		if (info->input[rev.i] == HEREDOC && rev.i != 0)
 		{
 			set_rev(&rev, info);
 			check_rev(&rev, info);
@@ -76,7 +76,7 @@ void	reverse_input(t_info *info)
 		if (info->input[rev.i] == PIPE)
 			rev.k = rev.i;
 		if ((info->input[rev.i] == IN || info->input[rev.i] == OUT || \
-			info->input[rev.i] == APPEND || info->input[rev.i] == HAREDOC) && \
+			info->input[rev.i] == APPEND || info->input[rev.i] == HEREDOC) && \
 			rev.i != 0)
 		{
 			set_rev(&rev, info);
