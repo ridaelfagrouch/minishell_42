@@ -31,7 +31,7 @@ typedef struct reverse
 	size_t	k;
 	size_t	ls;
 	size_t	lw;
-	size_t	start;
+	int		start;
 	char	*word;
 	char	*ptr;
 	char	*bef_pipe;
@@ -68,7 +68,8 @@ void	set_rev(t_reverse *rev, t_info *info);
 void	check_rev(t_reverse *rev, t_info *info);
 int		not_operator(t_info *info, int i);
 void	free_expand(t_expand *expd);
-char	*remove_red_in(char *str, int flag);
 void	free_reverse(t_reverse	*rev);
+char	*replaceword2(char *text, char *old, char *new, int start);
+void	expanding(t_expand *expd, char *s, char *old, char *new);
 
 #endif

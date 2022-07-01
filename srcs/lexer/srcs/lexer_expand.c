@@ -67,20 +67,25 @@ int	check_expand(char *input, int i)
 		&& input[i] != PIPE && input[i] != OUT \
 		&& input[i] != IN && input[i] != EXPAND \
 		&& input[i] != HAREDOC && \
-		input[i] != APPEND)
+		input[i] != APPEND && input[i] != '$')
 		return (1);
 	else
 		return (0);
 }
 
+/* -------------------------------------------------------------------------- */
+
 void	get_expand_env(char *input, int *i, t_expand *expd)
 {
 	input[*i] = '$';
+	expd->str[expd->i] = '$';
+	expd->i++;
+	(*i)++;
 	if (check_expand(input, *i))
+	{
 		while (check_expand(input, *i))
 			expd->str[expd->i++] = input[(*i)++];
-	else
-		expd->str[expd->i] = '$';
+	}
 	expd->ptr = input;
 	expd->result = get_env(ft_strtrim(expd->str, "$"), *g_glob.env_head);
 }
@@ -92,26 +97,29 @@ char	*input_expand(char *input)
 	t_expand	expd;
 	int			i;
 
-	i = -1;
+	i = 0;
 	expd.i = 0;
 	expd.str = (char *)malloc(100);
 	ft_bzero(expd.str, 100);
-	while (input[++i])
+	while (input[i])
 	{
 		if (input[i] == EXPAND)
 		{
 			get_expand_env(input, &i, &expd);
 			if (expd.result == NULL)
 			{
-				input = ft_strdup(replaceword(input, expd.str, " "));
+				input = ft_strdup(replaceword(input, expd.str, ""));
 				expd.i = 0;
 				ft_bzero(expd.str, 100);
 				continue ;
 			}
 			input = ft_strdup(replaceword(input, expd.str, expd.result));
-			free_expand(&expd);
-			input_expand(input);
+			// free_expand(&expd);
+			expd.i = 0;
+			ft_bzero(expd.str, 100);
+			continue ;
 		}
+		i++;
 	}
 	return (input);
 }

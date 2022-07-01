@@ -39,7 +39,6 @@ void	reverse_input_plus(t_info *info)
 {
 	t_reverse	rev;
 
-	info->input = remove_red_in(info->input, 0);
 	rev.word = (char *)malloc(100);
 	rev.bef_pipe = (char *)malloc(500);
 	rev.aft_pipe = (char *)malloc(500);
@@ -47,7 +46,10 @@ void	reverse_input_plus(t_info *info)
 	while (info->input[rev.i])
 	{
 		if (info->input[rev.i] == PIPE)
+		{
 			rev.k = rev.i;
+			rev.start = rev.i + 1;
+		}
 		if ((info->input[rev.i] == IN || info->input[rev.i] == OUT || \
 			info->input[rev.i] == APPEND || info->input[rev.i] == HAREDOC) && \
 			rev.i != 0)
@@ -57,7 +59,7 @@ void	reverse_input_plus(t_info *info)
 			ft_bzero(rev.word, 100);
 			ft_bzero(rev.bef_pipe, 500);
 			ft_bzero(rev.aft_pipe, 500);
-			break ;
+			continue ;
 		}
 		rev.i++;
 	}
@@ -70,7 +72,6 @@ void	reverse_input(t_info *info)
 {
 	t_reverse	rev;
 
-	info->input = remove_red_in(info->input, 0);
 	rev.word = (char *)malloc(100);
 	rev.bef_pipe = (char *)malloc(500);
 	rev.aft_pipe = (char *)malloc(500);
@@ -97,6 +98,7 @@ void	reverse_input(t_info *info)
 	}
 	free_reverse(&rev);
 	reverse_input_plus(info);
+	// printf("%s\n", info->input);
 }
 
 /* -------------------------------------------------------------------------- */

@@ -95,8 +95,6 @@ int	store_data(t_info *info)
 	str = (char *)malloc(sizeof(char) * 500);
 	cmds = (t_cmds *)malloc(sizeof(t_cmds));
 	ft_bzero(str, 500);
-	cmds->i = 0;
-	cmds->j = 0;
 	while (info->input[info->i])
 	{
 		if (operator_statements(info))
@@ -106,11 +104,7 @@ int	store_data(t_info *info)
 			continue ;
 		}
 		else if (info->input[info->i] == PIPE)
-		{
-			cmds->j = 0;
-			cmds->i = 0;
 			handel_pipe(info, cmds);
-		}
 		info->i++;
 	}
 	return (0);

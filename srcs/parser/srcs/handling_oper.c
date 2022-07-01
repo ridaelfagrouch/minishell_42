@@ -32,13 +32,7 @@ int	handel_in(t_info *info, t_cmds *cmds, char *str)
 		return (1);
 	cmds->token = IN;
 	cmds->path = NULL;
-	if (cmds->i == 0)
-	{
-		add_back(&info->head, new_node(cmds));
-		cmds->i = 1;
-	}
-	else
-		free(cmds->data);
+	add_back(&info->head, new_node(cmds));
 	ft_bzero(str, 500);
 	return (0);
 }
@@ -81,13 +75,7 @@ int	handel_out(t_info *info, t_cmds *cmds, char *str)
 	if (print_filetype(str, 0))
 		return (1);
 	cmds->path = NULL;
-	if (cmds->j == 0)
-	{
-		add_back(&info->head, new_node(cmds));
-		cmds->j = 1;
-	}
-	else
-		free(cmds->data);
+	add_back(&info->head, new_node(cmds));
 	ft_bzero(str, 500);
 	return (0);
 }
