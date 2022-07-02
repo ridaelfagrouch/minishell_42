@@ -14,7 +14,7 @@
 
 /* -------------------------------------------------------------------------- */
 
-void	d_quotes(t_quote **quotes, int i, int *check , char *input)
+void	d_quotes(t_quote **quotes, int i, int *check, char *input)
 {
 	if (*check == 1)
 		*check = -1;
@@ -69,6 +69,7 @@ t_quote	*check_input(t_info *info)
 			in_out(info->input, &i, quotes);
 	}
 	info->input1 = ft_strdup(info->input);
+	reverse_input(info);
 	reverse_input(info);
 	printf("%s\n", info->input);
 	info->input = ft_strdup(input_expand(info->input));

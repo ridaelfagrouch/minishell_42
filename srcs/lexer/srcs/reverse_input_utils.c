@@ -30,28 +30,6 @@ void	remp_bef_aft_pipe(t_info *info, char *bef_pipe, char *aft_pipe, int k)
 
 /* -------------------------------------------------------------------------- */
 
-void	check_rev(t_reverse *rev, t_info *info)
-{
-	if (rev->k != 0)
-	{
-		remp_bef_aft_pipe(info, rev->bef_pipe, rev->aft_pipe, rev->k);
-		rev->ptr = info->input;
-		info->input = ft_strjoin(rev->bef_pipe, rev->word);
-		free(rev->ptr);
-		rev->ptr = info->input;
-		info->input = ft_strjoin(info->input, rev->aft_pipe);
-		free(rev->ptr);
-	}
-	else
-	{
-		rev->ptr = info->input;
-		info->input = ft_strjoin(rev->word, info->input);
-		free(rev->ptr);
-	}
-}
-
-/* -------------------------------------------------------------------------- */
-
 void	init_check_text(t_replace *rep, char *text, char *old, char *new)
 {
 	rep->len1 = strlen(new);
@@ -72,7 +50,7 @@ void	init_check_text(t_replace *rep, char *text, char *old, char *new)
 
 /* -------------------------------------------------------------------------- */
 
-char	*replaceword2(char *text, char *old, char *new, int start) 
+char	*replaceword2(char *text, char *old, char *new, int start)
 {
 	t_replace	rep;
 
