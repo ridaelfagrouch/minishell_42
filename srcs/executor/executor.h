@@ -14,7 +14,7 @@
 # define EXECUTOR_H
 
 /* ------------------------------- LIBRARIES -------------------------------- */
-// Libraries: Functions
+// Functions
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <stdio.h>
@@ -27,12 +27,10 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
-// Libraries: Macros and Data-Types
-# include <stdbool.h>
+// Macros and Data-Types
 # include <limits.h>
 
-// Libraries: Custom
-// # include "../../libft/libft.h"
+// Custom
 # include "../../minishell.h"
 # include "../lexer/lexer.h"
 
@@ -41,37 +39,7 @@
 # define HEREDOC_PATH	"/tmp/mshell_heredoc_"
 
 /* --------------------------------- TYPEDEFs ------------------------------- */
-// ------------ ENUMs ----------- //
-// !------------------------------------------------------------------------! //
-// !vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv! //
-// typedef enum e_flags {
-// 	EXPAND = -38,
-// 	OUT,
-// 	IN,
-// 	APPEND,
-// 	HEREDOC,
-// 	SEMICOLON,
-// 	COMMAND,
-// 	PIPE,
-// 	SPACE_,
-// 	DQ,
-// 	SQ,
-// }	t_flags;
-// !^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^! //
-// !------------------------------------------------------------------------! //
-
-// ----------- STRUCTs ---------- //
-
-// typedef struct s_execut
-// {
-// 	int	in_fd;
-// 	int	out_fd;
-// 	int	pid;
-// 	int	exit_status;
-// 	int	status;
-// 	int	pipe_fd[2];
-// }	t_execut;
-
+// ------------ STRUCTs ----------- //
 typedef struct s_exec
 {
 	int	def_std_in;
@@ -81,42 +49,6 @@ typedef struct s_exec
 	int	pipe[2];
 	int	file_err;
 }	t_exec;
-// !------------------------------------------------------------------------! //
-// !vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv! //
-// typedef struct s_node
-// {
-// 	struct s_node	*next;
-// 	int				token;
-// 	char			*data;
-// 	char			*path;
-// 	int				file_fd;
-// 	char			**cmd_split;
-// }	t_node;
-
-// typedef struct s_env_vars {
-// 	char				*key;
-// 	char				*value;
-// 	struct s_env_vars	*next;
-// }	t_env_vars;
-
-// typedef struct s_glob_info
-// {
-// 	int			exit;
-// 	int			d_stdout;
-// 	int			d_stdin;
-// 	pid_t		heredoc_pid;
-// 	int			heredoc_fd;
-// 	t_env_vars	**env_head;
-// }	t_glob_info;
-
-// typedef struct s_info
-// {
-// 	t_node			*head;
-// }	t_info;
-
-// t_glob_info	g_glob;
-// !^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^! //
-// !------------------------------------------------------------------------! //
 
 /* --------------------------------- PROTOTYPES ----------------------------- */
 // env_init_2nd.c
@@ -151,19 +83,6 @@ void		redirect_input(int new_input_fd);
 void		redirect_output(int new_output_fd);
 
 void		free_double_pointer(char **sorted_env);
-
 void		ignore_signal(void);
-
-
-
-// int		handle_execution(t_info *usr_input, t_env_vars **env_head);
-// void	handle_signals(void);
-// t_env_vars	*conv_env(char **envp);
-// int			process_env_var(t_env_vars **head, char *env_var);
-// void	hide_ctrl(void);
-// void	restore_ctrl(void);
-// char	*get_wildcard_data(void);
-// char	*get_env(const char *var, t_env_vars *env_head);
-
 
 #endif
