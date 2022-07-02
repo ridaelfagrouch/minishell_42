@@ -69,11 +69,6 @@ typedef enum e_flags {
 	SQ,
 }	t_flags;
 
-typedef enum e_error {
-	no,
-	yes
-}	t_error;
-
 // ----------- STRUCTs ---------- //
 typedef struct s_env_vars {
 	char				*key;
@@ -88,6 +83,7 @@ typedef struct s_node
 	char			*data;
 	char			*path;
 	int				file_fd;
+	int				cmd_flag;
 	char			**cmd_split;
 }	t_node;
 
@@ -96,6 +92,7 @@ typedef struct s_cmds
 	int		token;
 	char	*data;
 	char	*path;
+	int		cmd_flag;
 	int		i;
 	int		j;
 	int		file_fd;

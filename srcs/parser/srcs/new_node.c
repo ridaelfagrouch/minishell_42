@@ -76,11 +76,12 @@ t_node	*new_node(t_cmds *cmds)
 	node->path = ft_strdup(cmds->path);
 	node->next = NULL;
 	node->file_fd = cmds->file_fd;
+	node->cmd_flag = cmds->cmd_flag;
 	if (node->token == COMMAND)
 	{
 		node->cmd_split = ft_split_cmd(cmds->data);
 		rm_dqsq_cmds(node);
-		// print_split(node->cmd_split);
+		print_split(node->cmd_split);
 	}
 	else
 		node->cmd_split = NULL;
@@ -88,7 +89,7 @@ t_node	*new_node(t_cmds *cmds)
 		free(cmds->data);
 	if (cmds->path)
 		free(cmds->path);
-	// printf("touken: %d | path: %s | data: %s | file_fd: %d\n", node->token, node->path, node->data, node->file_fd);
+	printf("touken: %d | path: %s | data: %s | file_fd: %d\n", node->token, node->path, node->data, node->file_fd);
 	return (node);
 }
 

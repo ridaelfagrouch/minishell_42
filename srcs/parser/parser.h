@@ -45,7 +45,7 @@ void	while_operator(t_info *info, char *str);
 void	scape_space(t_info *info);
 void	add_back(t_node **lst, t_node *node);
 t_node	*new_node(t_cmds *cmds);
-char	*get_path(char *av);
+char	*get_path(char *av, t_cmds *cmds);
 char	**ft_split_cmd(char *str);
 int		check_builtins(char *str);
 void	out_check_str(char *str, int i, t_cmds *cmds);
