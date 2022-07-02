@@ -63,6 +63,7 @@ void	reverse_input(t_info *info)
 {
 	t_reverse	rev;
 
+	info->input = remove_red_in(info->input);
 	rev.word = (char *)malloc(100);
 	rev.bef_pipe = (char *)malloc(500);
 	rev.aft_pipe = (char *)malloc(500);

@@ -82,5 +82,6 @@ void	free_reverse(t_reverse	*rev);
 char	*replaceword2(char *text, char *old, char *new, int start);
 void	expanding(t_expand *expd, char *s, char *old, char *new);
 void	remp_bef_aft_pipe(t_info *info, char *bef_pipe, char *aft_pipe, int k);
+char	*remove_red_in(char *str);
 
 #endif
