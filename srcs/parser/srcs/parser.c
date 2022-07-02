@@ -29,13 +29,13 @@ int	check_beginning(char *str, int i)
 	if (str[i] && check_oper(str, i) == 1 && i == 0)
 	{
 		if (str[i] == PIPE)
-			return (printf ("minishell: parse error near4!\n"), 1);
+			return (printf ("minishell: parse error near!\n"), 258);
 		else if (str[i + 1] == '\0' && str[i] != APPEND && str[i] != HEREDOC)
-			return (printf ("minishell: parse error near5!\n"), 1);
+			return (printf ("minishell: parse error near!\n"), 258);
 		else if ((str[i] == APPEND || str[i] == HEREDOC) && str[i + 2] == '\0')
-			return (printf ("minishell: parse error near6!\n"), 1);
+			return (printf ("minishell: parse error near!\n"), 258);
 		else if (str[i] && ft_strlen(str) == 1)
-			return (printf ("minishell: parse error near7!\n"), 1);
+			return (printf ("minishell: parse error near!\n"), 258);
 	}
 	if (str[i] && str[i] == PIPE && str[i + 1] && str[i + 1] == ' ')
 	{
@@ -43,7 +43,7 @@ int	check_beginning(char *str, int i)
 		while (str[i] && str[i] == ' ')
 			i++;
 		if (str[i] == PIPE)
-			return (printf ("minishell: parse error near8!\n"), 1);
+			return (printf ("minishell: parse error near!\n"), 258);
 	}
 	return (0);
 }
@@ -55,7 +55,7 @@ int	parse_error(char *str, unsigned long *i)
 	while (str[*i] && str[*i] == ' ')
 		(*i)++;
 	if (check_oper(str, *i) == 1)
-		return (printf ("minishell: parse error near1!\n"), 1);
+		return (printf ("minishell: parse error near!\n"), 258);
 	return (0);
 }
 
@@ -94,9 +94,11 @@ int	check_syntax1(char *str)
 
 int	parcer(t_info *info)
 {
-	if (check_syntax1(info->input1) || !ft_strcmp(info->input1, "\0"))
+	g_glob.exit = check_syntax1(info->input1);
+	if (g_glob.exit || !ft_strcmp(info->input1, "\0"))
 		return (1);
-	if (check_syntax2(info->input1) || !ft_strcmp(info->input1, "\0"))
+	g_glob.exit = check_syntax2(info->input1);
+	if (g_glob.exit || !ft_strcmp(info->input1, "\0"))
 		return (1);
 	if (store_data(info))
 		return (1);

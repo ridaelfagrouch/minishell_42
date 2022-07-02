@@ -50,15 +50,15 @@ int	check_syntax3(char c, char check, int *count)
 			if (check == IN && c == OUT)
 				return (0);
 			else
-				return (printf ("minishell: parse error near13!\n"), 1);
+				return (printf ("minishell: parse error near!\n"), 258);
 		}
 		if (check == c)
 		{
 			if (check == PIPE)
-				return (printf ("minishell: parse error near14!\n"), 1);
+				return (printf ("minishell: parse error near!\n"), 258);
 			(*count)++;
 			if (*count == 2)
-				return (printf ("minishell: parse error near15!\n"), 1);
+				return (printf ("minishell: parse error near!\n"), 258);
 		}
 	}
 	return (0);
@@ -80,7 +80,7 @@ int	detect_error(t_syntax *synta, char *str)
 	if (str[synta->i] == HEREDOC || str[synta->i] == APPEND)
 	{
 		if ((unsigned long)synta->i == (ft_strlen(str) - 2))
-			return (printf ("minishell: parse error near11!\n"), 1);
+			return (printf ("minishell: parse error near!\n"), 258);
 		synta->check = str[synta->i];
 		synta->i += 2;
 		if (str[synta->i] && \
@@ -90,7 +90,7 @@ int	detect_error(t_syntax *synta, char *str)
 	else
 	{
 		if ((unsigned long)synta->i == (ft_strlen(str) - 1))
-			return (printf ("minishell: parse error near12!\n"), 1);
+			return (printf ("minishell: parse error near!\n"), 258);
 		synta->check = str[synta->i++];
 		if (str[synta->i] && \
 			check_syntax3(str[synta->i], synta->check, &synta->cout))
