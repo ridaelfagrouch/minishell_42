@@ -26,12 +26,12 @@ static char	**init_new_envp(t_env_vars *head, char **new_envp)
 	{
 		new_envp[i] = ft_strjoin(node->key, "=");
 		if (new_envp[i] == NULL)
-			return (free_two_dim_arr(new_envp), NULL);
+			return (free_double_pointer(new_envp), NULL);
 		ptr = new_envp[i];
 		new_envp[i] = ft_strjoin(ptr, node->value);
 		free(ptr);
 		if (new_envp[i] == NULL)
-			return (free_two_dim_arr(new_envp), NULL);
+			return (free_double_pointer(new_envp), NULL);
 		node = node->next;
 		++i;
 	}

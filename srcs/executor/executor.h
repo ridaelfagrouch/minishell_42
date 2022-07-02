@@ -150,7 +150,7 @@ void		print_err(char *cmd, char *input, char *msg);
 void		redirect_input(int new_input_fd);
 void		redirect_output(int new_output_fd);
 
-void		free_two_dim_arr(char **sorted_env);
+void		free_double_pointer(char **sorted_env);
 
 void		ignore_signal(void);
 

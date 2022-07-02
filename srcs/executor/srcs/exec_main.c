@@ -191,6 +191,42 @@
 //// 	return (reset_stds_fd(), 0);
 //// }
 
+//* ======================================================================== *//
+
+void	free_double_pointer(char **ptr)
+{
+	int i;
+
+	i = 0;
+	while (ptr[i])
+	{
+		free(ptr[i]);
+		ptr[i++] = NULL;
+	}
+	free(ptr);
+	ptr = NULL;
+}
+
+// * ====================================================================== * //
+
+void	free_linked_list(t_node *head)
+{
+	t_node *node;
+	t_node *next;
+
+	node = head;
+	while (node)
+	{
+		next = node->next;
+		free(node->data);
+		close(node->file_fd);
+		free(node->path);
+		free_double_pointer(node->cmd_split);
+		free(node);
+		node = next;
+	}
+}
+
 // * ====================================================================== * //
 
 char	*put_expand(char *ptr)
@@ -347,23 +383,11 @@ TODO 	Else if file_fd == -2 then it means it's a File Not Found error
 
 void	input_handler(t_node **node, t_exec *exec)
 {
-	if ((*node)->token == IN)
-	{
-		if ((*node)->file_fd < 0)
-			return (print_err("input", "file not found", (*node)->data));
-		if (exec->input != -1)
-			close(exec->input);
-		exec->input = (*node)->file_fd;
-	}
-	// else if ((*node)->token == HEREDOC)
-	// {
-	// 	heredoc_handler((*node)->data);
-	// 	if (exec->input != -1)
-	// 		close(exec->input);
-	// 	exec->input = open(HEREDOC_PATH, O_RDONLY);
-	// 	if (exec->input < 0)
-	// 		print_err(NULL, "heredoc", "internal error detected");
-	// }
+	if ((*node)->file_fd < 0)
+		return (print_err("input", "file not found", (*node)->data));
+	if (exec->input != -1)
+		close(exec->input);
+	exec->input = (*node)->file_fd;
 }
 
 // * ====================================================================== * //
@@ -429,7 +453,7 @@ t_node	*get_first_heredoc_node(t_node *head)
 	t_node *tracer;
 
 	tracer = head;
-	while (tracer && tracer->token == HEREDOC)
+	while (tracer && tracer->token != HEREDOC)
 		tracer = tracer->next;
 	return (tracer);
 }
@@ -476,21 +500,35 @@ char **name_heredoc_files(int count)
 
 // * ====================================================================== * //
 
-t_node	*is_invalid_input_file_fd(t_node *node)
+int	is_invalid_file_fd(t_node *head)
 {
-	while (node)
+	t_node *tracer;
+	t_node *node;
+
+	tracer = head;
+	node = NULL;
+	while (tracer)
 	{
-		if (node->token == IN && node->file_fd < 0)
-			return (node);
-		node = node->next;
+		if ((tracer->token == IN || tracer->token == OUT || \
+			tracer->token == APPEND) && tracer->file_fd < 0)
+			node = tracer;
+		tracer = tracer->next;
 	}
-	return (NULL);
+	if (node == NULL)
+		return (0);
+	if (node->file_fd == -1)
+		print_err(NULL, "input", "no such file or directory!");
+	else
+		print_err(NULL, "input", "permission denied");
+	//free_linked_list(head);
+	return (-1);
 }
 
-//* ======================================================================== *//
+//* ======================================================================== * //
 /* -------------------------------------------------------------------------- *\
 TODO	Don't free the filenames, only free the array of pointers
 \* -------------------------------------------------------------------------- */
+
 int	convert_heredoc_to_file(t_node *head)
 {
 	t_node	*node;
@@ -501,13 +539,13 @@ int	convert_heredoc_to_file(t_node *head)
 	if (count == 0)
 		return (0);
 	file_names = name_heredoc_files(count);
-	// if (!file_names || !file_names[0])
-		// return (free_two_dim_arr(file_names), -1);
+	if (!file_names || !file_names[0])
+		return (free_double_pointer(file_names), -1);
 	while (count--)
 	{
 		node = get_first_heredoc_node(head);
 		if (!node)
-			// return (free_two_dim_arr(file_names), -1);
+			return (free_double_pointer(file_names), -1);
 		heredoc_handler(node->data, file_names[count]);
 		node->file_fd = open(file_names[count], O_RDONLY);
 		if (node->file_fd < 0)
@@ -517,46 +555,13 @@ int	convert_heredoc_to_file(t_node *head)
 		node->token = IN;
 	}
 	free(file_names);
-	printf("hello\n");
 	return (0);
-}
-
-// * ====================================================================== * //
-
-void	unlink_heredoc_files(char **file_names)
-{
-	int	i;
-
-	i = 0;
-	while (file_names[i])
-		unlink(file_names[i++]);
-	// free_two_dim_arr(file_names);
-}
-
-// * ====================================================================== * //
-
-void	free_linked_list(t_node *head)
-{
-	t_node *node;
-	t_node *next;
-
-	node = head;
-	while (node)
-	{
-		next = node->next;
-		free(node->data);
-		close(node->file_fd);
-		free(node->path);
-		// free_two_dim_arr(node->cmd_split);
-		free(node);
-		node = next;
-	}
 }
 
 // * ====================================================================== * //
 /* -------------------------------------------------------------------------- *\
 TODO	Free all allocated memory
-*		free_parsed_data(parsed_data);
+free_parsed_data(parsed_data);
 \* -------------------------------------------------------------------------- */
 
 int	handle_execution(t_info *parsed_data, t_env_vars **env_head)
@@ -568,21 +573,11 @@ int	handle_execution(t_info *parsed_data, t_env_vars **env_head)
 		return (-1);
 	handle_signals();
 	convert_heredoc_to_file(parsed_data->head);
-	node = is_invalid_input_file_fd(parsed_data->head);
-	if (node)
-	{
-		if (node->file_fd == -1)
-			print_err(NULL, "input", "no such file or directory!");
-		else
-			print_err(NULL, "input", "permission denied");
-		free_linked_list(parsed_data->head);
+	if (is_invalid_file_fd(parsed_data->head))
 		return (-1);
-	}
 	node = parsed_data->head;
 	while (node)
 	{
-		// if (node->token == IN || node->token == HEREDOC)
-		// 	input_handler(&node, &exec);
 		if (node->token == IN)
 			input_handler(&node, &exec);
 		else if (node->token == OUT || node->token == APPEND)
@@ -600,7 +595,6 @@ int	handle_execution(t_info *parsed_data, t_env_vars **env_head)
 	close(exec.input);
 	redirect_output(exec.def_std_out);
 	redirect_input(exec.def_std_in);
-	unlink(HEREDOC_PATH);
 	return (0);
 }
 
