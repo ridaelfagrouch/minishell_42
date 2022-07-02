@@ -500,12 +500,12 @@ char **name_heredoc_files(int count)
 
 // * ====================================================================== * //
 
-int	is_invalid_file_fd(t_node *head)
+int	is_invalid_file_fd(t_node **head)
 {
 	t_node *tracer;
 	t_node *node;
 
-	tracer = head;
+	tracer = *head;
 	node = NULL;
 	while (tracer)
 	{
@@ -521,6 +521,8 @@ int	is_invalid_file_fd(t_node *head)
 	else
 		print_err(NULL, "input", "permission denied");
 	//free_linked_list(head);
+	while ((*head) && (*head)->token != PIPE)
+		(*head) = (*head)->next;
 	return (-1);
 }
 
@@ -573,11 +575,11 @@ int	handle_execution(t_info *parsed_data, t_env_vars **env_head)
 		return (-1);
 	handle_signals();
 	convert_heredoc_to_file(parsed_data->head);
-	if (is_invalid_file_fd(parsed_data->head))
-		return (-1);
 	node = parsed_data->head;
 	while (node)
 	{
+		if (is_invalid_file_fd(&node))
+			continue ;
 		if (node->token == IN)
 			input_handler(&node, &exec);
 		else if (node->token == OUT || node->token == APPEND)
