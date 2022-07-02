@@ -27,7 +27,7 @@ CC_FLAGS	:= -Wall -Wextra -Werror \
 	-I /goinfre/mnaimi/.brew/Cellar/readline/8.1.2/include
 
 SRCS_DIR := srcs/
-SRCS_LST := lexer.c lexer_utils.c lexer_expand.c reverse_input.c reverse_input_utils.c free_lexer.c
+SRCS_LST := lexer.c lexer_utils.c lexer_expand.c reverse_input.c reverse_input_utils.c free_lexer.c lexer_utils2.c
 SRCS := ${addprefix ${SRCS_DIR}, ${SRCS_LST}}
 
 OBJS_DIR := objs/
