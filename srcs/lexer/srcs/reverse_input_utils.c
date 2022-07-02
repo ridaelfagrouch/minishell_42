@@ -32,14 +32,14 @@ void	remp_bef_aft_pipe(t_info *info, char *bef_pipe, char *aft_pipe, int k)
 
 void	init_check_text(t_replace *rep, char *text, char *old, char *new)
 {
-	rep->len1 = strlen(new);
-	rep->len2 = strlen(old);
+	rep->len1 = ft_strlen(new);
+	rep->len2 = ft_strlen(old);
 	rep->k = 0;
 	rep->i = 0;
 	rep->cnt = 0;
 	while (text[rep->i])
 	{
-		if (ft_strstr(&text[rep->i], old) == &text[rep->i]) 
+		if (ft_strstr(&text[rep->i], old) == &text[rep->i])
 		{
 			rep->cnt++;
 			rep->i += rep->len2 - 1;

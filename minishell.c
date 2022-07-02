@@ -34,7 +34,7 @@ static int	prompt(t_info *info, char **envp)
 {
 	char				*rdln_output;
 	t_env_vars			*env_head;
-	(void)envp;
+
 	g_glob.exit = 0;
 	env_head = conv_env(envp);
 	g_glob.env_head = &env_head;
@@ -54,8 +54,7 @@ static int	prompt(t_info *info, char **envp)
 		if (*(info->input) == '\0')
 			continue ;
 		add_history(rdln_output);
-		// || parcer(info)
-		if (lexer_start(info))
+		if (lexer_start(info) || parcer(info))
 		{
 			free(info->input);
 			continue ;

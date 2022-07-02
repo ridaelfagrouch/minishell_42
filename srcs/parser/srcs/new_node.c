@@ -41,21 +41,6 @@ int	check_file_in_access( t_cmds *cmds, char *str)
 
 /* -------------------------------------------------------------------------- */
 
-// void	print_split(char **str)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		//printf("%s | ", str[i]);
-// 		i++;
-// 	}
-// 	//printf("\n");
-// }
-
-/* -------------------------------------------------------------------------- */
-
 void	rm_dqsq_cmds(t_node *node)
 {
 	int	i;
@@ -87,7 +72,6 @@ t_node	*new_node(t_cmds *cmds)
 	{
 		node->cmd_split = ft_split_cmd(cmds->data);
 		rm_dqsq_cmds(node);
-		// print_split(node->cmd_split);
 	}
 	else
 		node->cmd_split = NULL;
@@ -95,7 +79,6 @@ t_node	*new_node(t_cmds *cmds)
 		free(cmds->data);
 	if (cmds->path)
 		free(cmds->path);
-	// printf("touken: %d | path: %s | data: %s\n", node->token, node->path, node->data);
 	return (node);
 }
 
