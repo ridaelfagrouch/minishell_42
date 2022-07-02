@@ -41,18 +41,18 @@ int	check_file_in_access( t_cmds *cmds, char *str)
 
 /* -------------------------------------------------------------------------- */
 
-void	print_split(char **str)
-{
-	int	i;
+// void	print_split(char **str)
+// {
+// 	int	i;
 
-	i = 0;
-	while (str[i])
-	{
-		//printf("%s | ", str[i]);
-		i++;
-	}
-	//printf("\n");
-}
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		//printf("%s | ", str[i]);
+// 		i++;
+// 	}
+// 	//printf("\n");
+// }
 
 /* -------------------------------------------------------------------------- */
 

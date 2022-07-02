@@ -50,6 +50,17 @@ typedef struct expand
 	size_t		oldlen;
 }	t_expand;
 
+typedef struct replace
+{
+	int		i;
+	int		cnt;
+	int		len1;
+	int		len2;
+	int		k;
+	char	*newstring;
+}	t_replace;
+
+
 /* --------------------------------- PROTOTYPES ----------------------------- */
 void	new_quote(t_quote **quotes, int i, int on, int class);
 void	in_out(char *input, int *i, t_quote	*quotes);

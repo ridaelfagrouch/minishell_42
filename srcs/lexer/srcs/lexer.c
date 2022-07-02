@@ -70,7 +70,7 @@ t_quote	*check_input(t_info *info)
 	}
 	info->input1 = ft_strdup(info->input);
 	reverse_input(info);
-	// printf("%s\n", info->input);
+	printf("%s\n", info->input);
 	info->input = ft_strdup(input_expand(info->input));
 	unclosed_quotes(quotes, info);
 	return (quotes);
