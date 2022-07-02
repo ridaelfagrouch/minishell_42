@@ -61,6 +61,7 @@ static int	prompt(t_info *info, char **envp)
 		}
 		handle_execution(info, &env_head);
 		free(info->input);
+		free(info->input1);
 	}
 	return (0);
 }

@@ -28,14 +28,6 @@ void	free_quotes(t_quote *quotes)
 
 /* -------------------------------------------------------------------------- */
 
-void	free_expand(t_expand *expd)
-{
-	free(expd->ptr);
-	free(expd->str);
-}
-
-/* -------------------------------------------------------------------------- */
-
 void	free_reverse(t_reverse	*rev)
 {
 	free(rev->word);
