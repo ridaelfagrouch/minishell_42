@@ -54,12 +54,12 @@ void	check_path_cmd(t_data *data, char *av)
 
 /* -------------------------------------------------------------------------- */
 
-char	*found_path(t_data *data, char *av)
+char	*found_path(t_data *data, char *av, t_cmds *cmds)
 {
 	check_path_cmd(data, av);
 	if (data->check_access != 0)
 	{
-		printf("command not found\n");
+		cmds->cmd_flag = -1;
 		return (NULL);
 	}
 	if (ft_strchr(av, ' ') != 0)
@@ -69,14 +69,14 @@ char	*found_path(t_data *data, char *av)
 
 /* -------------------------------------------------------------------------- */
 
-int	check_cmd(t_data *data, char *av)
+int	check_cmd(t_data *data, char *av, t_cmds *cmds)
 {
 	if (ft_strchr(av, ' ') != 0 && (av[0] != '.' || av[0] != '/'))
 	{
 		data->cmd_split = ft_split(av, ' ');
 		if (data->cmd_split[0] == NULL)
 		{
-			printf("command not found!\n");
+			cmds->cmd_flag = -1;
 			return (1);
 		}
 		data->cmd = ft_strdup(data->cmd_split[0]);
@@ -89,7 +89,7 @@ int	check_cmd(t_data *data, char *av)
 
 /* -------------------------------------------------------------------------- */
 
-char	*get_path(char *av)
+char	*get_path(char *av, t_cmds *cmds)
 {
 	t_data	*data;
 	char	*tmp1;
@@ -102,17 +102,17 @@ char	*get_path(char *av)
 	tmp1 = ft_space(tmp1);
 	if (ft_strchr(tmp1, SPACE_) || ft_strchr(tmp1, ' ') == NULL)
 		av = remove_dq_sq(av);
-	if (check_cmd(data, av))
+	if (check_cmd(data, av, cmds))
 		return (NULL);
 	data->path = get_env("PATH", *g_glob.env_head);
 	if (data->path == NULL)
 	{
-		printf("command not found!\n");
+		cmds->cmd_flag = -1;
 		return (NULL);
 	}
 	data->path_split = ft_split(data->path, ':');
 	data->i = 0;
-	return (found_path(data, av));
+	return (found_path(data, av, cmds));
 }
 
 /* -------------------------------------------------------------------------- */

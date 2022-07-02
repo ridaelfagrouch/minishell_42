@@ -83,13 +83,13 @@ int	execute_builtins(char **input, t_env_vars **env_vars)
 		return (cd_cmd(input, env_vars));
 	else if (ft_strcmp_tl(input[0], "pwd") == 0)
 		return (pwd_cmd(input, env_vars));
-	else if (ft_strcmp_tl(input[0], "export") == 0)
+	else if (ft_strcmp(input[0], "export") == 0)
 		return (export_cmd(input, env_vars));
-	else if (ft_strcmp_tl(input[0], "unset") == 0)
+	else if (ft_strcmp(input[0], "unset") == 0)
 		return (unset_cmd(input, env_vars));
 	else if (ft_strcmp_tl(input[0], "env") == 0)
 		return (env_cmd(input, env_vars));
-	else if (ft_strcmp_tl(input[0], "exit") == 0)
+	else if (ft_strcmp(input[0], "exit") == 0)
 		return (exit_cmd(input, env_vars), 0);
 	return (-1);
 }
@@ -109,7 +109,10 @@ int	execute_command(t_node *node, t_env_vars **env_vars)
 		exit(execute_non_builtin(node->path, node->cmd_split, *env_vars));
 	}
 	ignore_signal();
-	waitpid(pid, &status, 0);
+	if (!node->next)
+	{
+		waitpid(pid, &status, 0);
+	}
 	handle_signals();
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));

@@ -73,13 +73,17 @@ char	*replaceword2(char *text, char *old, char *new, int start)
 			rep.newstring[rep.i++] = *text++;
 	}
 	rep.newstring[rep.i] = '\0';
-	return (rep.newstring);
+	text = ft_strdup (rep.newstring);
+	free (rep.newstring);
+	return (text);
 }
 
 /* -------------------------------------------------------------------------- */
 
 void	set_rev(t_reverse *rev, t_info *info)
 {
+	char	*ptr;
+
 	rev->j = 0;
 	rev->start = rev->i;
 	if (info->input[rev->i] == IN || info->input[rev->i] == OUT)
@@ -93,6 +97,8 @@ void	set_rev(t_reverse *rev, t_info *info)
 		rev->word[rev->j++] = info->input[rev->i++];
 	while (info->input[rev->i] && not_operator(info, rev->i))
 		rev->word[rev->j++] = info->input[rev->i++];
+	ptr = info->input;
 	info->input = replaceword2(info->input, rev->word, "", rev->start);
+	free (ptr);
 	rev->word[rev->j] = ' ';
 }
