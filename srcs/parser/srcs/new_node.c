@@ -18,7 +18,7 @@ int	check_file_in_access( t_cmds *cmds, char *str)
 {
 	if (access(str, F_OK) != 0)
 	{
-		cmds->infile_flag = -1;
+		cmds->file_fd = -1;
 		cmds->data = NULL;
 	}
 	if (access(str, R_OK | F_OK) == 0 || \
@@ -26,33 +26,27 @@ int	check_file_in_access( t_cmds *cmds, char *str)
 	{
 		cmds->data = ft_strdup(str);
 		if (access(str, F_OK) == 0 && access(str, R_OK) != 0)
-		{
-			cmds->file_fd = -1;
-			cmds->infile_flag = -2;
-		}
+			cmds->file_fd = -2;
 		else if (access(str, R_OK | F_OK) == 0)
-		{
-			cmds->infile_flag = 0;
 			cmds->file_fd = open(cmds->data, O_RDONLY, 00500);
-		}
 	}
 	return (0);
 }
 
 /* -------------------------------------------------------------------------- */
 
-void	print_split(char **str)
-{
-	int	i;
+// void	print_split(char **str)
+// {
+// 	int	i;
 
-	i = 0;
-	while (str[i])
-	{
-		//printf("%s | ", str[i]);
-		i++;
-	}
-	//printf("\n");
-}
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		printf("%s | ", str[i]);
+// 		i++;
+// 	}
+// 	printf("\n");
+// }
 
 /* -------------------------------------------------------------------------- */
 
@@ -82,7 +76,6 @@ t_node	*new_node(t_cmds *cmds)
 	node->path = ft_strdup(cmds->path);
 	node->next = NULL;
 	node->file_fd = cmds->file_fd;
-	node->infile_flag = cmds->infile_flag;
 	if (node->token == COMMAND)
 	{
 		node->cmd_split = ft_split_cmd(cmds->data);
@@ -95,7 +88,7 @@ t_node	*new_node(t_cmds *cmds)
 		free(cmds->data);
 	if (cmds->path)
 		free(cmds->path);
-	// printf("touken: %d | path: %s | data: %s\n", node->token, node->path, node->data);
+	// printf("touken: %d | path: %s | data: %s | file_fd: %d\n", node->token, node->path, node->data, node->file_fd);
 	return (node);
 }
 

@@ -73,6 +73,8 @@ void	init_syntax_data(t_syntax *synta)
 	synta->cout = 0;
 }
 
+/* -------------------------------------------------------------------------- */
+
 int	detect_error(t_syntax *synta, char *str)
 {
 	if (str[synta->i] == HEREDOC || str[synta->i] == APPEND)

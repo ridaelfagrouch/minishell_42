@@ -62,12 +62,13 @@ char	*replaceword(char *s, char *old, char *new)
 
 int	check_expand(char *input, int i)
 {
-	if (input[i] && input[i] != ' ' && \
+	if (input[i] && (ft_isalnum(input[i]) || input[i] == '?'|| input[i] == '_') \
+		&& input[i] != ' ' && \
 		input[i] != DQ && input[i] != SQ \
 		&& input[i] != PIPE && input[i] != OUT \
 		&& input[i] != IN && input[i] != EXPAND \
 		&& input[i] != HEREDOC && \
-		input[i] != APPEND && input[i] != '$')
+		input[i] != APPEND)
 		return (1);
 	else
 		return (0);

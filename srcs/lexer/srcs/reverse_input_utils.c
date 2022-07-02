@@ -30,73 +30,50 @@ void	remp_bef_aft_pipe(t_info *info, char *bef_pipe, char *aft_pipe, int k)
 
 /* -------------------------------------------------------------------------- */
 
-void	check_rev(t_reverse *rev, t_info *info)
+void	init_check_text(t_replace *rep, char *text, char *old, char *new)
 {
-	if (rev->k != 0)
+	rep->len1 = ft_strlen(new);
+	rep->len2 = ft_strlen(old);
+	rep->k = 0;
+	rep->i = 0;
+	rep->cnt = 0;
+	while (text[rep->i])
 	{
-		remp_bef_aft_pipe(info, rev->bef_pipe, rev->aft_pipe, rev->k);
-		rev->ptr = info->input;
-		info->input = ft_strjoin(rev->bef_pipe, rev->word);
-		free(rev->ptr);
-		rev->ptr = info->input;
-		info->input = ft_strjoin(info->input, rev->aft_pipe);
-		free(rev->ptr);
-	}
-	else
-	{
-		rev->ptr = info->input;
-		info->input = ft_strjoin(rev->word, info->input);
-		free(rev->ptr);
+		if (ft_strstr(&text[rep->i], old) == &text[rep->i])
+		{
+			rep->cnt++;
+			rep->i += rep->len2 - 1;
+		}
+		rep->i++;
 	}
 }
 
 /* -------------------------------------------------------------------------- */
 
-char	*replaceword2(char *text, char *old, char *new, int start) 
+char	*replaceword2(char *text, char *old, char *new, int start)
 {
-	int		i;
-	int		cnt;
-	int		len1;
-	int		len2;
-	int		k;
-	char	*newstring;
+	t_replace	rep;
 
-	len1 = strlen(new);
-	len2 = strlen(old);
-	k = 0;
-	i = 0;
-	cnt = 0;
-	while (text[i])
-	{
-		if (ft_strstr(&text[i], old) == &text[i]) 
-		{
-			cnt++;
-			i += len2 - 1;
-		}
-		i++;
-	}
-	newstring = (char *)malloc(i + cnt * (len1 - len2) + 1);
-	i = 0;
-	while (text[i] && (i < start))
-	{
-		newstring[i] = text[i];
-		i++;
-	}
-	i = 0;
+	init_check_text(&rep, text, old, new);
+	rep.newstring = (char *) \
+		ft_calloc((rep.i + rep.cnt * (rep.len1 - rep.len2) + 1), sizeof(char));
+	rep.i = 0;
+	while (*text && (rep.i < start))
+		rep.newstring[rep.i++] = *text++;
 	while (*text)
 	{
-		if (ft_strstr(text, old) == text && (k == 0))
+		if (ft_strstr(text, old) == text && (rep.k == 0))
 		{
-			ft_strcpy(&newstring[i], new);
-			i += len1;
-			text += len2;
-			k = 1;
+			ft_strcpy(&rep.newstring[rep.i], new);
+			rep.i += rep.len1;
+			text += rep.len2;
+			rep.k = 1;
 		}
 		else
-			newstring[i++] = *text++;
+			rep.newstring[rep.i++] = *text++;
 	}
-	newstring[i] = '\0';
-	return (newstring);
+	rep.newstring[rep.i] = '\0';
+	return (rep.newstring);
 }
 
 /* -------------------------------------------------------------------------- */

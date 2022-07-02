@@ -50,6 +50,16 @@ typedef struct expand
 	size_t		oldlen;
 }	t_expand;
 
+typedef struct replace
+{
+	int		i;
+	int		cnt;
+	int		len1;
+	int		len2;
+	int		k;
+	char	*newstring;
+}	t_replace;
+
 /* --------------------------------- PROTOTYPES ----------------------------- */
 void	new_quote(t_quote **quotes, int i, int on, int class);
 void	in_out(char *input, int *i, t_quote	*quotes);
@@ -71,5 +81,6 @@ void	free_expand(t_expand *expd);
 void	free_reverse(t_reverse	*rev);
 char	*replaceword2(char *text, char *old, char *new, int start);
 void	expanding(t_expand *expd, char *s, char *old, char *new);
+void	remp_bef_aft_pipe(t_info *info, char *bef_pipe, char *aft_pipe, int k);
 
 #endif

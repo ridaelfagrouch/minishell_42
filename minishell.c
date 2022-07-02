@@ -34,7 +34,7 @@ static int	prompt(t_info *info, char **envp)
 {
 	char				*rdln_output;
 	t_env_vars			*env_head;
-	(void)envp;
+
 	g_glob.exit = 0;
 	env_head = conv_env(envp);
 	g_glob.env_head = &env_head;

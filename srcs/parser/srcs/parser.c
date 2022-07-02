@@ -22,6 +22,8 @@ int	check_oper(char *str, int i)
 	return (0);
 }
 
+/* -------------------------------------------------------------------------- */
+
 int	check_beginning(char *str, int i)
 {
 	if (str[i] && check_oper(str, i) == 1 && i == 0)
@@ -48,6 +50,17 @@ int	check_beginning(char *str, int i)
 
 /* -------------------------------------------------------------------------- */
 
+int	parse_error(char *str, unsigned long *i)
+{
+	while (str[*i] && str[*i] == ' ')
+		(*i)++;
+	if (check_oper(str, *i) == 1)
+		return (printf ("minishell: parse error near1!\n"), 1);
+	return (0);
+}
+
+/* -------------------------------------------------------------------------- */
+
 int	check_syntax1(char *str)
 {
 	unsigned long	i;
@@ -61,25 +74,23 @@ int	check_syntax1(char *str)
 			str[i + 1] == ' ')
 		{
 			i++;
-			while (str[i] && str[i] == ' ')
-				i++;
-			if (check_oper(str, i) == 1)
-				return (printf ("minishell: parse error near1!\n"), 1);
+			if (parse_error(str, &i))
+				return (1);
 		}
 		else if ((str[i] == HEREDOC || str[i] == APPEND) && \
 			str[i + 2] && str[i + 2] == ' ')
 		{
 			i += 2;
-			while (str[i] && str[i] == ' ')
-				i++;
-			if (check_oper(str, i) == 1)
-				return (printf ("minishell: parse error near2!\n"), 1);
+			if (parse_error(str, &i))
+				return (1);
 		}
 		else
 			i++;
 	}
 	return (0);
 }
+
+/* -------------------------------------------------------------------------- */
 
 int	parcer(t_info *info)
 {
