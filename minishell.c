@@ -76,6 +76,7 @@ int	main(int ac, char **av, char **envp)
 	if (ft_strcmp(av[0], "./minishell") == 0 && ac == 1)
 		if (prompt(&info, envp) == 1)
 			return (1);
+	return (0);
 }
 
 /* -------------------------------------------------------------------------- */

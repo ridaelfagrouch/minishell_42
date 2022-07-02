@@ -42,12 +42,13 @@
 // ------------ STRUCTs ----------- //
 typedef struct s_exec
 {
-	int	def_std_in;
-	int	def_std_out;
-	int	input;
-	int	output;
-	int	pipe[2];
-	int	file_err;
+	pid_t	*childs_pids;
+	int		def_std_in;
+	int		def_std_out;
+	int		input;
+	int		output;
+	int		pipe[2];
+	int		file_err;
 }	t_exec;
 
 /* --------------------------------- PROTOTYPES ----------------------------- */

@@ -12,186 +12,8 @@
 
 #include "../executor.h"
 
-//// // * ---------------------------------------------------------------------- * ///
-//
-//// void	here_doc_(char *delimiter)
-//// {
-//// 	char	*ptr;
-//
-//// 	ptr = NULL;
-//// 	g_glob.heredoc_fd = open(".tmp", O_CREAT | O_RDWR | O_TRUNC, 00777);
-//// 	if (g_glob.heredoc_fd < 0)
-//// 	{
-//// 		print_err("heredoc", "internal error detected", NULL);
-//// 		return ;
-//// 	}
-//// 	g_glob.heredoc_fd = g_glob.heredoc_fd;
-//// 	while (1)
-//// 	{
-//// 		ptr = readline("> ");
-//// 		if (ptr == NULL || ft_strcmp(ptr, delimiter) == 0)
-//// 		{
-//// 			free(ptr);
-//// 			break ;
-//// 		}
-//// 		ptr = input_expand(put_expand(ptr));
-//// 		write(g_glob.heredoc_fd, ptr, ft_strlen(ptr));
-//// 		write(g_glob.heredoc_fd, "\n", 1);
-//// 		free(ptr);
-//// 	}
-//// 	close(g_glob.heredoc_fd);
-//// }
-//
-//// // * ---------------------------------------------------------------------- * ///
-//
-//// void	redirect_in_out(int *in_fd, int *out_fd)
-//// {
-//// 	if (*in_fd != -1)
-//// 		redirect_input(*in_fd);
-//// 	if (*out_fd != -1)
-//// 	{
-//// 		redirect_output(*out_fd);
-//// 		(*out_fd) = -1;
-//// 	}
-//// }
-//
-//// // * ---------------------------------------------------------------------- * ///
-//
-//// void	redirect_in_out_plus(t_execut *execut, int flag)
-//// {
-//// 	if (execut->in_fd != -1)
-//// 	{
-//// 		redirect_input(execut->in_fd);
-//// 		execut->in_fd = -1;
-//// 	}
-//// 	if (execut->out_fd != -1)
-//// 		redirect_output(execut->out_fd);
-//// 	if (execut->out_fd != -1 && flag == 0)
-//// 	{
-//// 		execut->pipe_fd[1] = execut->out_fd;
-//// 		execut->out_fd = -1;
-//// 	}
-//// 	if (execut->out_fd == -1 && flag == 0)
-//// 		redirect_output(execut->pipe_fd[1]);
-//// 	else if (flag == 1)
-//// 		dup2(g_glob.d_stdout, STDOUT_FILENO);
-//// }
-//
-//// // * ---------------------------------------------------------------------- * ///
-//
-//// void	handel_pipe_exe(t_node *node, t_env_vars **env_head, t_execut *execut)
-//// {
-//// 	pipe(execut->pipe_fd);
-//// 	execut->pid = fork();
-//// 	if (execut->pid == 0)
-//// 	{
-//// 		// ignore_signals();
-//// 		redirect_in_out_plus(execut, 0);
-//// 		exit(execute_command(node, env_head));
-//// 	}
-//// 	waitpid(execut->pid, &execut->status, 0);
-//// 	close(execut->pipe_fd[1]);
-//// 	g_glob.exit = WEXITSTATUS(execut->status);
-//// 	execut->in_fd = execut->pipe_fd[0];
-//// }
-//
-//// // * ---------------------------------------------------------------------- * ///
-//
-//// void	handel_cmd_exec(t_node *node, t_env_vars **env_head, t_execut *execut)
-//// {
-//// 	if (execut->in_fd == -1 && ft_strstr_tl(BUILT_INS, node->cmd_split[0]))
-//// 	{
-//// 		redirect_in_out(&execut->in_fd, &execut->out_fd);
-//// 		g_glob.exit = execute_command(node, env_head);
-//// 		dup2(g_glob.d_stdout, STDOUT_FILENO);
-//// 	}
-//// 	else
-//// 	{
-//// 		execut->pid = fork();
-//// 		if (execut->pid == 0)
-//// 		{
-//// 			redirect_in_out_plus(execut, 1);
-//// 			execut->exit_status = execute_command(node, env_head);
-//// 			exit(execut->exit_status);
-//// 		}
-//// 		execut->in_fd = -1;
-//// 		waitpid(execut->pid, &execut->status, 0);
-//// 		g_glob.exit = WEXITSTATUS(execut->status);
-//// 	}
-//// }
-//
-//// // * ---------------------------------------------------------------------- * ///
-//
-//// void	handle_heredoc(t_node **node, t_execut *execut)
-//// {
-//// 	int	status;
-//
-//// 	g_glob.heredoc_pid = fork();
-//// 	if (g_glob.heredoc_pid == 0)
-//// 	{
-//// 		here_doc_((*node)->data);
-//// 		exit(0);
-//// 	}
-//// 	waitpid(g_glob.heredoc_pid, &status, 0);
-//// 	g_glob.exit = WEXITSTATUS(status);
-//// 	if (!WIFEXITED(status))
-//// 	{
-//// 		while ((*node)->next)
-//// 			(*node) = (*node)->next;
-//// 		g_glob.exit = 1;
-//// 	}
-//// 	execut->in_fd = open(".tmp", O_RDONLY, 00777);
-//// 	g_glob.heredoc_fd = execut->in_fd;
-//// }
-//
-//// // * ---------------------------------------------------------------------- * ///
-//
-//// void	handel_cmd_herdoc(t_node **node, t_execut *execut, t_env_vars **head)
-//// {
-//// 	if ((*node)->token == COMMAND)
-//// 	{
-//// 		if ((*node)->next && (*node)->next->token == PIPE)
-//// 			handel_pipe_exe((*node), head, execut);
-//// 		else
-//// 			handel_cmd_exec((*node), head, execut);
-//// 	}
-//// 	else if ((*node)->token == HEREDOC)
-//// 		handle_heredoc(node, execut);
-//// }
-//
-//// // * ---------------------------------------------------------------------- * ///
-//
-//// int	handle_execution(t_info *usr_input, t_env_vars **env_head)
-//// {
-//// 	t_node		*node;
-//// 	t_execut	execut;
-//
-//// 	store_stds(&execut);
-//// 	node = usr_input->head;
-//// 	while (node)
-//// 	{
-//// 		if (node->token == OUT || node->token == APPEND)
-//// 			execut.out_fd = node->file_fd;
-//// 		else if (node->token == IN)
-//// 		{
-//// 			if (node->file_fd == -1)
-//// 			{
-//// 				execut.out_fd = -1;
-//// 				while (node && node->token != PIPE)
-//// 					node = node->next ;
-//// 				continue ;
-//// 			}
-//// 			execut.in_fd = node->file_fd;
-//// 		}
-//// 		else if (node->token == COMMAND || node->token == HEREDOC)
-//// 			handel_cmd_herdoc(&node, &execut, env_head);
-//// 		node = node->next;
-//// 	}
-//// 	unlink(".tmp");
-//// 	return (reset_stds_fd(), 0);
-//// }
-
-//* ======================================================================== *//
+/* -------------------------------------------------------------------------- *\
+\* -------------------------------------------------------------------------- */
 
 void	free_double_pointer(char **ptr)
 {
@@ -207,7 +29,8 @@ void	free_double_pointer(char **ptr)
 	ptr = NULL;
 }
 
-// ? ====================================================================== ? //
+/* -------------------------------------------------------------------------- *\
+\* -------------------------------------------------------------------------- */
 
 void	free_linked_list(t_node *head)
 {
@@ -227,7 +50,8 @@ void	free_linked_list(t_node *head)
 	}
 }
 
-// ? ====================================================================== ? //
+/* -------------------------------------------------------------------------- *\
+\* -------------------------------------------------------------------------- */
 
 char	*put_expand(char *ptr)
 {
@@ -243,7 +67,8 @@ char	*put_expand(char *ptr)
 	return (ptr);
 }
 
-// ? ====================================================================== ? //
+/* -------------------------------------------------------------------------- *\
+\* -------------------------------------------------------------------------- */
 
 void	redirect_input(int new_input_fd)
 {
@@ -252,7 +77,8 @@ void	redirect_input(int new_input_fd)
 	close(new_input_fd);
 }
 
-// ? ====================================================================== ? //
+/* -------------------------------------------------------------------------- *\
+\* -------------------------------------------------------------------------- */
 
 void	redirect_output(int new_output_fd)
 {
@@ -261,7 +87,8 @@ void	redirect_output(int new_output_fd)
 	close(new_output_fd);
 }
 
-// ? ====================================================================== ? //
+/* -------------------------------------------------------------------------- *\
+\* -------------------------------------------------------------------------- */
 
 int	is_multiple_pipes(t_node *node)
 {
@@ -279,7 +106,8 @@ int	is_multiple_pipes(t_node *node)
 	return (count);
 }
 
-// ? ====================================================================== ? //
+/* -------------------------------------------------------------------------- *\
+\* -------------------------------------------------------------------------- */
 
 int	set_def_values(t_exec *exec)
 {
@@ -297,22 +125,24 @@ int	set_def_values(t_exec *exec)
 	return (0);
 }
 
-// ? ====================================================================== ? //
-
-//*	int	restore_def_values(t_exec *exec)
-//*	{
-//*		if (dup2(exec->def_std_in, STDIN_FILENO) < 0)
-//*			return (print_err("dup", "internal error detected", NULL), -1);
-//*		if (dup2(exec->def_std_out, STDOUT_FILENO) < 0)
-//*			return (print_err("dup", "internal error detected", NULL), -1);
-//*		if (close(exec->heredoc) < 0)
-//*			return (print_err(NULL, "close", "internal error detected"), -1);
-//*		if (unlink(HEREDOC_PATH) < 0)
-//*			return (print_err(NULL, "unlink", "internal error detected"), -1);
-//*		return (0);
-//*	}
-
-// ? ====================================================================== ? //
+/* -------------------------------------------------------------------------- *\
+\* -------------------------------------------------------------------------- */
+/*
+*	int	restore_def_values(t_exec *exec)
+*		{
+*		if (dup2(exec->def_std_in, STDIN_FILENO) < 0)
+*			return (print_err("dup", "internal error detected", NULL), -1);
+*		if (dup2(exec->def_std_out, STDOUT_FILENO) < 0)
+*			return (print_err("dup", "internal error detected", NULL), -1);
+*		if (close(exec->heredoc) < 0)
+*			return (print_err(NULL, "close", "internal error detected"), -1);
+*		if (unlink(HEREDOC_PATH) < 0)
+*			return (print_err(NULL, "unlink", "internal error detected"), -1);
+*		return (0);
+*	}
+*/
+/* -------------------------------------------------------------------------- *\
+\* -------------------------------------------------------------------------- */
 
 void	heredoc_filler(int heredoc, char *delimiter)
 {
@@ -332,7 +162,8 @@ void	heredoc_filler(int heredoc, char *delimiter)
 	free(ptr);
 }
 
-// ? ====================================================================== ? //
+/* -------------------------------------------------------------------------- *\
+\* -------------------------------------------------------------------------- */
 
 int	heredoc_handler(char *delimiter, char *filename)
 {
@@ -359,7 +190,8 @@ int	heredoc_handler(char *delimiter, char *filename)
 	return (WEXITSTATUS(child_status));
 }
 
-// ? ====================================================================== ? //
+/* -------------------------------------------------------------------------- *\
+\* -------------------------------------------------------------------------- */
 
 void	output_handler(t_node **node, t_exec *exec)
 {
@@ -373,7 +205,6 @@ void	output_handler(t_node **node, t_exec *exec)
 	}
 }
 
-// ? ====================================================================== ? //
 /* -------------------------------------------------------------------------- *\
 TODO	Handle errors in IN (input) file_fd
 TODO 	If file_fd == -1 then it means it's a Permission Denied error
@@ -387,7 +218,8 @@ void	input_handler(t_node **node, t_exec *exec)
 	exec->input = (*node)->file_fd;
 }
 
-// ? ====================================================================== ? //
+/* -------------------------------------------------------------------------- *\
+\* -------------------------------------------------------------------------- */
 
 void	pipe_handler(t_node *node, t_exec *exec)
 {
@@ -415,7 +247,8 @@ void	pipe_handler(t_node *node, t_exec *exec)
 	}
 }
 
-// ? ====================================================================== ? //
+/* -------------------------------------------------------------------------- *\
+\* -------------------------------------------------------------------------- */
 
 int	command_handler(t_node *head, t_node *node, t_exec *exec, \
 	t_env_vars **env_head)
@@ -443,7 +276,8 @@ int	command_handler(t_node *head, t_node *node, t_exec *exec, \
 	return (exit_status);
 }
 
-// ? ====================================================================== ? //
+/* -------------------------------------------------------------------------- *\
+\* -------------------------------------------------------------------------- */
 
 t_node	*get_first_heredoc_node(t_node *head)
 {
@@ -455,7 +289,8 @@ t_node	*get_first_heredoc_node(t_node *head)
 	return (tracer);
 }
 
-// ? ====================================================================== ? //
+/* -------------------------------------------------------------------------- *\
+\* -------------------------------------------------------------------------- */
 
 int	count_heredocs(t_node *head)
 {
@@ -473,7 +308,8 @@ int	count_heredocs(t_node *head)
 	return (count);
 }
 
-// ? ====================================================================== ? //
+/* -------------------------------------------------------------------------- *\
+\* -------------------------------------------------------------------------- */
 
 char	**name_heredoc_files(int count)
 {
@@ -495,7 +331,10 @@ char	**name_heredoc_files(int count)
 	return (file_names);
 }
 
-// ? ====================================================================== ? //
+/* -------------------------------------------------------------------------- *\
+TODO	Print the filenames in the error messages instead of "input"
+TODO	Just substitute the commented lines with the ones below
+\* -------------------------------------------------------------------------- */
 
 int	is_invalid_file_fd(t_node **head)
 {
@@ -513,19 +352,25 @@ int	is_invalid_file_fd(t_node **head)
 	}
 	if (node == NULL)
 		return (0);
+	/*
 	if (node->file_fd == -1)
-		print_err(NULL, "input", "no such file or directory!");
+		print_err(NULL, node->data, "no such file or directory!");
 	else
-		print_err(NULL, "input", "permission denied");
-	//free_linked_list(head);
+		print_err(NULL, node->data, "permission denied");
+	*/
+	//? ==================================================================== ?//
+	if (node->file_fd == -1)
+		print_err(NULL, node->data, "no such file or directory!");
+	else
+		print_err(NULL, node->data, "permission denied");
+	//? ==================================================================== ?//
 	while ((*head) && (*head)->token != PIPE)
 		(*head) = (*head)->next;
 	return (-1);
 }
 
-// ? ====================================================================== ? //
 /* -------------------------------------------------------------------------- *\
-TODO-1>	Don't free the filenames, only free the array of pointers
+TODO	Don't free the filenames, only free the array of pointers
 \* -------------------------------------------------------------------------- */
 
 int	convert_heredoc_to_file(t_node *head)
@@ -557,10 +402,49 @@ int	convert_heredoc_to_file(t_node *head)
 	return (0);
 }
 
-// ? ====================================================================== ? //
 /* -------------------------------------------------------------------------- *\
-TODO-1>	Free all allocated memory
-TODO-2>	The last four lines should be in a function called after the execution
+\* -------------------------------------------------------------------------- */
+
+int	count_command_nodes(t_node *head)
+{
+	t_node	*tracer;
+	int		count;
+
+	count = 0;
+	tracer = head;
+	while (tracer)
+	{
+		if (tracer->token == COMMAND)
+			count++;
+		tracer = tracer->next;
+	}
+	return (count);
+}
+
+/* -------------------------------------------------------------------------- *\
+\* -------------------------------------------------------------------------- */
+
+pid_t	*allocate_child_pid_array(t_exec *exec, t_node *head)
+{
+	pid_t	*child_pids;
+	int		count;
+	int		i;
+
+	count = count_command_nodes(head);
+	if (count == 0)
+		return (NULL);
+	child_pids = (pid_t *)ft_calloc(count, sizeof(pid_t));
+	if (child_pids == NULL)
+		return (NULL);
+	i = 0;
+	while (i < count)
+		child_pids[i++] = -1;
+	return (child_pids);
+}
+
+/* -------------------------------------------------------------------------- *\
+TODO	Free all allocated memory
+TODO	The last four lines should be in a function called after the execution
 \* -------------------------------------------------------------------------- */
 
 int	handle_execution(t_info *parsed_data, t_env_vars **env_head)
@@ -572,12 +456,14 @@ int	handle_execution(t_info *parsed_data, t_env_vars **env_head)
 		return (-1);
 	handle_signals();
 	convert_heredoc_to_file(parsed_data->head);
+	exec.childs_pids = allocate_child_pid_array(&exec, parsed_data->head);
 	node = parsed_data->head;
 	while (node)
 	{
-		if (is_invalid_file_fd(&node))
+		if (node->token == IN && node->token == OUT && \
+			node->token == APPEND && is_invalid_file_fd(&node))
 			continue ;
-		if (node->token == IN)
+		else if (node->token == IN)
 			input_handler(&node, &exec);
 		else if (node->token == OUT || node->token == APPEND)
 			output_handler(&node, &exec);
@@ -597,4 +483,5 @@ int	handle_execution(t_info *parsed_data, t_env_vars **env_head)
 	return (0);
 }
 
-// ? ====================================================================== ? //
+/* -------------------------------------------------------------------------- *\
+\* -------------------------------------------------------------------------- */
