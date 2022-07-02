@@ -93,8 +93,11 @@ int	check_builtins(char *str)
 void	out_check_str(char *str, int i, t_cmds *cmds)
 {
 	if (access(str, W_OK) != 0 && access(str, F_OK) == 0)
-		printf("minishell: %s: Permission denied\n", str);
-	if (str && *str)
+	{
+		cmds->data = ft_strdup(str);
+		cmds->file_fd = -2;
+	}
+	else if (str && *str)
 	{
 		cmds->data = ft_strdup(str);
 		if (access(str, F_OK) != 0 && i != 1)

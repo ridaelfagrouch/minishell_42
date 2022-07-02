@@ -18,7 +18,6 @@ void	handel_pipe(t_info *info, t_cmds *cmds)
 	cmds->data = NULL;
 	cmds->path = NULL;
 	cmds->file_fd = -1;
-	cmds->infile_flag = 0;
 	add_back(&info->head, new_node(cmds));
 }
 
@@ -52,7 +51,6 @@ void	handel_herdoc(t_info *info, t_cmds *cmds, char *str)
 	cmds->token = HEREDOC;
 	cmds->path = NULL;
 	cmds->file_fd = -1;
-	cmds->infile_flag = 0;
 	add_back(&info->head, new_node(cmds));
 	ft_bzero(str, 500);
 }
@@ -77,7 +75,6 @@ int	handel_out(t_info *info, t_cmds *cmds, char *str)
 	if (print_filetype(str, 0))
 		return (1);
 	cmds->path = NULL;
-	cmds->infile_flag = 0;
 	add_back(&info->head, new_node(cmds));
 	ft_bzero(str, 500);
 	return (0);
@@ -96,7 +93,6 @@ int	handel_command(t_info *info, t_cmds *cmds, char *str)
 		str[j++] = info->input[info->i++];
 	cmds->token = COMMAND;
 	cmds->file_fd = -1;
-	cmds->infile_flag = 0;
 	cmds->data = ft_strdup(str);
 	split_cmd = ft_split_cmd(str);
 	if (check_builtins(split_cmd[0]) == 0)
