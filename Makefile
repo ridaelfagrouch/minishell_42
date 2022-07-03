@@ -45,9 +45,7 @@ CC			:= gcc
 CC_FLAGS	:= -Wall -Wextra -Werror  \
 		-I $(shell brew --prefix readline)/include \
 		-L $(shell brew --prefix readline)/lib -lreadline \
-		-L $(shell brew --prefix readline)/lib -lhistory \
-		-static-libsan -fsanitize=address -g
-
+		-L $(shell brew --prefix readline)/lib -lhistory -g
 NAME		:= minishell
 MAIN		:= minishell.c
 HEADER		:= minishell.h
@@ -62,7 +60,7 @@ ARCHIVES	:= -Llibft -lft \
 			-Lsrcs/executor -lexecutor
 
 # ---------------------------------------------------------------------------- #
-.PHONY: all clean fclean re title
+.PHONY: all clean fclean re title ${LIBFT_ARCH} ${LEXR_ARCH} ${PARS_ARCH} ${EXEC_ARCH}
 
 all: ${NAME}
 

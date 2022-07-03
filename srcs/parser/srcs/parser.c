@@ -69,20 +69,20 @@ int	check_syntax1(char *str)
 	while (str[i])
 	{
 		if (check_beginning(str, i))
-			return (1);
+			return (258);
 		if (check_oper(str, i) == 1 && str[i] != PIPE && \
 			str[i + 1] == ' ')
 		{
 			i++;
 			if (parse_error(str, &i))
-				return (1);
+				return (258);
 		}
 		else if ((str[i] == HEREDOC || str[i] == APPEND) && \
 			str[i + 2] && str[i + 2] == ' ')
 		{
 			i += 2;
 			if (parse_error(str, &i))
-				return (1);
+				return (258);
 		}
 		else
 			i++;
@@ -94,12 +94,20 @@ int	check_syntax1(char *str)
 
 int	parcer(t_info *info)
 {
-	g_glob.exit = check_syntax1(info->input1);
-	if (g_glob.exit || !ft_strcmp(info->input1, "\0"))
+	int	i;
+
+	i = check_syntax1(info->input1);
+	if (i || !ft_strcmp(info->input1, "\0"))
+	{
+		g_glob.exit = i;
 		return (1);
-	g_glob.exit = check_syntax2(info->input1);
-	if (g_glob.exit || !ft_strcmp(info->input1, "\0"))
+	}
+	i = check_syntax2(info->input1);
+	if (i || !ft_strcmp(info->input1, "\0"))
+	{
+		g_glob.exit = i;
 		return (1);
+	}
 	if (store_data(info))
 		return (1);
 	return (0);

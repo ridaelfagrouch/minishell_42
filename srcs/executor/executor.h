@@ -56,7 +56,7 @@ typedef struct s_exec
 // env_init_2nd.c
 int			set_default_pwd(t_env_vars **head);
 int			set_shell_lvl(t_env_vars **head);
-void		free_env_linked_list(t_env_vars *head);
+
 void		free_env(t_env_vars *head);
 
 // env_init_1st.c
@@ -81,7 +81,7 @@ t_env_vars	*get_env_var(char *varname, t_env_vars *env_head);
 void		free_two_dim_arr(char **sorted_env);
 void		print_err(char *cmd, char *input, char *msg);
 char		*put_expand(char *ptr);
-int			is_multiple_pipes(t_node *node);
+int			is_mult_pipes(t_node *node);
 
 // exec_misc_2.c
 void		free_double_pointer(char **ptr);
@@ -117,10 +117,10 @@ int			count_heredocs(t_node *head);
 char		**name_heredoc_files(int count);
 
 // signal_handling.c
-void	hide_ctrl(void);
-void	restore_ctrl(void);
-void	ignore_signal(void);
-void	handle_sig(int signum, siginfo_t *siginfo, void *sigcontext);
-void	handle_signals(void);
+void		hide_ctrl(void);
+void		restore_ctrl(void);
+void		ignore_signal(void);
+void		handle_sig(int signum, siginfo_t *siginfo, void *sigcontext);
+void		handle_signals(void);
 
 #endif

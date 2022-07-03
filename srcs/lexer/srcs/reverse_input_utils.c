@@ -57,6 +57,8 @@ char	*replaceword2(char *text, char *old, char *new, int start)
 	init_check_text(&rep, text, old, new);
 	rep.newstring = (char *) \
 		ft_calloc((rep.i + rep.cnt * (rep.len1 - rep.len2) + 1), sizeof(char));
+	if (!rep.newstring)
+		exit(1);
 	rep.i = 0;
 	while (*text && (rep.i < start))
 		rep.newstring[rep.i++] = *text++;
@@ -74,8 +76,7 @@ char	*replaceword2(char *text, char *old, char *new, int start)
 	}
 	rep.newstring[rep.i] = '\0';
 	text = ft_strdup (rep.newstring);
-	free (rep.newstring);
-	return (text);
+	return (free (rep.newstring), text);
 }
 
 /* -------------------------------------------------------------------------- */

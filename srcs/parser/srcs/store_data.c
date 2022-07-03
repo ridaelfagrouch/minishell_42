@@ -94,6 +94,8 @@ int	store_data(t_info *info)
 	info->head = NULL;
 	str = (char *)malloc(sizeof(char) * 500);
 	cmds = (t_cmds *)malloc(sizeof(t_cmds));
+	if (!str || !cmds)
+		exit(1);
 	ft_bzero(str, 500);
 	while (info->input[info->i])
 	{
@@ -107,7 +109,5 @@ int	store_data(t_info *info)
 			handel_pipe(info, cmds);
 		info->i++;
 	}
-	free(str);
-	free(cmds);
-	return (0);
+	return (free(str), free(cmds), 0);
 }

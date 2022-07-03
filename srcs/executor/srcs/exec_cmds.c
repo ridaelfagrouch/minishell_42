@@ -105,9 +105,9 @@ int	execute_command(t_exec *exec, t_node *node, t_env_vars **env_vars)
 {
 	pid_t	pid;
 	int		status;
-	int		i;
 
 	(void)exec;
+	status = 0;
 	pid = fork();
 	if (pid < 0)
 		return (-1);
@@ -117,12 +117,12 @@ int	execute_command(t_exec *exec, t_node *node, t_env_vars **env_vars)
 			exit(execute_builtins(node->cmd_split, env_vars));
 		exit(execute_non_builtin(node->path, node->cmd_split, *env_vars));
 	}
-	i = 0;
+	ignore_signal();
 	if (node->next == NULL)
-	{
-		ignore_signal();
 		waitpid(pid, &status, 0);
-		handle_signals();
-	}
+	else
+		waitpid(pid, &status, WNOHANG);
+	handle_signals();
+	hide_ctrl();
 	return (WEXITSTATUS(status));
 }

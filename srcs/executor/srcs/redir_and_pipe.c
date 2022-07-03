@@ -41,13 +41,6 @@ TODO-[X]
 void	output_handler(t_node **node, t_exec *exec)
 {
 	exec->output = (*node)->file_fd;
-	while ((*node)->next && ((*node)->next->token == APPEND || \
-		(*node)->next->token == OUT))
-	{
-		close((*node)->next->file_fd);
-		(*node)->next->file_fd = -1;
-		(*node) = (*node)->next;
-	}
 }
 
 /* -------------------------------------------------------------------------- *\

@@ -34,10 +34,11 @@ char	*replaceword(char *s, char *old, char *new)
 	}
 	expd.result = (char *) \
 		malloc(expd.i + expd.cnt * (expd.newlen - expd.oldlen) + 1);
+	if (!expd.result)
+		exit(1);
 	expd.i = 0;
 	expanding(&expd, s, old, new);
-	free(s);
-	return (expd.result);
+	return (free(s), expd.result);
 }
 
 /* -------------------------------------------------------------------------- */

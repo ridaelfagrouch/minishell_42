@@ -86,7 +86,7 @@ char	*put_expand(char *ptr)
 TODO-[X]
 \* -------------------------------------------------------------------------- */
 
-int	is_multiple_pipes(t_node *node)
+int	is_mult_pipes(t_node *node)
 {
 	int		count;
 	t_node	*tmp;

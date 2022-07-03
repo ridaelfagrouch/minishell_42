@@ -35,22 +35,8 @@
 # include "libft/libft.h"
 
 /* --------------------------------- MACROS --------------------------------- */
-// COLOR CODES //
-# define NNN			"\033[0m"
-# define RED			"\033[31m"
-# define GRN			"\033[32m"
-# define YEL			"\033[33m"
-# define BLU			"\033[34m"
-# define MGN			"\033[35m"
-# define CYN			"\033[36m"
-# define GRA			"\033[37m"
-# define RL_BLU			"\001\033[1;4;34m\002"
-# define RL_GRN			"\001\033[32m\002"
-# define RL_RED			"\001\033[31m\002"
-# define RL_BLD			"\001\033[37m\002"
-# define RL_NNN			"\001\033[0m\002"
-# define RL_SUCCESS		RL_GRN"minishell-6.9 $> "RL_NNN
-# define RL_FAILURE		RL_RED"minishell-6.9 $> "RL_NNN
+// COLOR CODES //	
+# define RL_SUCCESS		"\001\033[32m\002minishell-6.9 $> \001\033[0m\002"
 
 # define WHITESPACE		" \r\v\n\t\f"
 
@@ -148,6 +134,7 @@ void		restore_ctrl(void);
 char		*get_wildcard_data(void);
 char		*get_env(const char *var, t_env_vars *env_head);
 void		free_split(char **ptr);
+void		free_env_linked_list(t_env_vars *head);
 //void	handle_sig(int signum, siginfo_t *siginfo, void *sigcontext);
 
 #endif

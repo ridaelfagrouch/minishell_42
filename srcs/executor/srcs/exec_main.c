@@ -27,10 +27,15 @@ void	command_handler(t_node *head, t_node *node, t_exec *exec, \
 		exec->input = dup(exec->def_std_in);
 	redirect_input(exec->input);
 	redirect_output(exec->output);
-	if (ft_strstr_tl(BUILT_INS, node->cmd_split[0]) && !is_multiple_pipes(head))
-		g_glob.exit = execute_builtins(node->cmd_split, env_head);
+	if (!ft_strstr_tl(BUILT_INS, node->cmd_split[0]) && node->cmd_flag == -1)
+		g_glob.exit = 127;
 	else
-		g_glob.exit = execute_command(exec, node, env_head);
+	{
+		if (ft_strstr_tl(BUILT_INS, node->cmd_split[0]) && !is_mult_pipes(head))
+			g_glob.exit = execute_builtins(node->cmd_split, env_head);
+		else
+			g_glob.exit = execute_command(exec, node, env_head);
+	}
 	exec->input = dup(exec->def_std_in);
 	exec->output = dup(exec->def_std_out);
 	redirect_input(exec->input);

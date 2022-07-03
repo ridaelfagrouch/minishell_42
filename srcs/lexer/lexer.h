@@ -45,6 +45,7 @@ typedef struct expand
 	char		*str;
 	int			check;
 	size_t		i;
+	int			j;
 	size_t		cnt;
 	size_t		newlen;
 	size_t		oldlen;

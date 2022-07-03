@@ -20,6 +20,8 @@ void	new_quote(t_quote **quotes, int i, int on, int class)
 	t_quote	*tmp;
 
 	quote = malloc(sizeof(t_quote) * 1);
+	if (!quote)
+		exit(1);
 	quote->i = i;
 	if (on >= 0)
 		quote->on = 1;

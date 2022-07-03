@@ -22,9 +22,12 @@ static char	*parse_cd_input(char **input, t_env_vars *env_head)
 	t_env_vars	*node;
 
 	output = NULL;
+	// printf();
 	if (input[1] == NULL)
 	{
 		node = get_env_var("HOME", env_head);
+		if(!node)
+			return NULL;
 		output = ft_strdup(node->value);
 	}	
 	else if (ft_strcmp(input[1], "-") == 0)
@@ -91,7 +94,14 @@ int	cd_cmd(char **input, t_env_vars **env_head)
 {
 	char	*path;
 
+	// if (!input[1])
+	// 	return ();
 	path = parse_cd_input(input, *env_head);
+	if (!path)
+	{
+		printf("HOME not set\n");
+		return 1;
+	}
 	if (chdir(path) != 0)
 		return (print_err("cd", "no such file or directory", path), 1);
 	free(path);

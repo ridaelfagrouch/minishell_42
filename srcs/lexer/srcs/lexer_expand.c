@@ -36,7 +36,7 @@ void	expanding(t_expand *expd, char *s, char *old, char *new)
 int	check_expand(char *input, int i)
 {
 	if (input[i] && \
-		(ft_isalnum(input[i]) || input[i] == '?' || input[i] == '_') \
+		(ft_isalnum(input[i]) || input[i] == '_') \
 		&& input[i] != ' ' && \
 		input[i] != DQ && input[i] != SQ \
 		&& input[i] != PIPE && input[i] != OUT \
@@ -78,31 +78,33 @@ void	ft_expand_bzero(t_expand *expd, int *i)
 	ft_bzero(expd->str, 100);
 }
 
+/* -------------------------------------------------------------------------- */
+
 char	*input_expand(char *input)
 {
 	t_expand	expd;
-	int			i;
 
-	i = 0;
-	expd.str = (char *)malloc(100);
-	ft_bzero(expd.str, 100);
-	while (input[i])
+	expd.j = 0;
+	expd.str = (char *)ft_calloc(100, sizeof(char));
+	if (!expd.str)
+		exit (1);
+	while (input[expd.j])
 	{
-		if (input[i] == EXPAND)
+		if (input[expd.j] == EXPAND)
 		{
-			get_expand_env(input, &i, &expd);
+			get_expand_env(input, &expd.j, &expd);
 			if (expd.result == NULL)
 			{
 				input = replaceword(input, expd.str, "");
-				ft_expand_bzero(&expd, &i);
+				ft_expand_bzero(&expd, &expd.j);
 				continue ;
 			}
 			input = replaceword(input, expd.str, expd.result);
-			ft_expand_bzero(&expd, &i);
+			ft_expand_bzero(&expd, &expd.j);
 			free(expd.result);
 			continue ;
 		}
-		i++;
+		expd.j++;
 	}
 	return (free (expd.str), input);
 }

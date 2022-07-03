@@ -111,7 +111,7 @@ int	check_syntax2(char *str)
 		if (check_oper(str, synta.i) == 1)
 		{
 			if (detect_error(&synta, str))
-				return (1);
+				return (258);
 		}
 		else
 		{

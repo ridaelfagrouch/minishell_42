@@ -18,13 +18,16 @@ TODO-[X]
 
 void	restore_def_values(t_exec *exec, t_node *head)
 {
+	ignore_signal();
 	waitpid(-1, &exec->status, WUNTRACED);
+	handle_signals();
 	check_invalid_command(head);
 	close(exec->output);
 	close(exec->input);
 	redirect_output(exec->def_std_out);
 	redirect_input(exec->def_std_in);
 	close_fds(head);
+	unlink_heredoc_files(head);
 }
 
 /* -------------------------------------------------------------------------- *\
