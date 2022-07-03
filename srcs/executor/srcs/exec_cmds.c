@@ -12,7 +12,9 @@
 
 #include "../executor.h"
 
-/* --------------------------- NON BUILT IN --------------------------------- */
+/* -------------------------------------------------------------------------- *\
+TODO-[X]
+\* -------------------------------------------------------------------------- */
 
 static char	**init_new_envp(t_env_vars *head, char **new_envp)
 {
@@ -38,7 +40,9 @@ static char	**init_new_envp(t_env_vars *head, char **new_envp)
 	return (new_envp);
 }
 
-/* --------------------------- NON BUILT IN --------------------------------- */
+/* -------------------------------------------------------------------------- *\
+TODO-[X]
+\* -------------------------------------------------------------------------- */
 
 static char	**lnkd_lst_env_to_char(t_env_vars *head)
 {
@@ -67,14 +71,13 @@ static int	execute_non_builtin(char *cmd, char **input, t_env_vars *head)
 	char	**env_arr;
 
 	env_arr = lnkd_lst_env_to_char(head);
-	if (execve(cmd, input, env_arr) != 0)
-		return (-1);
-	return (0);
+	return (execve(cmd, input, env_arr));
 }
 
-/* ----------------------------- BUILT IN ----------------------------------- *\
+/* -------------------------------------------------------------------------- *\
 TODO	Adjust the exit status of the Shell Built-Ins
 \* -------------------------------------------------------------------------- */
+
 int	execute_builtins(char **input, t_env_vars **env_vars)
 {
 	if (ft_strcmp_tl(input[0], "echo") == 0)
@@ -94,29 +97,32 @@ int	execute_builtins(char **input, t_env_vars **env_vars)
 	return (-1);
 }
 
-/* --------------------------------- MAIN ----------------------------------- */
+/* -------------------------------------------------------------------------- *\
+TODO-[X]
+\* -------------------------------------------------------------------------- */
 
-int	execute_command(t_node *node, t_env_vars **env_vars)
+int	execute_command(t_exec *exec, t_node *node, t_env_vars **env_vars)
 {
 	pid_t	pid;
 	int		status;
+	int		i;
 
+	(void)exec;
 	pid = fork();
+	if (pid < 0)
+		return (-1);
 	if (pid == 0)
 	{
 		if (ft_strstr_tl(BUILT_INS, node->cmd_split[0]))
 			exit(execute_builtins(node->cmd_split, env_vars));
 		exit(execute_non_builtin(node->path, node->cmd_split, *env_vars));
 	}
-	ignore_signal();
-	if (!node->next)
+	i = 0;
+	if (node->next == NULL)
 	{
+		ignore_signal();
 		waitpid(pid, &status, 0);
+		handle_signals();
 	}
-	handle_signals();
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	return (-1);
+	return (WEXITSTATUS(status));
 }
-
-// * ---------------------------------------------------------------------- * ///

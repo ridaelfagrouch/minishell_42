@@ -42,13 +42,14 @@
 // ------------ STRUCTs ----------- //
 typedef struct s_exec
 {
-	pid_t	*childs_pids;
+	t_node	*node;
 	int		def_std_in;
 	int		def_std_out;
 	int		input;
 	int		output;
 	int		pipe[2];
 	int		file_err;
+	int		status;
 }	t_exec;
 
 /* --------------------------------- PROTOTYPES ----------------------------- */
@@ -73,17 +74,53 @@ void		exit_cmd(char **input, t_env_vars **env_head);
 
 // exec_cmds.c
 int			execute_builtins(char **input, t_env_vars **env_vars);
-int			execute_command(t_node *node, t_env_vars **env_vars);
+int			execute_command(t_exec *exec, t_node *node, t_env_vars **env_vars);
 
-// exec_misc.c
+// exec_misc_1.c
 t_env_vars	*get_env_var(char *varname, t_env_vars *env_head);
+void		free_two_dim_arr(char **sorted_env);
 void		print_err(char *cmd, char *input, char *msg);
+char		*put_expand(char *ptr);
+int			is_multiple_pipes(t_node *node);
 
-// redirect_exec.c
+// exec_misc_2.c
+void		free_double_pointer(char **ptr);
+void		free_linked_list(t_node *head);
+int			count_command_nodes(t_node *head);
+void		unlink_heredoc_files(t_node *head);
+void		close_fds(t_node *head);
+
+// exec_misc_3.c
+void		restore_def_values(t_exec *exec, t_node *head);
+int			set_def_values(t_exec *exec);
+int			check_invalid_command(t_node *head);
+int			is_invalid_file_fd(t_node **head);
+
+// exec_main.c
+void		command_handler(t_node *head, t_node *node, t_exec *exec, \
+	t_env_vars **env_head);
+int			convert_heredoc_to_file(t_node *head);
+int			handle_execution(t_info *parsed_data, t_env_vars **env_head);
+
+// redir_and_pipe.c
 void		redirect_input(int new_input_fd);
 void		redirect_output(int new_output_fd);
+void		output_handler(t_node **node, t_exec *exec);
+void		input_handler(t_node **node, t_exec *exec);
+void		pipe_handler(t_node *node, t_exec *exec);
 
-void		free_double_pointer(char **sorted_env);
-void		ignore_signal(void);
+// heredoc_handler.c
+void		heredoc_filler(int heredoc, char *delimiter);
+int			heredoc_handler(char *delimiter, char *filename);
+t_node		*get_first_heredoc_node(t_node *head);
+int			count_heredocs(t_node *head);
+char		**name_heredoc_files(int count);
+
+// signal_handling.c
+void	hide_ctrl(void);
+void	restore_ctrl(void);
+void	ignore_signal(void);
+void	handle_sig(int signum, siginfo_t *siginfo, void *sigcontext);
+void	handle_signals(void);
 
 #endif

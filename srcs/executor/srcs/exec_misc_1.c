@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handling.c                                  :+:      :+:    :+:   */
+/*   env_conversion.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnaimi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/03 21:37:46 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/06/03 21:37:48 by mnaimi           ###   ########.fr       */
+/*   Created: 2022/06/03 17:11:47 by mnaimi            #+#    #+#             */
+/*   Updated: 2022/06/03 17:13:05 by mnaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,69 +16,88 @@
 TODO-[X]
 \* -------------------------------------------------------------------------- */
 
-void	hide_ctrl(void)
+t_env_vars	*get_env_var(char *varname, t_env_vars *env_head)
 {
-	struct termios	attr;
+	t_env_vars	*node;
 
-	tcgetattr(STDIN_FILENO, &attr);
-	attr.c_lflag &= ~ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &attr);
+	node = env_head;
+	while (node && ft_strcmp(node->key, varname))
+		node = node->next;
+	return (node);
 }
 
 /* -------------------------------------------------------------------------- *\
 TODO-[X]
 \* -------------------------------------------------------------------------- */
 
-void	restore_ctrl(void)
+void	free_two_dim_arr(char **sorted_env)
 {
-	struct termios	attr;
+	int	i;
 
-	tcgetattr(STDIN_FILENO, &attr);
-	attr.c_lflag |= ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &attr);
+	i = 0;
+	while (sorted_env[i++])
+		free(sorted_env[i++]);
+	free(sorted_env);
 }
 
 /* -------------------------------------------------------------------------- *\
 TODO-[X]
 \* -------------------------------------------------------------------------- */
 
-void	ignore_signal(void)
+void	print_err(char *cmd, char *input, char *msg)
 {
-	struct sigaction	n_act;
-
-	n_act.sa_handler = SIG_IGN;
-	sigaction(SIGINT, &n_act, NULL);
-}
-
-/* -------------------------------------------------------------------------- *\
-TODO-[X]
-\* -------------------------------------------------------------------------- */
-
-void	handle_sig(int signum, siginfo_t *siginfo, void *sigcontext)
-{
-	(void)sigcontext;
-	if (signum == SIGINT && siginfo->si_signo == SIGINT)
+	write(STDERR_FILENO, "minishell: ", 11 * sizeof(char));
+	if (cmd)
 	{
-		write(STDOUT_FILENO, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		write(STDERR_FILENO, cmd, ft_strlen(cmd));
+		write(STDERR_FILENO, ": ", 2 * sizeof(char));
+	}
+	if (input)
+	{
+		write(STDERR_FILENO, input, ft_strlen(input));
+		write(STDERR_FILENO, ": ", 2 * sizeof(char));
+	}
+	if (msg)
+	{
+		write(STDERR_FILENO, msg, ft_strlen(msg));
+		write(STDERR_FILENO, "\n", 1 * sizeof(char));
 	}
 }
-// ! Child process also gets SIGINT signal
 
 /* -------------------------------------------------------------------------- *\
 TODO-[X]
 \* -------------------------------------------------------------------------- */
 
-void	handle_signals(void)
+char	*put_expand(char *ptr)
 {
-	struct sigaction	n_act[2];
+	int	i;
 
-	n_act[0].sa_sigaction = handle_sig;
-	n_act[0].sa_flags = SA_SIGINFO | SA_RESTART;
-	sigaction(SIGINT, &n_act[0], NULL);
-	n_act[1].sa_handler = SIG_IGN;
-	n_act[1].sa_flags = 0;
-	sigaction(SIGQUIT, &n_act[1], NULL);
+	i = 0;
+	while (ptr[i])
+	{
+		if (ptr[i] == '$')
+			ptr[i] = EXPAND;
+		i++;
+	}
+	return (ptr);
+}
+
+/* -------------------------------------------------------------------------- *\
+TODO-[X]
+\* -------------------------------------------------------------------------- */
+
+int	is_multiple_pipes(t_node *node)
+{
+	int		count;
+	t_node	*tmp;
+
+	count = 0;
+	tmp = node;
+	while (tmp)
+	{
+		if (tmp->token == PIPE)
+			count++;
+		tmp = tmp->next;
+	}
+	return (count);
 }

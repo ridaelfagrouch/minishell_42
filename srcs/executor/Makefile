@@ -28,11 +28,12 @@ CC_FLAGS	:= -Wall -Wextra -Werror -I $(shell brew --prefix readline)/include
 SRCS_DIR	:=	srcs/
 
 SRCS_LST	:=	env_init_1st.c env_init_2nd.c \
-				exec_cmds.c exec_misc.c builtin_cmds/cd_cmd.c \
+				exec_cmds.c exec_misc_1.c builtin_cmds/cd_cmd.c \
 				builtin_cmds/echo_cmd.c builtin_cmds/env_cmd.c \
 				builtin_cmds/exit_cmd.c builtin_cmds/export_cmd.c \
 				builtin_cmds/pwd_cmd.c builtin_cmds/unset_cmd.c \
-				exec_main.c redir_and_pipe.c signal_handling.c
+				exec_main.c redir_and_pipe.c signal_handling.c \
+				exec_misc_2.c exec_misc_3.c heredoc_handler.c
 SRCS		:=	${addprefix ${SRCS_DIR}, ${SRCS_LST}}
 
 OBJS_DIR	:=	objs/

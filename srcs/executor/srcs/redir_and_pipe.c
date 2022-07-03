@@ -12,74 +12,81 @@
 
 #include "../executor.h"
 
-// * ---------------------------------------------------------------------- * ///
+/* -------------------------------------------------------------------------- *\
+TODO-[X]
+\* -------------------------------------------------------------------------- */
 
-// int	reset_stds_fd(void)
-// {
-// 	int	err;
+void	redirect_input(int new_input_fd)
+{
+	if (dup2(new_input_fd, STDIN_FILENO) < 0)
+		print_err(NULL, "dup2", "input redirection failure");
+	close(new_input_fd);
+}
 
-// 	err = dup2(g_glob.d_stdin, STDIN_FILENO);
-// 	if (err < 0)
-// 		return (-1);
-// 	close(g_glob.d_stdin);
-// 	g_glob.d_stdin = -1;
-// 	err = dup2(g_glob.d_stdout, STDOUT_FILENO);
-// 	if (err < 0)
-// 		return (-1);
-// 	close(g_glob.d_stdout);
-// 	g_glob.d_stdout = -1;
-// 	return (0);
-// }
+/* -------------------------------------------------------------------------- *\
+TODO-[X]
+\* -------------------------------------------------------------------------- */
 
-// // * ---------------------------------------------------------------------- * ///
+void	redirect_output(int new_output_fd)
+{
+	if (dup2(new_output_fd, STDOUT_FILENO) < 0)
+		print_err(NULL, "dup2", "output redirection failure");
+	close(new_output_fd);
+}
 
-// int	redirect_input(int new_input_fd)
-// {
-// 	if (dup2(new_input_fd, STDIN_FILENO) < 0)
-// 		return (-1);
-// 	close(new_input_fd);
-// 	return (0);
-// }
+/* -------------------------------------------------------------------------- *\
+TODO-[X]
+\* -------------------------------------------------------------------------- */
 
-// // // * ---------------------------------------------------------------------- * ///
+void	output_handler(t_node **node, t_exec *exec)
+{
+	exec->output = (*node)->file_fd;
+	while ((*node)->next && ((*node)->next->token == APPEND || \
+		(*node)->next->token == OUT))
+	{
+		close((*node)->next->file_fd);
+		(*node)->next->file_fd = -1;
+		(*node) = (*node)->next;
+	}
+}
 
-// int	redirect_output(int new_output_fd)
-// {
-// 	if (dup2(new_output_fd, STDOUT_FILENO) < 0)
-// 		return (-1);
-// 	close(new_output_fd);
-// 	return (0);
-// }
+/* -------------------------------------------------------------------------- *\
+TODO-[x]
+\* -------------------------------------------------------------------------- */
 
-// // * ---------------------------------------------------------------------- * ///
+void	input_handler(t_node **node, t_exec *exec)
+{
+	if (exec->input != -1)
+		close(exec->input);
+	exec->input = (*node)->file_fd;
+}
 
-// int	store_stds(t_execut *execut)
-// {
-// 	execut->in_fd = -1;
-// 	execut->out_fd = -1;
-// 	g_glob.d_stdin = dup(STDIN_FILENO);
-// 	if (g_glob.d_stdin < 0)
-// 		return (-1);
-// 	g_glob.d_stdout = dup(STDOUT_FILENO);
-// 	if (g_glob.d_stdout < 0)
-// 		return (-1);
-// 	return (0);
-// }
+/* -------------------------------------------------------------------------- *\
+TODO-[X]
+\* -------------------------------------------------------------------------- */
 
-// * ---------------------------------------------------------------------- * ///
-
-// void	redirect_input(int new_input_fd)
-// {
-// 	if (dup2(new_input_fd, STDIN_FILENO) < 0)
-// 		print_err("dup2", "redirection failure", NULL);
-// 	close(new_input_fd);
-// }
-
-// // * ---------------------------------------------------------------------- * ///
-
-// void	redirect_output(int new_output_fd)
-// {
-// 	if (dup2(new_output_fd, STDOUT_FILENO) < 0)
-// 		print_err("dup2", "redirection failure", NULL);
-// 	close(new_output_fd);
-// }
+void	pipe_handler(t_node *node, t_exec *exec)
+{
+	if (node->token == COMMAND)
+	{
+		if (pipe(exec->pipe) < 0)
+			print_err(NULL, "pipe", "internal error detected");
+		if (exec->output == -1)
+			exec->output = dup(exec->pipe[1]);
+		close(exec->pipe[1]);
+		exec->pipe[1] = -1;
+	}
+	else if (node->token == PIPE)
+	{
+		if (exec->pipe[0] != -1)
+		{
+			exec->input = dup(exec->pipe[0]);
+			close(exec->pipe[0]);
+			exec->pipe[0] = -1;
+			close(exec->output);
+			exec->output = dup(exec->def_std_out);
+			redirect_output(exec->output);
+			exec->output = -1;
+		}
+	}
+}

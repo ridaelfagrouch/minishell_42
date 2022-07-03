@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handling.c                                  :+:      :+:    :+:   */
+/*   exec_misc_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnaimi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/03 21:37:46 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/06/03 21:37:48 by mnaimi           ###   ########.fr       */
+/*   Created: 2022/06/03 17:11:47 by mnaimi            #+#    #+#             */
+/*   Updated: 2022/06/03 17:13:05 by mnaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,69 +16,93 @@
 TODO-[X]
 \* -------------------------------------------------------------------------- */
 
-void	hide_ctrl(void)
+void	free_double_pointer(char **ptr)
 {
-	struct termios	attr;
+	int	i;
 
-	tcgetattr(STDIN_FILENO, &attr);
-	attr.c_lflag &= ~ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &attr);
-}
-
-/* -------------------------------------------------------------------------- *\
-TODO-[X]
-\* -------------------------------------------------------------------------- */
-
-void	restore_ctrl(void)
-{
-	struct termios	attr;
-
-	tcgetattr(STDIN_FILENO, &attr);
-	attr.c_lflag |= ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &attr);
-}
-
-/* -------------------------------------------------------------------------- *\
-TODO-[X]
-\* -------------------------------------------------------------------------- */
-
-void	ignore_signal(void)
-{
-	struct sigaction	n_act;
-
-	n_act.sa_handler = SIG_IGN;
-	sigaction(SIGINT, &n_act, NULL);
-}
-
-/* -------------------------------------------------------------------------- *\
-TODO-[X]
-\* -------------------------------------------------------------------------- */
-
-void	handle_sig(int signum, siginfo_t *siginfo, void *sigcontext)
-{
-	(void)sigcontext;
-	if (signum == SIGINT && siginfo->si_signo == SIGINT)
+	i = 0;
+	while (ptr[i])
 	{
-		write(STDOUT_FILENO, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		free(ptr[i]);
+		ptr[i++] = NULL;
+	}
+	free(ptr);
+	ptr = NULL;
+}
+
+/* -------------------------------------------------------------------------- *\
+TODO-[X]
+\* -------------------------------------------------------------------------- */
+
+void	free_linked_list(t_node *head)
+{
+	t_node	*node;
+	t_node	*next;
+
+	node = head;
+	while (node)
+	{
+		next = node->next;
+		free(node->data);
+		close(node->file_fd);
+		free(node->path);
+		free_double_pointer(node->cmd_split);
+		free(node);
+		node = next;
 	}
 }
-// ! Child process also gets SIGINT signal
 
 /* -------------------------------------------------------------------------- *\
 TODO-[X]
 \* -------------------------------------------------------------------------- */
 
-void	handle_signals(void)
+int	count_command_nodes(t_node *head)
 {
-	struct sigaction	n_act[2];
+	t_node	*tracer;
+	int		count;
 
-	n_act[0].sa_sigaction = handle_sig;
-	n_act[0].sa_flags = SA_SIGINFO | SA_RESTART;
-	sigaction(SIGINT, &n_act[0], NULL);
-	n_act[1].sa_handler = SIG_IGN;
-	n_act[1].sa_flags = 0;
-	sigaction(SIGQUIT, &n_act[1], NULL);
+	count = 0;
+	tracer = head;
+	while (tracer)
+	{
+		if (tracer->token == COMMAND)
+			count++;
+		tracer = tracer->next;
+	}
+	return (count);
+}
+
+/* -------------------------------------------------------------------------- *\
+TODO-[X]
+\* -------------------------------------------------------------------------- */
+
+void	unlink_heredoc_files(t_node *head)
+{
+	t_node	*node;
+
+	node = head;
+	while (node)
+	{
+		if (node->token == IN && node->cmd_flag == 69)
+			unlink(node->data);
+		node = node->next;
+	}
+}
+
+/* -------------------------------------------------------------------------- *\
+TODO-[X]
+\* -------------------------------------------------------------------------- */
+
+void	close_fds(t_node *head)
+{
+	t_node	*tracer;
+
+	tracer = head;
+	while (tracer)
+	{
+		if (tracer->token == IN || tracer->token == OUT || \
+			tracer->token == APPEND)
+			close(tracer->file_fd);
+		tracer = tracer->next;
+	}
 }
