@@ -49,12 +49,11 @@ int	not_operator(t_info *info, int i)
 
 void	init_rev(t_reverse *rev)
 {
+	if (!rev->word || !rev->bef_pipe || !rev->aft_pipe)
+		exit(1);
 	rev->i = 0;
 	rev->k = 0;
 	rev->start = 0;
-	ft_bzero(rev->word, 100);
-	ft_bzero(rev->bef_pipe, 500);
-	ft_bzero(rev->aft_pipe, 500);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -64,9 +63,9 @@ void	reverse_input(t_info *info)
 	t_reverse	rev;
 
 	info->input = remove_red_in(info->input);
-	rev.word = (char *)malloc(100);
-	rev.bef_pipe = (char *)malloc(500);
-	rev.aft_pipe = (char *)malloc(500);
+	rev.word = (char *)ft_calloc(100, sizeof(char));
+	rev.bef_pipe = (char *)ft_calloc(500, sizeof(char));
+	rev.aft_pipe = (char *)ft_calloc(500, sizeof(char));
 	init_rev(&rev);
 	while (info->input[rev.i])
 	{

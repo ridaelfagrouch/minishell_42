@@ -56,6 +56,8 @@ void	check_path_cmd(t_data *data, char *av)
 
 char	*found_path(t_data *data, char *av, t_cmds *cmds)
 {
+	data->path_split = ft_split(data->path, ':');
+	data->i = 0;
 	free(data->path);
 	check_path_cmd(data, av);
 	if (data->check_access != 0)
@@ -101,6 +103,8 @@ char	*get_path(char *av, t_cmds *cmds)
 	char	*tmp1;
 
 	data = (t_data *) malloc(sizeof(t_data));
+	if (!data)
+		exit(1);
 	data->i = 0;
 	data->path = NULL;
 	data->cmd_split = NULL;
@@ -119,8 +123,6 @@ char	*get_path(char *av, t_cmds *cmds)
 	}
 	else
 		cmds->cmd_flag = 0;
-	data->path_split = ft_split(data->path, ':');
-	data->i = 0;
 	return (found_path(data, av, cmds));
 }
 

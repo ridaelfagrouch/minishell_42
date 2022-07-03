@@ -50,6 +50,7 @@ void	while_operator(t_info *info, char *str)
 			break ;
 		str[j++] = info->input[info->i++];
 	}
+	free_quotes(quotes);
 	remove_dq_sq(str);
 }
 
@@ -85,9 +86,7 @@ int	check_builtins(char *str)
 		ft_strcmp(ptr, "unset") == 0 || ft_strcmp(ptr, "env") == 0 || \
 		ft_strcmp(ptr, "exit") == 0)
 		return (free(ptr), free(tmp1), 1);
-	free(ptr);
-	free(tmp1);
-	return (0);
+	return (free(ptr), free(tmp1), 0);
 }
 
 /* -------------------------------------------------------------------------- */

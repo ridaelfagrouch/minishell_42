@@ -112,7 +112,7 @@ char	**ft_split_cmd(char *str)
 		count++;
 	result = (char **)malloc(sizeof(char *) * (count + 1));
 	if (!result)
-		return (0);
+		exit(1);
 	result[count] = NULL;
 	return (ft_creat(tmp, result, count));
 }
