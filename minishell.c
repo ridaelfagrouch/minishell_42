@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 21:30:02 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/24 16:14:37 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/07/03 02:16:21 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ static int	prompt(t_info *info, char **envp)
 	g_glob.exit = 0;
 	env_head = conv_env(envp);
 	g_glob.env_head = &env_head;
-	(void)info;
 	handle_signals();
 	while (1)
 	{
