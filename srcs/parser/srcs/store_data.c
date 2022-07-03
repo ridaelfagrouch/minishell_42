@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:16:09 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/22 12:28:58 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/07/03 00:02:53 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,7 @@ int	store_data(t_info *info)
 			handel_pipe(info, cmds);
 		info->i++;
 	}
+	free(str);
+	free(cmds);
 	return (0);
 }

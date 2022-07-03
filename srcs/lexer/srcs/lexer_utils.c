@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:15:14 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/21 17:06:47 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/07/03 02:22:31 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	check_dollar(t_info *info, int i, t_quote *quotes)
 	if (info->input[j] == HEREDOC)
 		return (0);
 	return (info->input[i] == '$' && info->input[i + 1]
-		&& (ft_isalnum(info->input[i + 1]) || info->input[i + 1] == '?' \
+		&& (ft_isalnum(info->input[i + 1]) || info->input[i + 1] != '?' \
 			|| info->input[i + 1] == '_' || info->input[i + 1] == '\'' || \
 			info->input[i + 1] == '\"') && !quoted(quotes, 1));
 }

@@ -1,5 +1,44 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_utils2.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/02 23:50:06 by rel-fagr          #+#    #+#             */
+/*   Updated: 2022/07/03 01:40:51 by rel-fagr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../lexer.h"
+
+/* -------------------------------------------------------------------------- */
+
+char	*replaceword(char *s, char *old, char *new)
+{
+	t_expand	expd;
+
+	expd.i = 0;
+	expd.check = 0;
+	expd.cnt = 0;
+	expd.newlen = ft_strlen((const char *)new);
+	expd.oldlen = ft_strlen((const char *)old);
+	while (s[expd.i])
+	{
+		if (ft_strstr(&s[expd.i], old) == &s[expd.i])
+		{
+			expd.cnt++;
+			expd.i += expd.oldlen - 1;
+		}
+		expd.i++;
+	}
+	expd.result = (char *) \
+		malloc(expd.i + expd.cnt * (expd.newlen - expd.oldlen) + 1);
+	expd.i = 0;
+	expanding(&expd, s, old, new);
+	free(s);
+	return (expd.result);
+}
 
 /* -------------------------------------------------------------------------- */
 

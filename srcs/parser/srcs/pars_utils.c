@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:16:01 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/24 15:57:37 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/07/03 01:06:32 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ int	check_builtins(char *str)
 		ft_strcmp(ptr, "pwd") == 0 || ft_strcmp(ptr, "export") == 0 || \
 		ft_strcmp(ptr, "unset") == 0 || ft_strcmp(ptr, "env") == 0 || \
 		ft_strcmp(ptr, "exit") == 0)
-		return (1);
+		return (free(ptr), free(tmp1), 1);
+	free(ptr);
+	free(tmp1);
 	return (0);
 }
 

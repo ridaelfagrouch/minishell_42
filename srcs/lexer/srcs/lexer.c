@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 04:31:41 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/23 15:31:18 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/07/03 02:12:10 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_quote	*check_input(t_info *info)
 	info->input1 = ft_strdup(info->input);
 	reverse_input(info);
 	reverse_input(info);
-	info->input = ft_strdup(input_expand(info->input));
+	info->input = input_expand(info->input);
 	unclosed_quotes(quotes, info);
 	return (quotes);
 }
