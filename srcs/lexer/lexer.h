@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 15:49:53 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/06/24 15:51:14 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/07/03 01:39:42 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,6 @@ char	*replaceword2(char *text, char *old, char *new, int start);
 void	expanding(t_expand *expd, char *s, char *old, char *new);
 void	remp_bef_aft_pipe(t_info *info, char *bef_pipe, char *aft_pipe, int k);
 char	*remove_red_in(char *str);
+char	*replaceword(char *s, char *old, char *new);
 
 #endif

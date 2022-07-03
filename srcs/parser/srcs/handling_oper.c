@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 13:27:49 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/24 15:56:13 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/07/03 01:21:06 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ int	handel_command(t_info *info, t_cmds *cmds, char *str)
 	else
 		cmds->path = NULL;
 	free_split(split_cmd);
-	ft_bzero(str, 500);
 	add_back(&info->head, new_node(cmds));
 	ft_bzero(str, 500);
 	return (0);

@@ -136,17 +136,18 @@ typedef struct s_glob_info
 t_glob_info	g_glob;
 
 /* --------------------------------- PROTOTYPES ----------------------------- */
-int		lexer_start(t_info *info);
-int		parcer(t_info *info);
+int			lexer_start(t_info *info);
+int			parcer(t_info *info);
 
-int		handle_execution(t_info *usr_input, t_env_vars **env_head);
-void	handle_signals(void);
+int			handle_execution(t_info *usr_input, t_env_vars **env_head);
+void		handle_signals(void);
 t_env_vars	*conv_env(char **envp);
 int			process_env_var(t_env_vars **head, char *env_var);
-void	hide_ctrl(void);
-void	restore_ctrl(void);
-char	*get_wildcard_data(void);
-char	*get_env(const char *var, t_env_vars *env_head);
+void		hide_ctrl(void);
+void		restore_ctrl(void);
+char		*get_wildcard_data(void);
+char		*get_env(const char *var, t_env_vars *env_head);
+void		free_split(char **ptr);
 //void	handle_sig(int signum, siginfo_t *siginfo, void *sigcontext);
 
 #endif

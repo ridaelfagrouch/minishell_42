@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:15:46 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/24 15:58:11 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/07/03 01:22:11 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ t_node	*new_node(t_cmds *cmds)
 	{
 		node->cmd_split = ft_split_cmd(cmds->data);
 		rm_dqsq_cmds(node);
-		// print_split(node->cmd_split);
 	}
 	else
 		node->cmd_split = NULL;
@@ -89,7 +88,6 @@ t_node	*new_node(t_cmds *cmds)
 		free(cmds->data);
 	if (cmds->path)
 		free(cmds->path);
-	// printf("touken: %d | path: %s | data: %s | file_fd: %d\n", node->token, node->path, node->data, node->file_fd);
 	return (node);
 }
 

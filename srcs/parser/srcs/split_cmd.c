@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 10:47:20 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/17 13:51:01 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/07/03 00:18:05 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ char	*ft_space(char *str)
 		else if (str[i] == ' ' && !quoted(quotes, 0))
 			str[i] = SPACE_;
 	}
+	free_quotes(quotes);
 	return (str);
 }
 
@@ -104,8 +105,9 @@ char	**ft_split_cmd(char *str)
 	if (!str)
 		return (NULL);
 	tmp1 = ft_strtrim(str, " ");
-	tmp = ft_space(tmp1);
+	tmp = ft_strdup(ft_space(tmp1));
 	count = str_row(tmp);
+	free(tmp1);
 	if (*str)
 		count++;
 	result = (char **)malloc(sizeof(char *) * (count + 1));

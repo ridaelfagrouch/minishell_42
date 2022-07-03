@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:14:56 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/06/18 17:32:26 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/07/03 01:39:18 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,33 +33,6 @@ void	expanding(t_expand *expd, char *s, char *old, char *new)
 
 /* -------------------------------------------------------------------------- */
 
-char	*replaceword(char *s, char *old, char *new)
-{
-	t_expand	expd;
-
-	expd.i = 0;
-	expd.check = 0;
-	expd.cnt = 0;
-	expd.newlen = ft_strlen((const char *)new);
-	expd.oldlen = ft_strlen((const char *)old);
-	while (s[expd.i])
-	{
-		if (ft_strstr(&s[expd.i], old) == &s[expd.i])
-		{
-			expd.cnt++;
-			expd.i += expd.oldlen - 1;
-		}
-		expd.i++;
-	}
-	expd.result = (char *) \
-		malloc(expd.i + expd.cnt * (expd.newlen - expd.oldlen) + 1);
-	expd.i = 0;
-	expanding(&expd, s, old, new);
-	return (expd.result);
-}
-
-/* -------------------------------------------------------------------------- */
-
 int	check_expand(char *input, int i)
 {
 	if (input[i] && \
@@ -79,6 +52,8 @@ int	check_expand(char *input, int i)
 
 void	get_expand_env(char *input, int *i, t_expand *expd)
 {
+	char	*ptr;
+
 	expd->i = 0;
 	input[*i] = '$';
 	expd->str[expd->i] = '$';
@@ -90,10 +65,18 @@ void	get_expand_env(char *input, int *i, t_expand *expd)
 			expd->str[expd->i++] = input[(*i)++];
 	}
 	expd->ptr = input;
-	expd->result = get_env(ft_strtrim(expd->str, "$"), *g_glob.env_head);
+	ptr = ft_strtrim(expd->str, "$");
+	expd->result = ft_strdup(get_env(ptr, *g_glob.env_head));
+	free(ptr);
 }
 
 /* -------------------------------------------------------------------------- */
+
+void	ft_expand_bzero(t_expand *expd, int *i)
+{
+	*i = 0;
+	ft_bzero(expd->str, 100);
+}
 
 char	*input_expand(char *input)
 {
@@ -110,20 +93,18 @@ char	*input_expand(char *input)
 			get_expand_env(input, &i, &expd);
 			if (expd.result == NULL)
 			{
-				input = ft_strdup(replaceword(input, expd.str, ""));
-				i = 0;
-				ft_bzero(expd.str, 100);
+				input = replaceword(input, expd.str, "");
+				ft_expand_bzero(&expd, &i);
 				continue ;
 			}
-			input = ft_strdup(replaceword(input, expd.str, expd.result));
-			i = 0;
-			ft_bzero(expd.str, 100);
+			input = replaceword(input, expd.str, expd.result);
+			ft_expand_bzero(&expd, &i);
+			free(expd.result);
 			continue ;
 		}
 		i++;
 	}
-	free (expd.str);
-	return (input);
+	return (free (expd.str), input);
 }
 
 /* -------------------------------------------------------------------------- */
