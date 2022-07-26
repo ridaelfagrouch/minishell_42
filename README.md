@@ -15,7 +15,6 @@
 - History of previous entered commands
 - Search and launch the right executable (based on the `PATH` variable, using a relative or an absolute path)
 - Environment variables (`$` followed by a sequence of characters) expand to their values
-- Wildcards `*` in the current working directory
 - `ctrl-C`, `ctrl-D` and `ctrl-\` behave like in bash
 - `’` (single quotes - prevent from interpreting meta-characters in quoted sequence)
 - `"` (double quotes - prevent from interpreting meta-characters in quoted sequence except for $)
